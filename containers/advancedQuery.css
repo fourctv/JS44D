@@ -1,0 +1,77 @@
+/* Main Navigation */
+
+ 
+ul#navigation {
+    margin:0px auto;
+    position:relative;
+    float:left;
+}
+ 
+ul#navigation li {
+    display:inline;
+    float:left;
+
+}
+ 
+ul#navigation li h5 {
+    padding:5px 5px 5px 15px;
+    display:inline-block;
+    margin: 5px 0 0 0;
+    width: 100%;
+}
+ 
+ul#navigation li h5:hover {
+    background:#f8f8f8;
+    color:#282828;
+}
+ 
+
+ 
+ul#navigation li:hover > a {
+    background:#fff;
+}
+/* Drop-Down Navigation */
+ul#navigation li:hover > ul
+{
+/*these 2 styles are very important,
+being the ones which make the drop-down to appear on hover */
+    visibility:visible;
+    opacity:1;
+}
+ 
+ul#navigation ul, ul#navigation ul li ul {
+    list-style: none;
+    margin-left: 10px;
+    padding: 0;
+/*the next 2 styles are very important,
+being the ones which make the drop-down to stay hidden */
+    visibility:hidden;
+    opacity:0;
+    position: absolute;
+    z-index: 99999;
+    width:180px;
+    background:#ddd;
+    box-shadow:1px 1px 3px #ccc;
+/* css3 transitions for smooth hover effect */
+    -webkit-transition:opacity 0.2s linear, visibility 0.2s linear;
+    -moz-transition:opacity 0.2s linear, visibility 0.2s linear;
+    -o-transition:opacity 0.2s linear, visibility 0.2s linear;
+    transition:opacity 0.2s linear, visibility 0.2s linear;
+}
+ 
+ul#navigation ul {
+    top: 25px;
+    left: 10px;
+}
+ 
+ul#navigation ul li ul {
+    top: 0;
+    left: 181px; /* strong related to width:180px; from above */
+}
+ 
+ul#navigation ul li {
+    clear:both;
+    width:100%;
+    border:0 none;
+    border-bottom:1px solid #c9c9c9;
+}

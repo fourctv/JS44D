@@ -1,0 +1,18 @@
+    <div class="login container">
+        <form class="form-vertical" role="form" (submit)="login()">
+            <label style="padding-bottom:40px;font-size:32pt;font-weight:bold;color:#7F7F6F;">Welcome, Please Login</label>
+            <div class="form-group" style="margin-left: 20px;">
+                <label class="fieldPrompt" style="font-weight:bold;width:90px;" for="username">User Name</label>
+                <input type="text" class="fieldEntry" style="width:300px;" id="username" name="username" placeholder="Username" [(ngModel)]="username" (focus)="showError = false;">
+            </div>
+            <div class="form-group" style="margin-left: 20px;">
+                <label class="fieldPrompt" style="font-weight:bold;width:90px;" for="password">Password</label>
+                <input type="password" class="fieldEntry" style="width:300px;" id="password" name="password" placeholder="Password" [(ngModel)]="password">
+            </div>
+            <button type="submit" class="regularButton" style="width:100px;margin-left: 30px;">Login</button>
+        </form>
+        <div class="alert alert-warning" style="width: 500px;" [hidden]="!showError">Sorry, the username and/or password was incorrect</div>
+
+        <div style="color:green;margin-top:100px;">4D: {{fourDVersion}}, web: {{webAppVersion}}</div>
+    </div>
+

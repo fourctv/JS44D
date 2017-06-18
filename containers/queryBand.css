@@ -1,0 +1,10 @@
+.quickFinder-icon {
+    border-color: transparent;
+    width: 24px;
+    height: 24px;
+    display:inline-block;
+}
+
+.hidden {
+    display:none;
+}

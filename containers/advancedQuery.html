@@ -1,0 +1,50 @@
+<form>
+    <div *ngFor='let queryField of queryFieldList' style="display: inline-flex; margin: 5px; height: 30px;">
+        <div style="align-self: center;">
+            <nav id="nav">
+                <ul id="navigation">
+                    <li style="margin-left: -40px;"><h4 href="#" [hidden]="relatedOneTables.length < 2">&raquo;</h4>
+                        <ul>
+                            <li *ngFor='let relatedTable of relatedOneTables' (click)="showRelatedTable($event,queryField)"><h5>{{relatedTable}}</h5></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div style="margin-left: -25px; align-self: center;">
+            <select  class='fourDDropdown' (change)='selectField($event,queryField)' [(value)]='queryField.field.name' style="width:250px;height:20px;">
+                <option value=''></option>
+                <option *ngFor='let field of queryField.listOfFields' value='{{field.name}}' [selected]='isItemSelected(field,queryField)'>{{field.longname}}</option>
+            </select>       
+        </div>
+        <div style="margin-left: 5px; align-self: center;">
+            <select   (change)='queryField.comparator = $event.target.value' [(value)]='queryField.comparator' style="height:20px;">
+                <option *ngFor='let item of comparatorList' value='{{item}}' >{{item}}</option>
+            </select>       
+        </div>
+        <div [ngSwitch]="queryField.field.type" style="margin-left: 5px; align-self: center;">
+            <input *ngSwitchCase="'string'"  [name]="queryField.id" type="text" class="fieldEntry"  style="width:180px;height:20px;" [(ngModel)]="queryField.value"/>
+            <input *ngSwitchCase="'Date'"  [name]="queryField.id" type="date" class="fieldEntry"  style="width:125px;height:20px;" [(ngModel)]="queryField.value"/>
+            <input *ngSwitchCase="'Time'"  [name]="queryField.id" type="time" class="fieldEntry"  style="width:100px;height:20px;" [(ngModel)]="queryField.value"/>
+            <input *ngSwitchCase="'number'"  [name]="queryField.id" type="number" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
+            <input *ngSwitchCase="'float'"  [name]="queryField.id" type="number" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
+            <input *ngSwitchCase="'boolean'"  [name]="queryField.id" type="checkbox" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
+        
+        </div>
+        <div style="margin-left: 5px; align-self: center;" [hidden]="queryFieldList.length < 2 || queryField.id === 'query0'">
+            <select   (change)='queryField.connector = $event.target.value' [(value)]='queryField.connector' style="height:20px;">
+                <option value='And' >And</option>
+                <option value='Or' >Or</option>
+            </select>       
+        </div>
+     </div>
+
+    <div style="margin: 10px; width:550px; display: inline-flex;">
+        <div style="flex-grow: 1;">
+            <button class="regularButton" style="width:100px;" (click)="moreLines()">More...</button>
+            <button class="regularButton" style="width:100px;" (click)="lessLines()" [hidden]="queryFieldList.length < 2">Less...</button>
+        </div>
+        <button class="regularButton" style="width:100px;" (click)="doQuery()">Query</button>
+    </div>
+
+</form>

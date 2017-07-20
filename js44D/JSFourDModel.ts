@@ -147,7 +147,7 @@ export class FourDModel {
                     this[field.name] = 0;
                     break;
 
-                case 'object':
+                case 'json':
                     this[field.name] = {};
                     break;
 
@@ -222,7 +222,7 @@ export class FourDModel {
                             recordData['fields'][field.longname] = this[fieldName].trim(); // if text, wrap data inside a cdata, triming extra whitespace
                             break;
 
-                        case 'object':
+                        case 'json':
                             recordData['fields'][field.longname] = JSON.stringify(this[fieldName]);
                             break;
 
@@ -503,7 +503,7 @@ export class FourDModel {
         if (recordData.hasOwnProperty('_recnum')) this.recordNumber = recordData['_recnum'];
         for (var field in recordData) {
             if (field !== '_recnum' && recordData.hasOwnProperty(field)) {
-                if (this.getFieldProperties(field).type === 'object') this[field] = JSON.parse(recordData[field])
+                if (this.getFieldProperties(field).type === 'json') this[field] = JSON.parse(recordData[field])
                 else this[field] = recordData[field];
             }
         }

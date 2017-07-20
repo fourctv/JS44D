@@ -440,7 +440,7 @@ export class DataGrid implements AfterViewInit {
             this.dataProvider.columns = this.columns;
         }
 
-        $(this.theGrid.nativeElement).kendoGrid({
+        $(this.theGrid.nativeElement).kendoGrid(<any>{
             dataSource: (this.dataProvider) ? this.dataSource : null,
             excel: { allPages: true, filterable: true },
             change: ($event) => { this.rowClicked($event); },

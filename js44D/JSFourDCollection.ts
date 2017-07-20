@@ -162,7 +162,7 @@ export class FourDCollection {
                         });
                     }
 
-                    resolve(me.models);
+                    resolve(<any>me.models);
                 },
                 error => {
                     //this.log.debug('error:' + error.text());

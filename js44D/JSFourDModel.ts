@@ -147,6 +147,10 @@ export class FourDModel {
                     this[field.name] = 0;
                     break;
 
+                case 'object':
+                    this[field.name] = {};
+                    break;
+
                 case 'blob':
                 case 'picture':
                     this[field.name] = null;
@@ -216,6 +220,10 @@ export class FourDModel {
                         case 'string':
                         case 'text':
                             recordData['fields'][field.longname] = this[fieldName].trim(); // if text, wrap data inside a cdata, triming extra whitespace
+                            break;
+
+                        case 'object':
+                            recordData['fields'][field.longname] = JSON.stringify(this[fieldName]);
                             break;
 
                         case 'blob':
@@ -378,7 +386,7 @@ export class FourDModel {
                         me.recordNumber = jsonData['_recnum'];
                         if (me.primaryKey_ && me.primaryKey_ !== '') me[me.primaryKey_] = jsonData['recordID'];
                         me.clearRecordDirtyFlag(); // clean up modified fields
-                        resolve(me);
+                        resolve(<any>me);
                     } else reject(jsonData.returnCode);
                 },
                 error => {
@@ -421,7 +429,7 @@ export class FourDModel {
                         if (jsonData.returnCode === 'OK') {
                             // update record went OK
                             me.clearRecordDirtyFlag(); // clean up modified fields
-                            resolve(me);
+                            resolve(<any>me);
                         } else reject(jsonData.returnCode);
                     },
                     error => {
@@ -468,7 +476,7 @@ export class FourDModel {
                         */
                         if (jsonData.returnCode === 'OK') {
                             // delete record went OK
-                            resolve(me);
+                            resolve(<any>me);
                         } else reject(jsonData.returnCode);
                     },
                     error => {
@@ -495,7 +503,8 @@ export class FourDModel {
         if (recordData.hasOwnProperty('_recnum')) this.recordNumber = recordData['_recnum'];
         for (var field in recordData) {
             if (field !== '_recnum' && recordData.hasOwnProperty(field)) {
-                this[field] = recordData[field];
+                if (this.getFieldProperties(field).type === 'object') this[field] = JSON.parse(recordData[field])
+                else this[field] = recordData[field];
             }
         }
 

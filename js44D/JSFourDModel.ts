@@ -503,7 +503,7 @@ export class FourDModel {
         if (recordData.hasOwnProperty('_recnum')) this.recordNumber = recordData['_recnum'];
         for (var field in recordData) {
             if (field !== '_recnum' && recordData.hasOwnProperty(field)) {
-                if (this.getFieldProperties(field).type === 'json') this[field] = JSON.parse(recordData[field])
+                if (this.getFieldProperties(field) && this.getFieldProperties(field).type === 'json') this[field] = JSON.parse(recordData[field])
                 else this[field] = recordData[field];
             }
         }

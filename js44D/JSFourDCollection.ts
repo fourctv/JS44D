@@ -104,7 +104,7 @@ export class FourDCollection {
      * 
      * @return returns a Promise for the database operation
      */
-    public getRecords(query: FourDQuery = null, columns: Array<string> = null, startRec: number = 0, numOfRecords: number = -1, filter: string = null, orderby: string = null): Promise<FourDCollection> {
+    public getRecords(query: FourDQuery = null, columns: Array<string> = null, startRec: number = 0, numOfRecords: number = -1, filter: string = null, orderby: string = null): Promise<Array<FourDModel>> {
         if (!query) {
             query = this.queryString;
         }

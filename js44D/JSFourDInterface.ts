@@ -33,7 +33,7 @@ export var calculateHash = function(formData: Object) {
         }
     }
 
-    //FourDInterface.log.debug('hash:' + value);
+    //console.log('hash:' + value);
     return MD5.md5(value);
 };
 
@@ -99,6 +99,24 @@ export class FourDInterface {
         body.hash = calculateHash(body);
 
         return FourDInterface.http.post(FourDInterface.fourDUrl + '/4DAction/' + fourdMethod, convertObjectToURL(body), { headers: contentHeaders });
+ 
+    }
+
+    /**
+     * Generic function to call 4D backend using Angular2 HTTP 
+     * 
+     * 	@param url: the utl request to proxy thru 4D
+     * 
+     * @return returns a Promise for the database operation
+     */
+    public proxyURLThru4D(url: string): Observable<any> {
+        const contentHeaders = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+        contentHeaders.append('Accept', 'text/json;text/html,application/xhtml+xml,application/xml,application/json;q=0.9,image/webp,*/*;q=0.8'); // need all this crap for 4D V15!!
+        let body:any = { url:base64.encode(utf8.encode(url))};
+        body.Sessionkey = FourDInterface.sessionKey;
+        body.hash = calculateHash(body);
+
+        return FourDInterface.http.post(FourDInterface.fourDUrl + '/4DAction/REST_ProxyHTTPGet', convertObjectToURL(body), { headers: contentHeaders });
  
     }
 

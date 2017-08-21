@@ -17,7 +17,7 @@ export class FourDCollection {
     public model:any; // the model this collection is based on
     public models:Array<any> = []; // array of models in the collection
     public orderBy: string;    // default order by string
-    public queryString: FourDQuery = {query:['All']}; // default query string 
+    public queryString: FourDQuery = null; // default query string 
     public filterQuery: string; // default filter to be applied on all queries
 
     public columns: any[] = []; // columns to be populated on the Collection

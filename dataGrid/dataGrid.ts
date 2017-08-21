@@ -13,7 +13,7 @@ import { FourDQuery } from '../js44D/JSFourDInterface';
 @Component({
     selector: 'datagrid',
     template: `
-    <div #theGrid style="height:100%;">
+    <div #theGrid style="height:100%;border-width: 0;">
     </div>`
 })
 
@@ -128,7 +128,7 @@ export class DataGrid implements AfterViewInit {
     //
     // this is the kendoui grid object
     //
-    private gridObject: kendo.ui.Grid;
+    public gridObject: kendo.ui.Grid;
     
     //
     // define the dataSource used to populate/handle the grid's interface to 4D
@@ -317,6 +317,10 @@ export class DataGrid implements AfterViewInit {
 
     refresh() {
         this.gridObject.refresh();
+    }
+
+    resize() {
+        this.gridObject.resize();
     }
 
     /**

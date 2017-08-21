@@ -5,16 +5,22 @@ import { AdvancedQueryComponent } from './advancedQuery';
 import { DataGrid } from '../dataGrid/dataGrid';
 import { Modal } from '../angular2-modal/providers/Modal';
 import { ICustomModalComponent } from '../angular2-modal/models/ICustomModalComponent';
+import { ModalDialogInstance } from '../angular2-modal/models/ModalDialogInstance';
 import { ModalConfig } from '../angular2-modal/models/ModalConfig';
 import { ListSelectorDialog } from '../dialogs/listSelectorDialog';
 
 @Component({
     selector: 'record-list',
-    template: '<div class="recordList"><ng-content></ng-content></div>',
+    template: '<div class="recordList" (resize)="windowResized($event)"><ng-content></ng-content></div>',
     providers: [ListSelectorDialog, Modal]
 })
 
 export class RecordList implements AfterContentInit {
+
+    /**
+     * this is the associated record list dialog, if set we use it to handle window resize
+     */
+    @Input() public dialogInstance: ModalDialogInstance = null;
 
     /**
      * this is the associated record edit dialog, if set dbl-cliking a row or hitting the Add/Edit buttons will open it
@@ -73,6 +79,25 @@ export class RecordList implements AfterContentInit {
         if (this.editWindow && this.editWindow['dialogConfig']) {
             this._editWindowConfig = this.editWindow['dialogConfig'];
         }
+
+        if (this.dialogInstance) {
+            console.log(this.dialogInstance)
+            let dialog:any= $(this.dialogInstance.contentRef.location.nativeElement).data('kendoWindow');
+            dialog.resizing._draggable.userEvents.bind("release", (event) => {this.windowResized(event)});
+        }
+    }
+
+    /**
+     * Intercept Dialog Window resize event and resize the Grid to fit the entire window
+     * @param event 
+     */
+    windowResized(event) {
+        console.log(this.theGrid);
+        this.theGrid.resize(); // refresh datagrid to adjust it to the window size
+            let gridPosition =this.theGrid.gridObject.element[0].offsetTop;
+            let gridHeight = this.theGrid.gridObject.element[0].offsetHeight;
+            let windowHeight = this.dialogInstance.kendoDialog.wrapper[0].offsetHeight;
+            console.log(windowHeight,gridPosition,gridHeight)   
     }
 
     /**

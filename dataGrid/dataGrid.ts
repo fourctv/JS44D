@@ -174,7 +174,7 @@ export class DataGrid implements AfterViewInit {
                                 comparator = <any>item.operator;
                                 break;
                         }
-                        filter.push(newModel.tableName + '.' + item.field + ';' + comparator + ';' + item.value + ';' + options.data.filter.logic);
+                        filter.push(newModel.getLongname(item.field) + ';' + comparator + ';' + item.value + ';' + options.data.filter.logic);
                     });
                 }
 
@@ -182,7 +182,7 @@ export class DataGrid implements AfterViewInit {
                 if (options.data.sort && options.data.sort.length > 0) {
                     options.data.sort.forEach((item: kendo.data.DataSourceSortItem) => {
                         orderby += (item.dir === 'asc') ? '>' : '<';
-                        orderby += newModel.tableName + '.' + item.field + '%';
+                        orderby += newModel.getLongname(item.field) + '%';
                     });
                 }
 

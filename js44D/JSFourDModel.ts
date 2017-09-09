@@ -627,6 +627,19 @@ export class FourDModel {
         return cols;
     }
 
+    /**
+     * Returns a field's longname, given its field name
+     * @param fieldName the field name
+     */
+    public getLongname(fieldName:string):string {
+        for (let field of this.fields) {
+            if (field.name === fieldName) return field.longname;
+        }
+
+        // not found, assume table.field
+        return this.tableName + '.' + fieldName;
+    }
+
     //-----------------------
     // Private methods
     //-----------------------

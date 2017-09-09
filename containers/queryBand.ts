@@ -74,6 +74,11 @@ export class QueryBand   {
       * Enable Delete record button, default is false
       */
     @Input() public enableDeleteRecord:boolean=false;
+    
+     /**
+      * Cascade Delete record if Delete is enabled, default is false
+      */
+    @Input() public cascadeDeleteRecord:boolean=false;
   
     //
     // Events emitted by the QueryBand

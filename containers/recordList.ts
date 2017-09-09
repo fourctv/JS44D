@@ -81,7 +81,7 @@ export class RecordList implements AfterContentInit {
         }
 
         if (this.dialogInstance) {
-            console.log(this.dialogInstance)
+//            console.log(this.dialogInstance)
             let dialog:any= $(this.dialogInstance.contentRef.location.nativeElement).data('kendoWindow');
             dialog.resizing._draggable.userEvents.bind("release", (event) => {this.windowResized(event)});
         }
@@ -92,12 +92,12 @@ export class RecordList implements AfterContentInit {
      * @param event 
      */
     windowResized(event) {
-        console.log(this.theGrid);
+//        console.log(this.theGrid);
         this.theGrid.resize(); // refresh datagrid to adjust it to the window size
             let gridPosition =this.theGrid.gridObject.element[0].offsetTop;
             let gridHeight = this.theGrid.gridObject.element[0].offsetHeight;
             let windowHeight = this.dialogInstance.kendoDialog.wrapper[0].offsetHeight;
-            console.log(windowHeight,gridPosition,gridHeight)   
+//            console.log(windowHeight,gridPosition,gridHeight)   
     }
 
     /**
@@ -143,8 +143,8 @@ export class RecordList implements AfterContentInit {
      */
     public deleteRecord() {
         if (this.theGrid && this.theGrid.currentRecord) {
-            if (confirm('Really delete selected record?')) {
-                this.theGrid.currentRecord.deleteRecord()
+            if (confirm((this.queryBand.cascadeDeleteRecord)?'Really delete selected record and all its associated data records?':'Really delete selected record?')) {
+                this.theGrid.currentRecord.deleteRecord(this.queryBand.cascadeDeleteRecord)
                     .then((message) => { alert('Record Deleted'); this.queryBand.doRefresh(); })
                     .catch((reason) => { alert(reason); });
             }

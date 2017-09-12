@@ -209,6 +209,29 @@ export class FourDInterface {
     } 
     
     /**
+     * Update values of a 4D Choice List
+     * 
+     * @param listName 4D choice list name
+     * @param listValues array of list values to update on 4D side
+     */
+    public update4DList(listName:string, listItems:Array<string>): Promise<any> {
+        let body: any = {listName:listName, listValues:base64.encode(utf8.encode(JSON.stringify({items:listItems})))};
+        
+        return new Promise((resolve, reject) => {
+            this.call4DRESTMethod('REST_Update4DList', body)
+                .subscribe(
+                response => {resolve();},
+                error => {
+                    //FourDInterface.log.debug('error:' + error.text());
+                    console.log('error:' + error.text());
+                    reject(error.text());
+                });
+
+        });
+        
+    }
+
+    /**
      * Retrieve a filtered 4D List from 4C-TV. Used to access a single level of a hierarchical 4D List.
      * 
       * 

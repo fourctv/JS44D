@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 import { Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -77,7 +77,8 @@ export class FourDInterface {
     private static _listCache: any = {};
     private static _registryCache: Array<any> = [];
 
-
+    public static userHasSignedIn: EventEmitter<any> = new EventEmitter();
+    
 /* 
     constructor (@Inject(Http) _http:Http) {
          this.http = _http;
@@ -149,6 +150,9 @@ export class FourDInterface {
                         FourDInterface.authentication = resultJSON.session; // save authentication
                         FourDInterface.currentUserID = resultJSON.session.options._userID;
                         FourDInterface.sessionKey = resultJSON.session.key; // and the session ID we'll use from now on...
+
+                        FourDInterface.userHasSignedIn.emit(FourDInterface.currentUser);
+
                         resolve(FourDInterface.authentication);
 
                     } else {

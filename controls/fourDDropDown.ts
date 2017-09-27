@@ -24,12 +24,25 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
 @Injectable()
 export class FourDDropDown implements AfterViewInit {
     @Input() public listName: string;
-    public selectedValue: string;
+    @Input() public selectedValue: string;
     public listOptions: Array<string> = [];
 
     constructor (private fourD:FourDInterface) {}
 
     ngAfterViewInit() {
+        if (FourDInterface.authentication !== undefined && FourDInterface.authentication !== null) this.loadListFrom4D()
+        else {
+            FourDInterface.userHasSignedIn.subscribe(user => {
+                this.loadListFrom4D();
+            })
+        }
+    }
+
+    isItemSelected(item: string): string {
+        return (item === this.selectedValue) ? 'selected' : '';
+    }
+
+    private loadListFrom4D() {
         if (this.listName) {
             this.fourD.get4DList(this.listName)
                 .then((values) => {
@@ -37,10 +50,7 @@ export class FourDDropDown implements AfterViewInit {
                 })
                 .catch((reason) => { console.log('error', reason); });
         }
-    }
-
-    isItemSelected(item: string): string {
-        return (item === this.selectedValue) ? 'selected' : '';
+        
     }
 
 }

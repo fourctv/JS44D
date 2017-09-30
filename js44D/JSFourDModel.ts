@@ -93,6 +93,11 @@ export class FourDModel {
      * set a field value
      */
     set(field: string, value: any) {
+        if (this.getFieldDescription(field).type === 'Date') {
+            if (typeof(value) === 'string') {
+                value = (value === '')?null:new Date(value.replace(/-/g,'\/'));
+            }
+        }
         if (this._attributes.hasOwnProperty(field)) {
             // we are updating an attribute
             if (this._attributes[field] !== value) {
@@ -643,6 +648,18 @@ export class FourDModel {
     //-----------------------
     // Private methods
     //-----------------------
+
+    /**
+     * Returns a field's longname, given its field name
+     * @param fieldName the field name
+     */
+    private getFieldDescription(fieldName:string):IFieldDescription {
+        for (let field of this.fields) {
+            if (field.name === fieldName) return field;
+        }
+
+        return null;
+    }
 
     /**
      * @private

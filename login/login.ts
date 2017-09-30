@@ -3,6 +3,7 @@ import { Component, Input, ReflectiveInjector } from '@angular/core';
 
 import { ModalDialogInstance } from '../angular2-modal/models/ModalDialogInstance';
 import { ICustomModalComponent } from '../angular2-modal/models/ICustomModalComponent';
+import { ICustomModal } from '../angular2-modal/models/ICustomModal';
 import { ModalConfig } from '../angular2-modal/models/ModalConfig';
 
 import { FourDInterface, MD5 } from '../js44D/JSFourDInterface';
@@ -29,6 +30,15 @@ export class LoginCmp implements ICustomModalComponent {
     @Input() public fourDVersion:string = '';
     @Input() public webAppVersion:string = '1.17.05.29a';
 
+    
+    public set modelContentData(v:ICustomModal) {
+        if (v) {
+                let parms:Object = v;
+                if (parms.hasOwnProperty('version')) {
+                    this.webAppVersion = parms['version'];
+                }
+            }
+    }
 
     constructor(public dialog: ModalDialogInstance, private fourD:FourDInterface) {
         this.fourD.call4DRESTMethod('REST_GetApplicationVersion',{})

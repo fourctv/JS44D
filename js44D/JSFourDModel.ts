@@ -94,8 +94,8 @@ export class FourDModel {
      */
     set(field: string, value: any) {
         if (this.getFieldDescription(field).type === 'Date') {
-            if (typeof(value) === 'string') {
-                value = (value === '')?null:new Date(value.replace(/-/g,'\/'));
+            if (typeof(value) === 'string' && value != '') {
+                value = new Date(value.replace(/-/g,'\/'));
             }
         }
         if (this._attributes.hasOwnProperty(field)) {

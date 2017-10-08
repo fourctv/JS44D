@@ -1,0 +1,20 @@
+{
+  "name": "js44d",
+  "version": "1.0.0",
+  "description": "4D RESP Api Companion Angular library ",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fourctv/JS44D.git"
+  },
+  "author": "Julio Carneiro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fourctv/JS44D/issues"
+  },
+  "homepage": "https://github.com/fourctv/JS44D#readme",
+  "dependencies": {
+    "@angular/core": "^4.4.4",
+    "base-64": "^0.1.0",
+    "utf8": "^2.1.2"
+  }
+}

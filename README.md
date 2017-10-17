@@ -97,7 +97,7 @@ A component that presents a dialog with a list of items for user selection.
 [![https://gyazo.com/e2c57ff1bcbebec87d8cde35f662007e](https://i.gyazo.com/e2c57ff1bcbebec87d8cde35f662007e.png)](https://gyazo.com/e2c57ff1bcbebec87d8cde35f662007e)
 
 ### Tab Component
-A simple horizontal tab component, that provides functionality to allow user to tab amont multiple forms.
+A simple horizontal tab component, that provides functionality to allow user to tab among multiple forms.
 
 [![https://gyazo.com/28da0be86dec85749ef72e3438d2711d](https://i.gyazo.com/28da0be86dec85749ef72e3438d2711d.gif)](https://gyazo.com/28da0be86dec85749ef72e3438d2711d)
 

@@ -55,7 +55,7 @@ This Component provides Data Grid functionality, to display and interact with a 
 
 [![https://gyazo.com/d75381f5cdbea2f9be82ce05bea845e4](https://i.gyazo.com/d75381f5cdbea2f9be82ce05bea845e4.png)](https://gyazo.com/d75381f5cdbea2f9be82ce05bea845e4)
 
-The component is based on a KendoUI Grid widget, and displays contents of _JSFourDModel_ instances, from a _JSFourDColelction_. 
+The component is based on a KendoUI Grid widget, and displays contents of _JSFourDModel_ instances, from a _JSFourDCollection_. 
 
 ### Query Band Component
 A query widget that provides functionality for querying a 4D Database, built upon a _JSFourDModel_.

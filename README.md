@@ -8,7 +8,7 @@ Detailed documentation for each service/component in this library can be found o
 ## Services
 The library provides services for accessing a 4D Database backend that has the **4D RESTApi** Component installed.
 
-### JSFourDInterface
+### FourDInterface
 This is the base service class that implements most of the calls to **4D RESTApi**.
 
 The two key functions made available by this class are:
@@ -21,12 +21,12 @@ This class also provides some static variables:
 - **sessionKey**: the current session token, that must be present in all requests to 4D
 - etc..
 
-### JSFourDModel
+### FourDModel
 This is a service class that provides CRUD functionality, as a Data Model base class. It provides the ability to retrieve, create, update or delete records from a table.
 
 This class builds upon the Data Model functionality, as described in the [Data Model wiki page](https://github.com/fourctv/JS44D/wiki/Data-Modeling). 
 
-All 4D table's Data Models extend the **JSFourDModel** class, describing each of the table's field and providing getter/setter for each field.
+All 4D table's Data Models extend the **FourDModel** class, describing each of the table's field and providing getter/setter for each field.
 
 Instances of this class, and its extensions, represent a record in the database. This service provides basic CRUD functions to access those records:
 - **getRecord**: retrieves a single record from the database
@@ -34,19 +34,19 @@ Instances of this class, and its extensions, represent a record in the database.
 - **updateRecord**: updates a record in the database
 - **deleteRecord**: deletes a record from the database
 
-Additional functions are described in the **JSFourDModel** wiki page.
+Additional functions are described in the **FourDModel** wiki page.
 
-### JSFourDCollection
-A service class that represents a collection of 4D records. It is basically an Array of **JSFourDModel** instances.
+### FourDCollection
+A service class that represents a collection of 4D records. It is basically an Array of **FourDModel** instances.
 
 This class provides a function to retrieve a set of records from a 4D Database:
-- **getRecords**: will take a [Query String](https://github.com/fourctv/FourDRESTApi/wiki/The-JS44D-Query-String) and send a **[REST_GetRecords](https://github.com/fourctv/FourDRESTApi/wiki/REST_GetRecords)** request to 4D to retrieve a collection of 4D records. Record data come as Data Model (*JSFourDModel*) instances.
+- **getRecords**: will take a [Query String](https://github.com/fourctv/FourDRESTApi/wiki/The-JS44D-Query-String) and send a **[REST_GetRecords](https://github.com/fourctv/FourDRESTApi/wiki/REST_GetRecords)** request to 4D to retrieve a collection of 4D records. Record data come as Data Model (*FourDModel*) instances.
 
 ## Widgets
 The following widgets and components are available for use in Angular apps, and those also interact with a 4D backend.
 
 ### Login Component
-A basic Login dialog that takes a user name and password. It calls *JSFourDInterface signin* function, that sends a **REST_Authenticate** request to 4D to authenticate the given user.
+A basic Login dialog that takes a user name and password. It calls *FourDInterface signin* function, that sends a **REST_Authenticate** request to 4D to authenticate the given user.
 
 [![https://gyazo.com/2e6afd8b53bdd50d68fa01616b62b30e](https://i.gyazo.com/2e6afd8b53bdd50d68fa01616b62b30e.png)](https://gyazo.com/2e6afd8b53bdd50d68fa01616b62b30e)
 
@@ -55,10 +55,10 @@ This Component provides Data Grid functionality, to display and interact with a 
 
 [![https://gyazo.com/d75381f5cdbea2f9be82ce05bea845e4](https://i.gyazo.com/d75381f5cdbea2f9be82ce05bea845e4.png)](https://gyazo.com/d75381f5cdbea2f9be82ce05bea845e4)
 
-The component is based on a KendoUI Grid widget, and displays contents of _JSFourDModel_ instances, from a _JSFourDCollection_. 
+The component is based on a KendoUI Grid widget, and displays contents of _FourDModel_ instances, from a _FourDCollection_. 
 
 ### Query Band Component
-A query widget that provides functionality for querying a 4D Database, built upon a _JSFourDModel_.
+A query widget that provides functionality for querying a 4D Database, built upon a _FourDModel_.
 
 [![https://gyazo.com/ce4fcbfe6b8507e32e0fcb974913a9ae](https://i.gyazo.com/ce4fcbfe6b8507e32e0fcb974913a9ae.png)](https://gyazo.com/ce4fcbfe6b8507e32e0fcb974913a9ae)
 

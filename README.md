@@ -60,7 +60,7 @@ The component is based on a KendoUI Grid widget, and displays contents of _FourD
 ### Query Band Component
 A query widget that provides functionality for querying a 4D Database, built upon a _FourDModel_.
 
-![](https://i.gyazo.com/ce4fcbfe6b8507e32e0fcb974913a9ae.png)
+![](https://i.gyazo.com/7aa5115f90679bb58245c74f43d4184a.png)
 
 It allows for a user defined query form, advanced query functionality and the ability to save and reuse queries.
 

@@ -48,26 +48,26 @@ The following widgets and components are available for use in Angular apps, and 
 ### Login Component
 A basic Login dialog that takes a user name and password. It calls *FourDInterface signin* function, that sends a **REST_Authenticate** request to 4D to authenticate the given user.
 
-[![https://gyazo.com/2e6afd8b53bdd50d68fa01616b62b30e](https://i.gyazo.com/2e6afd8b53bdd50d68fa01616b62b30e.png)](https://gyazo.com/2e6afd8b53bdd50d68fa01616b62b30e)
+![](https://i.gyazo.com/2e6afd8b53bdd50d68fa01616b62b30e.png)
 
 ### Datagrid Component
 This Component provides Data Grid functionality, to display and interact with a list of records from a 4D Database.
 
-[![https://gyazo.com/d75381f5cdbea2f9be82ce05bea845e4](https://i.gyazo.com/d75381f5cdbea2f9be82ce05bea845e4.png)](https://gyazo.com/d75381f5cdbea2f9be82ce05bea845e4)
+![](https://i.gyazo.com/d75381f5cdbea2f9be82ce05bea845e4.png)
 
 The component is based on a KendoUI Grid widget, and displays contents of _FourDModel_ instances, from a _FourDCollection_. 
 
 ### Query Band Component
 A query widget that provides functionality for querying a 4D Database, built upon a _FourDModel_.
 
-[![https://gyazo.com/ce4fcbfe6b8507e32e0fcb974913a9ae](https://i.gyazo.com/ce4fcbfe6b8507e32e0fcb974913a9ae.png)](https://gyazo.com/ce4fcbfe6b8507e32e0fcb974913a9ae)
+![](https://i.gyazo.com/ce4fcbfe6b8507e32e0fcb974913a9ae.png)
 
 It allows for a user defined query form, advanced query functionality and the ability to save and reuse queries.
 
 ### Record List Component
 This widget builds upon the **QueryBand** and **DataGrid** components. It associates a **QueryBand** and a **DataGrid**, so the results of a query are displayed on the associated **DataGrid**.
 
-[![https://gyazo.com/b1a5070c05011be9fa6865b5aa770389](https://i.gyazo.com/b1a5070c05011be9fa6865b5aa770389.png)](https://gyazo.com/b1a5070c05011be9fa6865b5aa770389)
+![](https://i.gyazo.com/b1a5070c05011be9fa6865b5aa770389.png)
 
 The widget provides a button bar with functionality to add/edit/delete records. It also allows for user defined custom buttons added to the button bar.
 
@@ -89,15 +89,15 @@ Some additional widgets/services are also part of the library, but those do not 
 ### MDI Dialog Service
 A set of service classes that provide functionality to show multiple floating dialog windows, which can be modal or not.
 
-[![https://gyazo.com/e2c57ff1bcbebec87d8cde35f662007e](https://i.gyazo.com/e2c57ff1bcbebec87d8cde35f662007e.png)](https://gyazo.com/e2c57ff1bcbebec87d8cde35f662007e)
+![](https://i.gyazo.com/e2c57ff1bcbebec87d8cde35f662007e.png)
 
 ### List Selector Dialog
 A component that presents a dialog with a list of items for user selection.
 
-[![https://gyazo.com/e2c57ff1bcbebec87d8cde35f662007e](https://i.gyazo.com/e2c57ff1bcbebec87d8cde35f662007e.png)](https://gyazo.com/e2c57ff1bcbebec87d8cde35f662007e)
+![](https://i.gyazo.com/e2c57ff1bcbebec87d8cde35f662007e.png)
 
 ### Tab Component
 A simple horizontal tab component, that provides functionality to allow user to tab among multiple forms.
 
-[![https://gyazo.com/28da0be86dec85749ef72e3438d2711d](https://i.gyazo.com/28da0be86dec85749ef72e3438d2711d.gif)](https://gyazo.com/28da0be86dec85749ef72e3438d2711d)
+![](https://i.gyazo.com/28da0be86dec85749ef72e3438d2711d.gif)
 

@@ -89,7 +89,7 @@ Some additional widgets/services are also part of the library, but those do not 
 ### MDI Dialog Service
 A set of service classes that provide functionality to show multiple floating dialog windows, which can be modal or not.
 
-![](https://i.gyazo.com/e2c57ff1bcbebec87d8cde35f662007e.png)
+![](https://i.gyazo.com/087217cad2ad8ee47a7e80a610ac5315.png)
 
 ### List Selector Dialog
 A component that presents a dialog with a list of items for user selection.

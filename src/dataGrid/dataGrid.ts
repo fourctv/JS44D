@@ -28,7 +28,7 @@ export class DataGrid implements AfterViewInit {
     @Input() public columns: any[] = [];
     
     /**
-     * defined how grid selection should work (defaults to single, row)
+     * defines how grid selection should work (defaults to single, row)
      */
     @Input() public selectionMode: string = 'single,row';
     
@@ -76,12 +76,12 @@ export class DataGrid implements AfterViewInit {
     @Input() public pageableSizes:boolean = true;
     
     /**
-     * defines max number of buttons to display on the pahing toolbar (default 5) 
+     * defines max number of buttons to display on the paging toolbar (default 5) 
      */
     @Input() public pageableButtonCount:number = 5;
     
     /**
-     * defines message to display on the paging toolbar
+     * defines message pattern to display on the paging toolbar
      */
     @Input() public pageableMessage:string = '{0} - {1} of {2} items';
 
@@ -92,20 +92,20 @@ export class DataGrid implements AfterViewInit {
     get model(): FourDModel { return this._model; }
 
     /**
-     * option to use lazyloading, leavig paging to be done on server side (defaults to true)
+     * option to use lazyloading, leaving paging to be done on server side (defaults to true)
      */
     @Input() public useLazyLoading: boolean = true; // defaults to true
     
     		
     /**
-     * if using a dataClass, this flag will optimize the loading of data, by bringing only the columns used on the grid
+     * if using a FourDModel, this flag will optimize the loading of data, by bringing only the columns used on the grid
      * thus avoiding bringing data that is not used on the grid
      * only meaningful if using a dataClass
      */
     @Input() public optimizeGridLoading: boolean = false;
 
     /**
-     * if using lazyloading, define the # of records to retrieve from 4D
+     * if using lazyloading, define the max # of records to retrieve from 4D
      */
     @Input() public pageSize: number = 50;
     
@@ -123,7 +123,7 @@ export class DataGrid implements AfterViewInit {
     //
     // this is the datamodel interface to 4D backend
     //
-    private dataProvider: FourDCollection; // this is the Backbone model used to bring in records
+    public dataProvider: FourDCollection; // this is the FourDCollection instalce used to bring in records
 
     //
     // this is the kendoui grid object
@@ -196,7 +196,7 @@ export class DataGrid implements AfterViewInit {
                     }
                 }
                 let me = this;
-                this.dataProvider.getRecords(query, (this.optimizeGridLoading) ? this.columns : null, start, numrecs, this.dataProvider.filterQuery, orderby)
+                this.dataProvider.getRecords(query, (this.optimizeGridLoading) ? this.columns : null, start, numrecs, this.dataProvider.filterOptions, orderby)
                     .then((reclist) => {
                         options.success(me.dataProvider.models);
                     });
@@ -240,7 +240,7 @@ export class DataGrid implements AfterViewInit {
     //
     set queryString(v: FourDQuery) { if (this.dataProvider) this.dataProvider.queryString = v; }
     set orderBy(v: string) { if (this.dataProvider) this.dataProvider.orderBy = v; }
-    set filterQuery(v: string) { if (this.dataProvider) this.dataProvider.filterQuery = v; }
+    set filterQuery(v: string) { if (this.dataProvider) this.dataProvider.filterOptions = v; }
 
     /**
      * currently selected record on the grid
@@ -273,9 +273,9 @@ export class DataGrid implements AfterViewInit {
     }
 
     /**
-     * Populate the grid withthe result of a 4D query
-     * @param query: the querys tring to send to 4D
-     * @param filter: filter options to send to 4D, to the applies on the query result
+     * Populates the grid with the result of a 4D query
+     * @param query: the query string to send to 4D
+     * @param filter: filter options to send to 4D, to be applied to the query result
      * @param orderby: order by statement to send to 4D, defining the record sort order
      */
     loadData(query: FourDQuery = null, filter: string = null, orderby: string = null) {
@@ -371,7 +371,7 @@ export class DataGrid implements AfterViewInit {
     }
 
     /**
-     * Export gird data to Excel
+     * Export grid data to Excel
      */
     exportGridToExcel() {
         if (this.excelFilename) {

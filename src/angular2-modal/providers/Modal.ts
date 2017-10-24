@@ -32,9 +32,9 @@ export class Modal {
     /**
      * Opens a modal window blocking the whole screen.
      * @param componentType The angular Component to render as modal.
-     * @param bindings Resolved providers that will inject into the component provided.
+     * @param parameters parameters to be passed to the dialog instance.
      * @param config A Modal Configuration object.
-     * @param allowMultiple indinates if multiple version of the same dialog are allowed.
+     * @param allowMultiple indicates if multiple version of the same dialog are allowed.
      * @param dialogID a dialog identification token to control multiple occurrences.
      * @returns {Promise<ModalDialogInstance>}
      */
@@ -52,10 +52,9 @@ export class Modal {
      * Opens a modal window inside an existing component.
      * @param componentType The angular Component to render as modal.
      * @param viewRef The element to block using the modal.
-     * @param anchorName A template variable within the component.
-     * @param bindings Resolved providers that will inject into the component provided.
+     * @param parameters parameters to be passed to the dialog instance.
      * @param config A Modal Configuration object.
-     * @param allowMultiple indinates if multiple version of the same dialog are allowed.
+     * @param allowMultiple indicates if multiple version of the same dialog are allowed.
      * @param dialogID a dialog identification token to control multiple occurrences.
      * @returns {Promise<ModalDialogInstance>}
      */
@@ -130,6 +129,15 @@ export class Modal {
         theDialog.destroy();
     }
     
+    /**
+     * Opens a modal window blocking the whole screen.
+     * @param componentType The angular Component to render as modal.
+     * @param parameters parameters to be passed to the dialog instance.
+    * @param config A Modal Configuration object.
+     * @param allowMultiple indicates if multiple version of the same dialog are allowed.
+     * @param dialogID a dialog identification token to control multiple occurrences.
+     * @returns {Promise<ModalDialogInstance>}
+     */
     public openDialog(component:any, parameters:any, allowMultiple:boolean=false, dialogID:string=''): Promise<string>  {
 
        return this.open(<any>component, parameters, component.dialogConfig, allowMultiple, dialogID);

@@ -63,18 +63,8 @@ export class FourDModel {
 
     /** 
      * constructor: initialize model properties
-     * @param tableName: 4D's table name
-     * @param fields: an array of field descriptions
-     * @param primaryKey: table's primary key field name
-     * @param tableNumber: 4D's table number
     */
-    constructor(/*tableName?: string, fields?: Array<IFieldDescription>, primaryKey?: string, tableNumber?: number*/) {
-        /*
-        if (tableName) this.tableName = tableName;
-        if (fields) this.fields = fields;
-        if (primaryKey) this.primaryKey_ = primaryKey;
-        if (tableNumber) this.tableNumber = tableNumber;
-        */
+    constructor() {
         // inject FourDInterface
         let injector = ReflectiveInjector.resolveAndCreate([FourDInterface]);
         this.fourD = injector.get(FourDInterface);
@@ -345,7 +335,7 @@ export class FourDModel {
     /**
      * Refresh current record, grab a fresh copy from 4D
      * 
-         * @return returns a Promise for the database operation
+     * @return returns a Promise for the database operation
      * 
      */
     public refresh(): Promise<FourDModel> {
@@ -407,7 +397,7 @@ export class FourDModel {
     /**
  * update record in the database.
  *  
-     * @return returns a Promise for the database operation
+ * @return returns a Promise for the database operation
  * 
  */
     public updateRecord(): Promise<string> {
@@ -455,7 +445,7 @@ export class FourDModel {
  *  
  * @param cascade true|false indicates if 4D should perform a cascade delete (optional, default=false).
  * 
-     * @return returns a Promise for the database operation
+ * @return returns a Promise for the database operation
  * 
  */
     public deleteRecord(cascade: boolean = false): Promise<string> {

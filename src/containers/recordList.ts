@@ -88,17 +88,13 @@ export class RecordList implements AfterContentInit {
     }
 
     /**
-     * Intercept Dialog Window resize event and resize the Grid to fit the entire window
-     * @param event 
+     * Clear all previous queries
      */
-    windowResized(event) {
-//        console.log(this.theGrid);
-        this.theGrid.resize(); // refresh datagrid to adjust it to the window size
-            let gridPosition =this.theGrid.gridObject.element[0].offsetTop;
-            let gridHeight = this.theGrid.gridObject.element[0].offsetHeight;
-            let windowHeight = this.dialogInstance.kendoDialog.wrapper[0].offsetHeight;
-//            console.log(windowHeight,gridPosition,gridHeight)   
+    public clearQuery() {
+        this._previousAdvancedQuery = null;
+        this._previousQuery = null;
     }
+
 
     /**
      * Refresh teh Grid, run query on 4D side and get records to display
@@ -110,10 +106,19 @@ export class RecordList implements AfterContentInit {
         this._previousQuery = query; // save last queryDeleteRecord
     }
 
+
+    /**
+     * Intercept Dialog Window resize event and resize the Grid to fit the entire window
+     * @param event 
+     */
+    public windowResized(event) {
+        this.theGrid.resize(); // refresh datagrid to adjust it to the window size
+    }
+
     /**
      * Show record edit window, to either edit or add a new record
      */
-    public showEditWindow(mode: string) {
+    private showEditWindow(mode: string) {
         // if editing a record, and we do have a record selected and an edit dialog does exist
         if (this.theGrid && this.editWindow && mode === 'edit' && this.theGrid.currentRecord) {
             if (this.theGrid.optimizeGridLoading) { // if we are optimizing the grid, then we need to refresh selected record
@@ -141,7 +146,7 @@ export class RecordList implements AfterContentInit {
     /** 
      * Delete Selected Record(s)
      */
-    public deleteRecord() {
+    private deleteRecord() {
         if (this.theGrid && this.theGrid.currentRecord) {
             if (confirm((this.queryBand.cascadeDeleteRecord)?'Really delete selected record and all its associated data records?':'Really delete selected record?')) {
                 this.theGrid.currentRecord.deleteRecord(this.queryBand.cascadeDeleteRecord)
@@ -149,14 +154,6 @@ export class RecordList implements AfterContentInit {
                     .catch((reason) => { alert(reason); });
             }
         }
-    }
-
-    /**
-     * Clear all previous queries
-     */
-    public clearQuery() {
-        this._previousAdvancedQuery = null;
-        this._previousQuery = null;
     }
 
     /**

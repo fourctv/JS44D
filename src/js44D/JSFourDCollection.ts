@@ -18,15 +18,13 @@ export class FourDCollection {
     public models:Array<any> = []; // array of models in the collection
     public orderBy: string;    // default order by string
     public queryString: FourDQuery = null; // default query string 
-    public filterQuery: string; // default filter to be applied on all queries
+    public filterOptions: string; // default filter to be applied on all queries
 
     public columns: any[] = []; // columns to be populated on the Collection
 
     public currentRecord: FourDModel; // holds current record from the current selection
     public totalRecordCount: number = 0; // holds the total # of records found on the latst query
-        
-    public url: string = '/4DAction/REST_GetRecords';
-        
+         
     // injected FourDInterface service
     private fourD:FourDInterface;
     
@@ -36,11 +34,7 @@ export class FourDCollection {
     //
     // constructor: initialize collection properties
     //
-    constructor(/*@Inject(FourDModel) model?: FourDModel, cols?: any[], query?: string, order?: string, filter?: string*/) {
-//        this.model = <any>model;
-//        this.columns = cols;
-//        this.queryString = query;
-//        this.filterQuery = filter;
+    constructor() {
          // inject FourDInterface
         let injector = ReflectiveInjector.resolveAndCreate([FourDInterface]);
         this.fourD = injector.get(FourDInterface);
@@ -112,7 +106,7 @@ export class FourDCollection {
             this.columns = columns;
         }
         if (!filter || filter === '') {
-            filter = this.filterQuery;
+            filter = this.filterOptions;
         }
         if (!orderby || orderby === '') {
             orderby = this.orderBy;

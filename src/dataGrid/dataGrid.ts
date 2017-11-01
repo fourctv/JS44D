@@ -45,7 +45,7 @@ export class DataGrid implements AfterViewInit {
     /**
      * flag to indicate if grid is sortable, individual columns can have their own setting (defaults to true)
      */
-    @Input() public sortable: boolean = true;
+    @Input() public sortable = {mode: "multiple", allowUnsort: true, showIndexes: true};
        
     /**
      * flag to indicate if the column menu should be active for all columns on the grid (defaults to true)

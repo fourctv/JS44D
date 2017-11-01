@@ -13,7 +13,10 @@ import { ModalConfig } from '../angular2-modal/models/ModalConfig';
             <select size="20" class="largeFieldEntry" style="height:90%;padding:5px;margin-bottom:10px;" (change)="changeSelection($event)" (dblclick)="ok($event)">
                 <option *ngFor='let item of itemsList; let i=index' value="{{item}}" title="{{tipsList[i]}}" class="selectorItem">{{item}}</option>
             </select>
-            <button class="regularButton" style="width:70px;align-self:flex-end;margin-right:5px;" (click)="ok($event)">Select</button>
+            <div >
+                <label [hidden]="message == ''">{{message}}</label>
+                <button class="regularButton" style="width:70px;float:right;margin-right:5px;" (click)="ok($event)">{{buttonText}}</button>
+            </div>
         </div>
    `,
     providers: [Modal]
@@ -30,7 +33,9 @@ export class ListSelectorDialog implements ICustomModalComponent {
 
     @Input() public itemsList:string[] = [];
     @Input() public tipsList:string[] = [];
-   
+    @Input() public buttonText:string = 'Select';
+    @Input() public message:string = '';
+
     public set height(v) {this.config.height = v};
     public set width(v) {this.config.width = v};
     public set title(v) {this.config.title = v};
@@ -39,6 +44,8 @@ export class ListSelectorDialog implements ICustomModalComponent {
     public set modelContentData(v) {
         this.itemsList = v.list;
         this.tipsList = v.tips;
+        if (v.buttonLabel) this.buttonText = v.buttonLabel;
+        if (v.message) this.message = v.message;
     }
 
     private config :ModalConfig;
@@ -53,9 +60,10 @@ export class ListSelectorDialog implements ICustomModalComponent {
     /**
      * Show Me - show the list selector dialog and return a Promise
      */
-    public show(list:string[], tips?:string[]):Promise<string> {
+    public show(list:string[], tips?:string[], message?:string, buttonLabel?:string):Promise<number> {
         if (!tips) tips = list;
-        return this.modal.open(ListSelectorDialog, {list:list, tips:tips}, this.config);
+
+        return <any>this.modal.open(ListSelectorDialog, {list:list, tips:tips, message:message, buttonLabel:buttonLabel}, this.config);
     }
 
     changeSelection(ev) {

@@ -238,31 +238,35 @@ export class RecordList implements AfterContentInit {
                 break;
         
             case 'reuseSearch':
-                let savedSearches = JSON.parse(localStorage.getItem(tableName+'_savedSearches')) || [];
+                let savedSearches:Array<any> = JSON.parse(localStorage.getItem(tableName+'_savedSearches')) || [];
                 let searchList = [];
                 savedSearches.forEach(element => {
                     searchList.push(element.name);
                 });
-                this.selectList.show(searchList)
-                .then(result => {
-                    let query = savedSearches[result].search;
-                    this.refreshGrid(query);
-                }); // open list selector dialog
-               
+                if (searchList.length > 0) {
+                    this.selectList.title = 'Select Saved Search';
+                    this.selectList.show(searchList)
+                    .then(result => {
+                        let query = savedSearches[result].search;
+                        this.refreshGrid(query);
+                    }); // open list selector dialog
+                }
                 break;
         
             case 'restoreSet':
-                let savedSets = JSON.parse(localStorage.getItem(tableName+'_savedSets')) || [];
+                let savedSets:Array<any> = JSON.parse(localStorage.getItem(tableName+'_savedSets')) || [];
                 let setList = [];
                 savedSets.forEach(element => {
                     setList.push(element.name);
                 });
-                this.selectList.show(setList)
-                .then(result => {
-                    let set = savedSets[result].set;
-                    this.restoreSet(set);
-                }); // open list selector dialog
-                
+                if (setList.length > 0) {
+                    this.selectList.title = 'Select Saved Set';
+                    this.selectList.show(setList)
+                    .then(result => {
+                        let set = savedSets[result].set;
+                        this.restoreSet(set);
+                    }); // open list selector dialog
+                }
                 break;
         
             case 'combineSearches':
@@ -270,11 +274,36 @@ export class RecordList implements AfterContentInit {
                 break;
         
             case 'manageSearches':
+                savedSearches = JSON.parse(localStorage.getItem(tableName+'_savedSearches')) || [];
+                searchList = [];
+                savedSearches.forEach(element => {
+                    searchList.push(element.name);
+                });
+                if (searchList.length > 0) {
+                    this.selectList.title = 'Delete Saved Search';
+                    this.selectList.show(searchList,null,'items deleted immediately','Delete')
+                    .then(result => {
+                        savedSearches.splice(result,1);
+                        localStorage.setItem(tableName+'_savedSearches', JSON.stringify(savedSearches));                        
+                    }); // open list selector dialog
+                }
                 
                 break;
         
             case 'manageSets':
-                
+                savedSets = JSON.parse(localStorage.getItem(tableName+'_savedSets')) || [];
+                setList = [];
+                savedSets.forEach(element => {
+                    setList.push(element.name);
+                });
+                if (setList.length > 0) {
+                    this.selectList.title = 'Delete Saved Set';
+                    this.selectList.show(setList,null,'items deleted immediately','Delete')
+                    .then(result => {
+                        savedSets.splice(result,1);
+                        localStorage.setItem(tableName+'_savedSets', JSON.stringify(savedSets));
+                    }); // open list selector dialog
+                }                
                 break;
         }
     }

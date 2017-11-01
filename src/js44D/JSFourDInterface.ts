@@ -54,7 +54,7 @@ export class FourDInterface {
    /**
      * 4D Web Server URL
      */
-    public static fourDUrl: string = window.location.origin; // defaults to the initiator URL, can be modified by the main app during development
+    public static fourDUrl: string = "http://localhost:8080"; // defaults to the initiator URL, can be modified by the main app during development
 
     /**
      * current session key used in all http requests

@@ -104,8 +104,8 @@ export class AdvancedQueryComponent implements ICustomModalComponent, AfterViewI
     showRelatedTable(event, queryField: any) {
         queryField.queryTable = event.target.textContent;
         this.fourD.call4DRESTMethod('REST_GetFieldsInTable',{TableName:queryField.queryTable})
-        .subscribe(response => {
-            let resultJSON = response.json();
+        .subscribe(resultJSON => {
+            //let resultJSON = response.json();
             queryField.listOfFields = resultJSON.fieldList;
         });
     }

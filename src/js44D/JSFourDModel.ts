@@ -273,9 +273,8 @@ export class FourDModel {
             return new Promise((resolve, reject) => {
                 let me = this;
                 this.fourD.call4DRESTMethod('REST_LoadData', body)
-                    .subscribe(
-                    response => {
-                        let jsonData = response.json();
+                    .subscribe(resultJSON => {
+                        //let jsonData = response.json();
                         /*
                         if (Config.IS_MOBILE_NATIVE()) {
                             // on nativescript
@@ -284,7 +283,7 @@ export class FourDModel {
                         */
                         //this.log.debug(jsonData);
                         me.clearRecord();
-                        me.populateModelData(jsonData);
+                        me.populateModelData(resultJSON);
                         me.clearRecordDirtyFlag();
                         resolve(me);
                     },
@@ -367,22 +366,21 @@ export class FourDModel {
         return new Promise((resolve, reject) => {
             let me = this;
             this.fourD.call4DRESTMethod('REST_PostData', body)
-                .subscribe(
-                response => {
-                    let jsonData = response.json();
+                .subscribe(resultJSON => {
+                    //let jsonData = response.json();
                     /*
                     if (Config.IS_MOBILE_NATIVE()) {
                         // on nativescript
                         jsonData = JSON.parse(jsonData);
                     }
                     */
-                    if (jsonData.returnCode === 'OK') {
+                    if (resultJSON.returnCode === 'OK') {
                         // insert record went OK, retrieve calculated return code & record ID
-                        me.recordNumber = jsonData['_recnum'];
-                        if (me.primaryKey_ && me.primaryKey_ !== '') me[me.primaryKey_] = jsonData['recordID'];
+                        me.recordNumber = resultJSON['_recnum'];
+                        if (me.primaryKey_ && me.primaryKey_ !== '') me[me.primaryKey_] = resultJSON['recordID'];
                         me.clearRecordDirtyFlag(); // clean up modified fields
                         resolve(<any>me);
-                    } else reject(jsonData.returnCode);
+                    } else reject(resultJSON.returnCode);
                 },
                 error => {
                     //this.log.debug('error:' + error.text());
@@ -412,20 +410,19 @@ export class FourDModel {
             return new Promise((resolve, reject) => {
                 let me = this;
                 this.fourD.call4DRESTMethod('REST_PostData', body)
-                    .subscribe(
-                    response => {
-                        let jsonData = response.json();
+                    .subscribe(resultJSON => {
+                        //let jsonData = response.json();
                         /*
                         if (Config.IS_MOBILE_NATIVE()) {
                             // on nativescript
                             jsonData = JSON.parse(jsonData);
                         }
                         */
-                        if (jsonData.returnCode === 'OK') {
+                        if (resultJSON.returnCode === 'OK') {
                             // update record went OK
                             me.clearRecordDirtyFlag(); // clean up modified fields
                             resolve(<any>me);
-                        } else reject(jsonData.returnCode);
+                        } else reject(resultJSON.returnCode);
                     },
                     error => {
                         //this.log.debug('error:' + error.text());
@@ -460,19 +457,18 @@ export class FourDModel {
             return new Promise((resolve, reject) => {
                 let me = this;
                 this.fourD.call4DRESTMethod('REST_PostData', body)
-                    .subscribe(
-                    response => {
-                        let jsonData = response.json();
+                    .subscribe(resultJSON => {
+                        //let jsonData = response.json();
                         /*
                         if (Config.IS_MOBILE_NATIVE()) {
                             // on nativescript
                             jsonData = JSON.parse(jsonData);
                         }
                         */
-                        if (jsonData.returnCode === 'OK') {
+                        if (resultJSON.returnCode === 'OK') {
                             // delete record went OK
                             resolve(<any>me);
-                        } else reject(jsonData.returnCode);
+                        } else reject(resultJSON.returnCode);
                     },
                     error => {
                         //this.log.debug('error:' + error.text());

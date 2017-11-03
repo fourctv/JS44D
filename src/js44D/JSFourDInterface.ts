@@ -1,6 +1,5 @@
 import { Injectable, Inject, EventEmitter } from '@angular/core';
-import { Http } from '@angular/http';
-import { Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import * as base64 from 'base-64';
 import * as utf8 from 'utf8/utf8';
@@ -69,7 +68,7 @@ export class FourDInterface {
    /**
      * point to the HTTP service we'll use
      */
-    public static http:Http;
+    public static http:HttpClient;
   
     //
     // cache variables 
@@ -93,13 +92,17 @@ export class FourDInterface {
      * 
      * @return returns a Promise for the database operation
      */
-    public call4DRESTMethod(fourdMethod: string, body: any): Observable<any> {
-        const contentHeaders = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    public call4DRESTMethod(fourdMethod: string, body: any, options?:any): Observable<any> {
+        const contentHeaders = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
         contentHeaders.append('Accept', 'text/json;text/html,application/xhtml+xml,application/xml,application/json;q=0.9,image/webp,*/*;q=0.8'); // need all this crap for 4D V15!!
         body.Sessionkey = FourDInterface.sessionKey;
         body.hash = calculateHash(body);
-
-        return FourDInterface.http.post(FourDInterface.fourDUrl + '/4DAction/' + fourdMethod, convertObjectToURL(body), { headers: contentHeaders });
+        if (options) {
+            options.headers = contentHeaders;
+        } else {
+            options = { headers: contentHeaders };
+        }
+        return FourDInterface.http.post(FourDInterface.fourDUrl + '/4DAction/' + fourdMethod, convertObjectToURL(body), options);
  
     }
 
@@ -111,7 +114,7 @@ export class FourDInterface {
      * @return returns a Promise for the database operation
      */
     public proxyURLThru4D(url: string): Observable<any> {
-        const contentHeaders = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+        const contentHeaders = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
         contentHeaders.append('Accept', 'text/json;text/html,application/xhtml+xml,application/xml,application/json;q=0.9,image/webp,*/*;q=0.8'); // need all this crap for 4D V15!!
         let body:any = { url:base64.encode(utf8.encode(url))};
         body.Sessionkey = FourDInterface.sessionKey;
@@ -137,9 +140,8 @@ export class FourDInterface {
 
         return new Promise((resolve, reject) => {
             this.call4DRESTMethod('REST_Authenticate', body)
-                .subscribe(
-                response => {
-                    let resultJSON = response.json();
+                .subscribe(resultJSON => {
+                    //let resultJSON = response.json();
                     /*
                     if (Config.IS_MOBILE_NATIVE()) {
                         // on nativescript
@@ -156,7 +158,7 @@ export class FourDInterface {
                         resolve(FourDInterface.authentication);
 
                     } else {
-                        reject('Invalid username or password! ==> ' + response.json());
+                        reject('Invalid username or password! ==> ' + resultJSON);
                     }
                 },
                 error => {
@@ -189,9 +191,8 @@ export class FourDInterface {
 
         return new Promise((resolve, reject) => {
             this.call4DRESTMethod('REST_Get4DList', body)
-                .subscribe(
-                response => {
-                    let resultJSON = response.json();
+                .subscribe(resultJSON => {
+                    //let resultJSON = response.json();
                     /*
                     if (Config.IS_MOBILE_NATIVE()) {
                         // on nativescript
@@ -222,7 +223,7 @@ export class FourDInterface {
         let body: any = {listName:listName, listValues:base64.encode(utf8.encode(JSON.stringify({items:listItems})))};
         
         return new Promise((resolve, reject) => {
-            this.call4DRESTMethod('REST_Update4DList', body)
+            this.call4DRESTMethod('REST_Update4DList', body, {responseType:'text'})
                 .subscribe(
                 response => {resolve();},
                 error => {
@@ -250,9 +251,8 @@ export class FourDInterface {
         
         return new Promise((resolve, reject) => {
             this.call4DRESTMethod('REST_GetFiltered4DList', body)
-                .subscribe(
-                response => {
-                    let resultJSON = response.json();
+                .subscribe(resultJSON => {
+                    //let resultJSON = response.json();
                     /*
                     if (Config.IS_MOBILE_NATIVE()) {
                         // on nativescript
@@ -296,10 +296,10 @@ export class FourDInterface {
         let body: any = { class: theClass, parameter: theParameter, defaultValue: theDefaultValue, selector: theSelector };
 
         return new Promise((resolve, reject) => {
-            this.call4DRESTMethod('REST_GetRegistryValue', body)
+            this.call4DRESTMethod('REST_GetRegistryValue', body, {responseType: 'text'})
                 .subscribe(
                 response => {
-                    body.registryValue = response.text();
+                    body.registryValue = response;
                     FourDInterface._registryCache.push(body);
                     resolve(body.registryValue);
                 },

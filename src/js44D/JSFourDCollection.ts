@@ -134,20 +134,19 @@ export class FourDCollection {
         return new Promise((resolve, reject) => {
             let me = this;
             this.fourD.call4DRESTMethod('REST_GetRecords', body)
-                .subscribe(
-                response => {
+                .subscribe(resultJSON => {
                     me.totalRecordCount = 0;
                     me.models = [];
-                    let jsonData:Object = response.json();
+                    //let jsonData:Object = response.json();
                     /*
                     if (Config.IS_MOBILE_NATIVE()) {
                         // on nativescript
                         jsonData = JSON.parse(jsonData);
                     }
                     */
-                    if (jsonData && jsonData['selected'] && jsonData['records']) {
-                        me.totalRecordCount = jsonData['selected'];
-                        let recList: Array<any> = jsonData['records'];
+                    if (resultJSON && resultJSON['selected'] && resultJSON['records']) {
+                        me.totalRecordCount = resultJSON['selected'];
+                        let recList: Array<any> = resultJSON['records'];
                         recList.forEach(record => {
                             let modelDef = <any>(me.model);
                             let newModel: FourDModel = <any>(new modelDef());

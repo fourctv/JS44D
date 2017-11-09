@@ -93,15 +93,15 @@ export class FourDInterface {
      * @return returns a Promise for the database operation
      */
     public call4DRESTMethod(fourdMethod: string, body: any, options?:any): Observable<any> {
-        const contentHeaders = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-        contentHeaders.append('Accept', 'text/json;text/html,application/xhtml+xml,application/xml,application/json;q=0.9,image/webp,*/*;q=0.8'); // need all this crap for 4D V15!!
+        //const contentHeaders = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' });
+        //contentHeaders.append('Accept', 'text/json;text/html,application/xhtml+xml,application/xml,application/json;q=0.9,image/webp,*/*;q=0.8'); // need all this crap for 4D V15!!
         body.Sessionkey = FourDInterface.sessionKey;
         body.hash = calculateHash(body);
-        if (options) {
+/*        if (options) {
             options.headers = contentHeaders;
         } else {
             options = { headers: contentHeaders };
-        }
+        }*/
         return FourDInterface.http.post(FourDInterface.fourDUrl + '/4DAction/' + fourdMethod, convertObjectToURL(body), options);
  
     }
@@ -114,13 +114,13 @@ export class FourDInterface {
      * @return returns a Promise for the database operation
      */
     public proxyURLThru4D(url: string): Observable<any> {
-        const contentHeaders = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-        contentHeaders.append('Accept', 'text/json;text/html,application/xhtml+xml,application/xml,application/json;q=0.9,image/webp,*/*;q=0.8'); // need all this crap for 4D V15!!
+        //const contentHeaders = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+        //contentHeaders.append('Accept', 'text/json;text/html,application/xhtml+xml,application/xml,application/json;q=0.9,image/webp,*/*;q=0.8'); // need all this crap for 4D V15!!
         let body:any = { url:base64.encode(utf8.encode(url))};
         body.Sessionkey = FourDInterface.sessionKey;
         body.hash = calculateHash(body);
 
-        return FourDInterface.http.post(FourDInterface.fourDUrl + '/4DAction/REST_ProxyHTTPGet', convertObjectToURL(body), { headers: contentHeaders });
+        return FourDInterface.http.post(FourDInterface.fourDUrl + '/4DAction/REST_ProxyHTTPGet', convertObjectToURL(body), { /*headers: contentHeaders*/ });
  
     }
 

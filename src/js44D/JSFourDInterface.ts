@@ -162,10 +162,8 @@ export class FourDInterface {
                     }
                 },
                 error => {
-                    // alert(error.text());
-                    //FourDInterface.log.debug('error:' + error);
-                    console.log('error:' + error);
-                    reject(error.text());
+                    console.log('error:' + JSON.stringify(error));
+                    reject(error);
                 }
                 );
 
@@ -204,9 +202,8 @@ export class FourDInterface {
                     resolve(listValues);
                 },
                 error => {
-                    //FourDInterface.log.debug('error:' + error.text());
-                    console.log('error:' + error.text());
-                    reject(error.text());
+                    console.log('error:' + JSON.stringify(error));
+                    reject(error);
                 });
 
         });
@@ -227,9 +224,8 @@ export class FourDInterface {
                 .subscribe(
                 response => {resolve();},
                 error => {
-                    //FourDInterface.log.debug('error:' + error.text());
-                    console.log('error:' + error.text());
-                    reject(error.text());
+                    console.log('error:' + JSON.stringify(error));
+                    reject(error);
                 });
 
         });
@@ -263,9 +259,8 @@ export class FourDInterface {
                     resolve(listValues);
                 },
                 error => {
-                    //FourDInterface.log.debug('error:' + error.text());
-                    console.log('error:' + error.text());
-                    reject(error.text());
+                    console.log('error:' + JSON.stringify(error));
+                    reject(error);
                 });
 
         });
@@ -304,9 +299,8 @@ export class FourDInterface {
                     resolve(body.registryValue);
                 },
                 error => {
-                    //FourDInterface.log.debug('error:' + error.text());
-                    console.log('error:' + error.text());
-                    reject(error.text());
+                    console.log('error:' + JSON.stringify(error));
+                    reject(error);
                 });
 
         });
@@ -333,9 +327,8 @@ export class FourDInterface {
                     resolve();
                 },
                 error => {
-                    //FourDInterface.log.debug('error:' + error.text());
-                    console.log('error:' + error.text());
-                    reject(error.text());
+                    console.log('error:' + JSON.stringify(error));
+                    reject(error);
                 });
 
         });

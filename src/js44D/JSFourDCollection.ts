@@ -158,9 +158,8 @@ export class FourDCollection {
                     resolve(<any>me.models);
                 },
                 error => {
-                    //this.log.debug('error:' + error.text());
-                    console.log('error:' + error.text());
-                    reject(error.text());
+                    console.log('error:' + error);
+                    reject(error);
                 });
         });
 

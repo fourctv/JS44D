@@ -274,23 +274,14 @@ export class FourDModel {
                 let me = this;
                 this.fourD.call4DRESTMethod('REST_LoadData', body)
                     .subscribe(resultJSON => {
-                        //let jsonData = response.json();
-                        /*
-                        if (Config.IS_MOBILE_NATIVE()) {
-                            // on nativescript
-                            jsonData = JSON.parse(jsonData);
-                        }
-                        */
-                        //this.log.debug(jsonData);
                         me.clearRecord();
                         me.populateModelData(resultJSON);
                         me.clearRecordDirtyFlag();
                         resolve(me);
                     },
                     error => {
-                        //this.log.debug('error:' + error.text());
-                        console.log('error:' + error.text());
-                        reject(error.text());
+                        console.log('error:' + JSON.stringify(error));
+                        reject(error);
                     });
             });
 
@@ -367,13 +358,6 @@ export class FourDModel {
             let me = this;
             this.fourD.call4DRESTMethod('REST_PostData', body)
                 .subscribe(resultJSON => {
-                    //let jsonData = response.json();
-                    /*
-                    if (Config.IS_MOBILE_NATIVE()) {
-                        // on nativescript
-                        jsonData = JSON.parse(jsonData);
-                    }
-                    */
                     if (resultJSON.returnCode === 'OK') {
                         // insert record went OK, retrieve calculated return code & record ID
                         me.recordNumber = resultJSON['_recnum'];
@@ -383,8 +367,7 @@ export class FourDModel {
                     } else reject(resultJSON.returnCode);
                 },
                 error => {
-                    //this.log.debug('error:' + error.text());
-                    console.log('error:' + error.text());
+                    console.log('error:' + JSON.stringify(error));
                     reject(error.text());
                 });
         });
@@ -411,13 +394,6 @@ export class FourDModel {
                 let me = this;
                 this.fourD.call4DRESTMethod('REST_PostData', body)
                     .subscribe(resultJSON => {
-                        //let jsonData = response.json();
-                        /*
-                        if (Config.IS_MOBILE_NATIVE()) {
-                            // on nativescript
-                            jsonData = JSON.parse(jsonData);
-                        }
-                        */
                         if (resultJSON.returnCode === 'OK') {
                             // update record went OK
                             me.clearRecordDirtyFlag(); // clean up modified fields
@@ -425,9 +401,8 @@ export class FourDModel {
                         } else reject(resultJSON.returnCode);
                     },
                     error => {
-                        //this.log.debug('error:' + error.text());
-                        console.log('error:' + error.text());
-                        reject(error.text());
+                        console.log('error:' + JSON.stringify(error));
+                        reject(error);
                     });
             });
 
@@ -458,22 +433,14 @@ export class FourDModel {
                 let me = this;
                 this.fourD.call4DRESTMethod('REST_PostData', body)
                     .subscribe(resultJSON => {
-                        //let jsonData = response.json();
-                        /*
-                        if (Config.IS_MOBILE_NATIVE()) {
-                            // on nativescript
-                            jsonData = JSON.parse(jsonData);
-                        }
-                        */
                         if (resultJSON.returnCode === 'OK') {
                             // delete record went OK
                             resolve(<any>me);
                         } else reject(resultJSON.returnCode);
                     },
                     error => {
-                        //this.log.debug('error:' + error.text());
-                        console.log('error:' + error.text());
-                        reject(error.text());
+                        console.log('error:' + JSON.stringify(error));
+                        reject(error);
                     });
             });
 

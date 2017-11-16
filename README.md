@@ -1,6 +1,13 @@
 # JS44D Library
 Pascal's [4D RESTApi](https://github.com/fourctv/FourDRESTApi) companion [Angular Typescript](http://angular.io) library.
 
+[![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
+[![Build Status](https://travis-ci.org/fourctv/JS44D.svg?branch=master)](https://travis-ci.org/fourctv/JS44D)
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+[![Dependency Status](https://david-dm.org/fourctv/JS44D.svg)](https://david-dm.org/fourctv/JS44D)
+[![devDependency Status](https://david-dm.org/fourctv/JS44D/dev-status.svg)](https://david-dm.org/fourctv/JS44D#info=devDependencies)
+
+
 This library includes a series of Angular services, components and widgets, that interface to a 4D Database backend via **[4D RESTApi](https://github.com/fourctv/FourDRESTApi)** component. The Component must be installed in the 4D Database, and Web Serving must be enabled.
 
 Detailed documentation for each service/component in this library can be found on the [wiki here](https://github.com/fourctv/JS44D/wiki). Following is a quick run down of the library contents.

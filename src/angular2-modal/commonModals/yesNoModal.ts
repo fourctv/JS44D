@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 
-import {ICustomModal} from '../models/ICustomModal';
-import {ICustomModalComponent} from '../models/ICustomModalComponent';
-import {ModalDialogInstance} from '../models/ModalDialogInstance';
+import { ICustomModal } from '../models/ICustomModal';
+import { ICustomModalComponent } from '../models/ICustomModalComponent';
+import { ModalDialogInstance } from '../models/ModalDialogInstance';
 
 /**
  * Data definition
@@ -15,7 +15,7 @@ export class YesNoModalContent {
         public hideNo: boolean = false,
         public yesText: string = 'YES',
         public noText: string = 'NO'
-    ) {}
+    ) { }
 }
 
 /**
@@ -24,7 +24,7 @@ export class YesNoModalContent {
 @Component({
     selector: 'modal-content',
     /* tslint:disable */ template:
-    `<div class="modal-header">
+        `<div class="modal-header">
         <h3 class="modal-title">{{context.title}}</h3>
         </div>
         <div class="modal-body">{{context.body}}</div>

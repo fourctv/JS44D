@@ -3,7 +3,9 @@
     "compilerOptions": {
         "baseUrl": ".",
         "sourceMap": true,
-        "declaration": false,
+        "module": "commonjs",
+        "declaration": true,
+        "outDir": "./dist",
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
@@ -21,6 +23,7 @@
     ],
     "exclude": [
         "node_modules",
+        "dist",
         "**/*.spec.ts"
     ]
 }

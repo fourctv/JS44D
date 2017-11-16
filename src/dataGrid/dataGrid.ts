@@ -1,7 +1,7 @@
-//****************************
+// ****************************
 // Datagrid Directive 
 //    based on kendoui-grid: http://demos.telerik.com/kendo-ui/grid/index
-//****************************
+// ****************************
 
 import { Component, Injectable, EventEmitter, ViewChild, AfterViewInit, Input } from '@angular/core';
 
@@ -26,37 +26,37 @@ export class DataGrid implements AfterViewInit {
      * Grid columns definition, follows kendo-ui format
      */
     @Input() public columns: any[] = [];
-    
+
     /**
      * defines how grid selection should work (defaults to single, row)
      */
-    @Input() public selectionMode: string = 'single,row';
-    
+    @Input() public selectionMode = 'single,row';
+
     /**
      * flag to indicate if grid is editable, individual columns can have their own setting (defaults to false)
      */
-    @Input() public editable: string = 'false';
-    
+    @Input() public editable = 'false';
+
     /**
      * flag to indicate if grid is filterable, individual columns can have their own setting (defaults to true)
      */
-    @Input() public filterable: boolean = true;
-    
+    @Input() public filterable = true;
+
     /**
      * flag to indicate if grid is sortable, individual columns can have their own setting (defaults to true)
      */
-    @Input() public sortable = {mode: "multiple", allowUnsort: true, showIndexes: true};
-       
+    @Input() public sortable = { mode: 'multiple', allowUnsort: true, showIndexes: true };
+
     /**
      * flag to indicate if the column menu should be active for all columns on the grid (defaults to true)
      */
-    @Input() public columnMenu: boolean = true;
- 
+    @Input() public columnMenu = true;
+
     /**
      * Grid height
      */
-    @Input() public height: string = '100%';
-    
+    @Input() public height = '100%';
+
     /**
      * Filename to use when exporting to Excel
      */
@@ -68,47 +68,47 @@ export class DataGrid implements AfterViewInit {
     /**
      * enable refresh button on the paging bar (default true)
      */
-    @Input() public pageableRefresh:boolean = true;
-    
+    @Input() public pageableRefresh = true;
+
     /**
      * to display page sizes drop down on the paging toolbar (default true)
      */
-    @Input() public pageableSizes:boolean = true;
-    
+    @Input() public pageableSizes = true;
+
     /**
      * defines max number of buttons to display on the paging toolbar (default 5) 
      */
-    @Input() public pageableButtonCount:number = 5;
-    
+    @Input() public pageableButtonCount = 5;
+
     /**
      * defines message pattern to display on the paging toolbar
      */
-    @Input() public pageableMessage:string = '{0} - {1} of {2} items';
+    @Input() public pageableMessage = '{0} - {1} of {2} items';
 
     /**    
     * the associated data model for the records to be retrieved
     */
-    @Input() set model(v: FourDModel) { this._model = v; if (this.dataProvider) this.dataProvider.model = <any>v; }
+    @Input() set model(v: FourDModel) { this._model = v; if (this.dataProvider) { this.dataProvider.model = <any>v; } }
     get model(): FourDModel { return this._model; }
 
     /**
      * option to use lazyloading, leaving paging to be done on server side (defaults to true)
      */
-    @Input() public useLazyLoading: boolean = true; // defaults to true
-    
-    		
+    @Input() public useLazyLoading = true; // defaults to true
+
+
     /**
      * if using a FourDModel, this flag will optimize the loading of data, by bringing only the columns used on the grid
      * thus avoiding bringing data that is not used on the grid
      * only meaningful if using a dataClass
      */
-    @Input() public optimizeGridLoading: boolean = false;
+    @Input() public optimizeGridLoading = false;
 
     /**
      * if using lazyloading, define the max # of records to retrieve from 4D
      */
-    @Input() public pageSize: number = 50;
-    
+    @Input() public pageSize = 50;
+
     //
     // events emitted by the DataGrid
     //
@@ -129,21 +129,21 @@ export class DataGrid implements AfterViewInit {
     // this is the kendoui grid object
     //
     public gridObject: kendo.ui.Grid;
-    
+
     //
     // define the dataSource used to populate/handle the grid's interface to 4D
     //
     private dataSource = new kendo.data.DataSource({
         transport: {
             read: (options: kendo.data.DataSourceTransportOptions) => {
-                //console.log(options);
-                let modelDef = <any>(this.model);
-                let newModel: FourDModel = <any>(new modelDef());
+                // console.log(options);
+                const modelDef = <any>(this.model);
+                const newModel: FourDModel = <any>(new modelDef());
 
-                let start = (options.data.pageSize && options.data.pageSize > 0 && this.useLazyLoading) ? options.data.skip : 0;
-                let numrecs = (options.data.pageSize && options.data.pageSize > 0 && this.useLazyLoading) ? options.data.pageSize : -1;
+                const start = (options.data.pageSize && options.data.pageSize > 0 && this.useLazyLoading) ? options.data.skip : 0;
+                const numrecs = (options.data.pageSize && options.data.pageSize > 0 && this.useLazyLoading) ? options.data.pageSize : -1;
                 // now build filter if set
-                let filter = [];
+                const filter = [];
                 if (options.data.filter) {
 
                     options.data.filter.filters.forEach((item: kendo.data.DataSourceFilterItem) => {
@@ -186,19 +186,19 @@ export class DataGrid implements AfterViewInit {
                     });
                 }
 
-                let query:FourDQuery = this.dataProvider.queryString;
+                let query: FourDQuery = this.dataProvider.queryString;
 
-                if (filter.length >0) {
+                if (filter.length > 0) {
                     if (this.dataProvider.queryString) {
-                        query = {intersection:[query, {query:filter}]};
+                        query = { intersection: [query, { query: filter }] };
                     } else {
-                        query = {query:filter};
+                        query = { query: filter };
                     }
                 }
-                let me = this;
+                // let me = this;
                 this.dataProvider.getRecords(query, (this.optimizeGridLoading) ? this.columns : null, start, numrecs, this.dataProvider.filterOptions, orderby)
                     .then((reclist) => {
-                        options.success(me.dataProvider.models);
+                        options.success(this.dataProvider.models);
                     });
 
             },
@@ -215,13 +215,13 @@ export class DataGrid implements AfterViewInit {
                 console.log('map', options);
                 if (operation !== 'read' && options.models) {
                     return { models: kendo.stringify(options.models) };
-                } else return options;
+                } else { return options; }
             }
         },
         schema: {
 
             total: (response) => {
-                //console.log('total');
+                // console.log('total');
                 return this.dataProvider.totalRecordCount;
             }
         },
@@ -238,9 +238,9 @@ export class DataGrid implements AfterViewInit {
     //
     // Declare data provider properties
     //
-    set queryString(v: FourDQuery) { if (this.dataProvider) this.dataProvider.queryString = v; }
-    set orderBy(v: string) { if (this.dataProvider) this.dataProvider.orderBy = v; }
-    set filterQuery(v: string) { if (this.dataProvider) this.dataProvider.filterOptions = v; }
+    set queryString(v: FourDQuery) { if (this.dataProvider) { this.dataProvider.queryString = v; } }
+    set orderBy(v: string) { if (this.dataProvider) { this.dataProvider.orderBy = v; } }
+    set filterQuery(v: string) { if (this.dataProvider) { this.dataProvider.filterOptions = v; } }
 
     /**
      * currently selected record on the grid
@@ -253,7 +253,7 @@ export class DataGrid implements AfterViewInit {
                 this.dataProvider.currentRecord.fields = (<any>this.model).prototype.fields;
             }
             return this.dataProvider.currentRecord;
-        } else return null;
+        } else { return null; }
     }
     set currentRecord(v: FourDModel) { this.dataProvider.currentRecord = v; }
 
@@ -284,11 +284,9 @@ export class DataGrid implements AfterViewInit {
             this.filterQuery = filter;
             this.orderBy = orderby;
 
-            let me = this;
             this.dataSource.fetch()
                 .then(() => {
-                    //me.dataSource.data(me.dataProvider.models);
-                    me.loadDataComplete.emit(me.dataProvider.models.length);
+                    this.loadDataComplete.emit(this.dataProvider.models.length);
                 });
         }
     }
@@ -298,20 +296,22 @@ export class DataGrid implements AfterViewInit {
     }
 
     setOptions(options: kendo.ui.GridOptions) {
-        if (this.gridObject) this.gridObject.setOptions(options);
+        if (this.gridObject) { this.gridObject.setOptions(options); }
     }
 
     rowClicked(event) {
-        //console.log('click',event);
+        // console.log('click',event);
         if (this.dataProvider) {
-            let item = this.gridObject.dataItem(this.gridObject.select());
+            const item = this.gridObject.dataItem(this.gridObject.select());
             this.dataProvider.currentRecord = this.findRecordForThisItem(item);
         }
     }
 
     dblClickRow(event) {
-        //console.log('dblclick', event);
-        if (this.dataProvider && this.dataProvider.currentRecord) this.recordSelected.emit(this.dataProvider.currentRecord);
+        // console.log('dblclick', event);
+        if (this.dataProvider && this.dataProvider.currentRecord) {
+            this.recordSelected.emit(this.dataProvider.currentRecord);
+        }
     }
 
 
@@ -326,44 +326,44 @@ export class DataGrid implements AfterViewInit {
     /**
      * return currently selected grid row
      */
-    selectedRow():Object {
+    selectedRow(): Object {
         if (this.gridObject.table) {
             if (this.gridObject.select()) {
                 return this.gridObject.dataItem(this.gridObject.select());
-            } else return null; 
-        } else return null; 
+            } else { return null; }
+        } else { return null; }
     }
 
     /**
      * return currently selected grid row index
      */
-    selectedRowIndex():number {
+    selectedRowIndex(): number {
         if (this.gridObject.table) {
             if (this.gridObject.select()) {
                 let ret = -1;
-                let item = this.gridObject.dataItem(this.gridObject.select());
+                const item = this.gridObject.dataItem(this.gridObject.select());
                 if (this.dataProvider) {
-                    this.dataProvider.models.forEach((element,index) => {
-                        if (element['_recnum'] === item['_recnum']) ret = index;
+                    this.dataProvider.models.forEach((element, index) => {
+                        if (element['_recnum'] === item['_recnum']) { ret = index; }
                     });
                 } else if ((<any>this.gridObject).dataItems().length > 0 && this._model && this._model.primaryKey_ && this._model.primaryKey_ !== '') {
-                        (<any>this.gridObject).dataItems().forEach((element,index) => {
-                        if (element[this._model.primaryKey_] === item[this._model.primaryKey_]) ret = index;
+                    (<any>this.gridObject).dataItems().forEach((element, index) => {
+                        if (element[this._model.primaryKey_] === item[this._model.primaryKey_]) { ret = index; }
                     });
                 }
 
                 return ret;
-            } else return -1;    
-        } else return -1;    
+            } else { return -1; }
+        } else { return -1; }
     }
-    
+
     /**
      * return currently selected rows indices, if multiple selection allowed
      */
-    selectedRows():Array<number> {
-        let rows = this.gridObject.select();
-        let selectedRecords = [];
-        for (var index = 0; index < rows.length; index++) {
+    selectedRows(): Array<number> {
+        const rows = this.gridObject.select();
+        const selectedRecords = [];
+        for (let index = 0; index < rows.length; index++) {
             selectedRecords.push(rows[index]['rowIndex']);
         };
 
@@ -379,21 +379,21 @@ export class DataGrid implements AfterViewInit {
         }
         this.gridObject.saveAsExcel();
     }
-    
+
     /**
      * Find grid item in the data provider
      */
     findRecordForThisItem(item: any): FourDModel {
-        if (!item) return null; // nothing selected...
+        if (!item) { return null; } // nothing selected...
 
         let ret = null;
         if (this.dataProvider) {
             this.dataProvider.models.forEach(element => {
-                if (element['_recnum'] === item['_recnum']) ret = element;
+                if (element['_recnum'] === item['_recnum']) { ret = element; }
             });
         } else if ((<any>this.gridObject).dataItems().length > 0 && this._model && this._model.primaryKey_ && this._model.primaryKey_ !== '') {
             (<any>this.gridObject).dataItems().forEach(element => {
-                if (element[this._model.primaryKey_] === item[this._model.primaryKey_]) ret = element;
+                if (element[this._model.primaryKey_] === item[this._model.primaryKey_]) { ret = element; }
             });
 
         }
@@ -403,12 +403,12 @@ export class DataGrid implements AfterViewInit {
     /**
      * Remove row from grid
      */
-    removeRow(row:number) {
+    removeRow(row: number) {
         if (this.dataProvider && this.dataProvider.models.length > row) {
             // if we have a data provider and a valid row index 
-            this.dataProvider.models.splice(row,1);
+            this.dataProvider.models.splice(row, 1);
         } else if ((<any>this.gridObject).dataItems().length > row) {
-            (<any>this.gridObject).dataItems().splice(row,1);
+            (<any>this.gridObject).dataItems().splice(row, 1);
             this.gridObject.refresh();
         }
     }
@@ -416,7 +416,7 @@ export class DataGrid implements AfterViewInit {
     setColumnConfig(columns) {
         this.gridObject.destroy();
         $(this.theGrid.nativeElement).empty();
-       // $(this.theGrid.nativeElement).remove();
+        // $(this.theGrid.nativeElement).remove();
 
         this.dataProvider.columns = this.columns;
         this.columns = columns;
@@ -426,15 +426,13 @@ export class DataGrid implements AfterViewInit {
     setExternalDataSource(dataSource, columns) {
         this.gridObject.destroy();
         $(this.theGrid.nativeElement).empty();
-       // $(this.theGrid.nativeElement).remove();
 
-        //this.dataProvider.columns = this.columns;
         this.dataSource = dataSource;
         this.columns = columns;
         this.initializeGrid();
     }
 
-    getDataProvider() {return this.dataProvider;}
+    getDataProvider() { return this.dataProvider; }
 
 
     private initializeGrid() {
@@ -449,12 +447,14 @@ export class DataGrid implements AfterViewInit {
             excel: { allPages: true, filterable: true },
             change: ($event) => { this.rowClicked($event); },
             autoBind: false,
-            pageable:{  refresh: this.pageableRefresh, 
-                        pageSize: this.pageSize,
-                        pageSizes: this.pageableSizes,  
-                        buttonCount: this.pageableButtonCount,
-                        messages: {display: this.pageableMessage}},
-            //scrollable: { virtual: this.useLazyLoading },
+            pageable: {
+                refresh: this.pageableRefresh,
+                pageSize: this.pageSize,
+                pageSizes: this.pageableSizes,
+                buttonCount: this.pageableButtonCount,
+                messages: { display: this.pageableMessage }
+            },
+            // scrollable: { virtual: this.useLazyLoading },
             resizable: true,
             selectable: this.selectionMode,
             editable: this.editable,

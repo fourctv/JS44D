@@ -1,7 +1,5 @@
 import { Component, ViewEncapsulation, ViewContainerRef, EventEmitter, AfterContentInit, Input, Output } from '@angular/core';
 
-//import { WindowService } from '../../core/index';
-
 import { LoginCmp } from '../login/login';
 import { Modal } from '../angular2-modal/providers/Modal';
 import { FourDInterface } from '../js44D/JSFourDInterface';
@@ -17,18 +15,18 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
 
 export class WebAppContainer implements AfterContentInit {
 
-    @Input() public userIsLoggedIn: boolean = false;
+    @Input() public userIsLoggedIn = false;
 
     @Output() public userHasLoggedIn: EventEmitter<any> = new EventEmitter();
 
     private urlSearchParms: Object = {};
 
-    constructor(public modal: Modal, private elementRef: ViewContainerRef, private fourD:FourDInterface/*, private win:WindowService*/) {
-        let win = window;
+    constructor(public modal: Modal, private elementRef: ViewContainerRef, private fourD: FourDInterface/*, private win:WindowService*/) {
+        const win = window;
         if (win && win.location && win.location.search) {
-            let url = win.location.search.substr(1); // get incoming url and parse search params
+            const url = win.location.search.substr(1); // get incoming url and parse search params
             url.split('&').forEach(element => {
-                let item = element.split('=');
+                const item = element.split('=');
                 if (item.length === 2) {
                     this.urlSearchParms[item[0]] = item[1];
                 } else {
@@ -52,7 +50,7 @@ export class WebAppContainer implements AfterContentInit {
         if (!FourDInterface.authentication) {
             if (this.urlSearchParms.hasOwnProperty('key')) {
                 try {
-                    let key = JSON.parse(atob(this.urlSearchParms['key']));
+                    const key = JSON.parse(atob(this.urlSearchParms['key']));
                     this.fourD.signIn(key.username, key.password)
                         .then((authentication) => {
                             if (FourDInterface.authentication) {
@@ -69,7 +67,6 @@ export class WebAppContainer implements AfterContentInit {
                 this.showLoginDialog();
             }
         } else {
-            //setTimeout(_ => { this.userIsLoggedIn = true; }); // BUGFIX: https://github.com/angular/angular/issues/6005#issuecomment-165911194
             this.userIsLoggedIn = true;
             this.userHasLoggedIn.emit(FourDInterface.currentUser);
         }

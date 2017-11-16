@@ -5,6 +5,12 @@ This library includes a series of Angular services, components and widgets, that
 
 Detailed documentation for each service/component in this library can be found on the [wiki here](https://github.com/fourctv/JS44D/wiki). Following is a quick run down of the library contents.
 
+## Installation
+Install `js44d` library from `npm`, as:
+```
+npm install js44d --save
+```
+ 
 ## Services
 The library provides services for accessing a 4D Database backend that has the **4D RESTApi** Component installed.
 

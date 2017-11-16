@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 let _defaultConfig: ModalConfig;
 
 
@@ -38,40 +38,38 @@ export class ModalConfig {
      */
     keyboard: Array<number> | number;
 
-    width:number = null;
-    minWidth:number = 50;
-    
-    height:number = null;
-    minHeight:number = 50;
-    
-    position = {top:100, left:100};
-    
-    selfCentered:boolean = true;
-    
-    isModal:boolean = true;
-    
-    isDraggable:boolean = true;
-    
-    isResizable:boolean = true;
-    
-    title:string = '';
-    
-    actions:Array<string> = ['Close'];
+    width: number = null;
+    minWidth = 50;
 
-   /**
-     * Makes a ModalConfig instance valid.
-     * @param config
-     * @param defaultConfig A Default config to use as master, optional.
-     * @returns {ModalConfig} The same config instance sent.
-     */
+    height: number = null;
+    minHeight = 50;
+
+    position = { top: 100, left: 100 };
+
+    selfCentered = true;
+
+    isModal = true;
+
+    isDraggable = true;
+
+    isResizable = true;
+
+    title = '';
+
+    actions: Array<string> = ['Close'];
+
+    /**
+      * Makes a ModalConfig instance valid.
+      * @param config
+      * @param defaultConfig A Default config to use as master, optional.
+      * @returns {ModalConfig} The same config instance sent.
+      */
     static makeValid(config: ModalConfig, defaultConfig?: ModalConfig) {
         defaultConfig = (defaultConfig) ? defaultConfig : _defaultConfig;
 
-        if (!config.size)
-            config.size = defaultConfig.size;
+        if (!config.size) { config.size = defaultConfig.size; }
 
-        if (config.isBlocking !== false)
-            config.isBlocking = true;
+        if (config.isBlocking !== false) { config.isBlocking = true; }
 
         if (config.keyboard !== null) {
             if (Array.isArray(<Array<number>>config.keyboard)) {
@@ -93,7 +91,7 @@ export class ModalConfig {
         this.keyboard = [27];
     }
 
- 
+
 }
 
 _defaultConfig = new ModalConfig();

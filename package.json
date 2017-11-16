@@ -1,7 +1,7 @@
 {
   "name": "js44d",
-  "version": "1.0.0",
-  "description": "4D RESP Api Companion Angular library ",
+  "version": "1.0.12",
+  "description": "4D REST Api Companion Angular library ",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fourctv/JS44D.git"
@@ -11,31 +11,45 @@
   "bugs": {
     "url": "https://github.com/fourctv/JS44D/issues"
   },
+  "scripts": {
+    "build": "tsc",
+    "lint": "ng lint",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "homepage": "https://github.com/fourctv/JS44D#readme",
   "dependencies": {
-    "@angular/animations": "^4.4.6",
-    "@angular/common": "^4.4.6",
-    "@angular/compiler": "^4.4.6",
-    "@angular/core": "^4.4.6",
-    "@angular/forms": "^4.4.6",
-    "@angular/http": "^4.4.6",
-    "@angular/platform-browser": "^4.4.6",
-    "@angular/platform-browser-dynamic": "^4.4.6",
-    "@angular/router": "^4.4.6",
+    "@angular/common": "^5.0.1",
+    "@angular/compiler": "^5.0.1",
+    "@angular/core": "^5.0.1",
+    "@angular/forms": "^5.0.1",
+    "@angular/platform-browser": "^5.0.1",
     "base-64": "^0.1.0",
     "ngx-bootstrap": "^1.9.3",
-    "rxjs": "^5.5.1",
+    "rxjs": "^5.5.2",
     "utf8": "^2.1.2",
     "zone.js": "^0.8.18"
   },
   "devDependencies": {
-    "@angular/cli": "^1.4.9",
-    "@angular/compiler-cli": "^4.4.6",
-    "@types/jquery": "^2.0.48",
+    "@angular/cli": "^1.5.0",
+    "@angular/compiler-cli": "^5.0.1",
+    "@types/jasmine": "2.6.3",
+    "@types/jquery": "^3.2.16",
     "@types/kendo-ui": "^2017.3.1",
-    "@types/node": "^6.0.90",
+    "@types/node": "^8.0.51",
+    "codelyzer": "~4.0.1",
+    "jasmine-core": "~2.8.0",
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "~1.7.1",
+    "karma-chrome-launcher": "~2.2.0",
+    "karma-cli": "~1.0.1",
+    "karma-coverage-istanbul-reporter": "^1.3.0",
+    "karma-jasmine": "~1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "protractor": "~5.2.0",
     "ts-node": "^3.3.0",
-    "tslint": "~4.5.0",
-    "typescript": "^2.5.3"
+    "tslint": "~5.8.0",
+    "typescript": "^2.6.1"
   }
 }

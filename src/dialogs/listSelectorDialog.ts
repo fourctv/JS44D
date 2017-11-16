@@ -23,47 +23,49 @@ import { ModalConfig } from '../angular2-modal/models/ModalConfig';
 })
 
 export class ListSelectorDialog implements ICustomModalComponent {
-    public static dialogConfig: ModalConfig = <ModalConfig>{size: 'sm', 
-            selfCentered:true,
-            isResizable: true,
-            isModal: true,
-            isBlocking: true,
-            title:'Select...',
-            width:400, height:350};
+    public static dialogConfig: ModalConfig = <ModalConfig>{
+        size: 'sm',
+        selfCentered: true,
+        isResizable: true,
+        isModal: true,
+        isBlocking: true,
+        title: 'Select...',
+        width: 400, height: 350
+    };
 
-    @Input() public itemsList:string[] = [];
-    @Input() public tipsList:string[] = [];
-    @Input() public buttonText:string = 'Select';
-    @Input() public message:string = '';
+    @Input() public itemsList: string[] = [];
+    @Input() public tipsList: string[] = [];
+    @Input() public buttonText = 'Select';
+    @Input() public message = '';
 
-    public set height(v) {this.config.height = v};
-    public set width(v) {this.config.width = v};
-    public set title(v) {this.config.title = v};
+    public set height(v) { this.config.height = v };
+    public set width(v) { this.config.width = v };
+    public set title(v) { this.config.title = v };
 
 
     public set modelContentData(v) {
         this.itemsList = v.list;
         this.tipsList = v.tips;
-        if (v.buttonLabel) this.buttonText = v.buttonLabel;
-        if (v.message) this.message = v.message;
+        if (v.buttonLabel) { this.buttonText = v.buttonLabel; }
+        if (v.message) { this.message = v.message; }
     }
 
-    private config :ModalConfig;
+    private config: ModalConfig;
 
     private selectedIndex = -1;
 
 
-    constructor(public dialog: ModalDialogInstance, private modal:Modal) {
+    constructor(public dialog: ModalDialogInstance, private modal: Modal) {
         this.config = ListSelectorDialog.dialogConfig;
     }
 
     /**
      * Show Me - show the list selector dialog and return a Promise
      */
-    public show(list:string[], tips?:string[], message?:string, buttonLabel?:string):Promise<number> {
-        if (!tips) tips = list;
+    public show(list: string[], tips?: string[], message?: string, buttonLabel?: string): Promise<number> {
+        if (!tips) { tips = list; }
 
-        return <any>this.modal.open(ListSelectorDialog, {list:list, tips:tips, message:message, buttonLabel:buttonLabel}, this.config);
+        return <any>this.modal.open(ListSelectorDialog, { list: list, tips: tips, message: message, buttonLabel: buttonLabel }, this.config);
     }
 
     changeSelection(ev) {

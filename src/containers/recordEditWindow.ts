@@ -18,20 +18,20 @@ export class RecordEditWindow implements ICustomModalComponent {
     public dialog: ModalDialogInstance;
 
 
-    public set modelContentData(v:ICustomModal) {
+    public set modelContentData(v: ICustomModal) {
         this.currentRecord = <FourDModel>v;
     }
 
     saveRecord() {
         if (this.currentRecord.isRecordLoaded()) {
             this.currentRecord.updateRecord()
-            .then(()=> {this.dialog.close('recordSaved');})
-            .catch((reason) => {  alert(reason); });
+                .then(() => { this.dialog.close('recordSaved'); })
+                .catch((reason) => { alert(reason); });
         } else {
-              this.currentRecord.insertRecord()
-            .then((recnum)=> {this.dialog.close('recordSaved');})
-            .catch((reason) => {  alert(reason); });
-      };
+            this.currentRecord.insertRecord()
+                .then((recnum) => { this.dialog.close('recordSaved'); })
+                .catch((reason) => { alert(reason); });
+        };
     }
 
 }

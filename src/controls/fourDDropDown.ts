@@ -1,11 +1,11 @@
-import {Component, Input, Injectable, AfterViewInit} from '@angular/core';
+import { Component, Input, Injectable, AfterViewInit } from '@angular/core';
 
 
 import { FourDInterface } from '../js44D/JSFourDInterface';
 
 @Component({
     selector: 'fourd-dropdown',
-    styles : [`.fourDDropdown {
+    styles: [`.fourDDropdown {
                 margin: inherit;
                 width: inherit;
                 padding: inherit;
@@ -13,7 +13,7 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
                 border: 1px solid #ccc;
                 height: inherit;
                 }
-            `], 
+            `],
     template: `
         <select  #selector class='fourDDropdown' (change)='selectedValue = $event.target.value' [(value)]='selectedValue'>
             <option *ngFor='let item of listOptions' value='{{item}}' [selected]='isItemSelected(item)'>{{item}}</option>
@@ -27,11 +27,12 @@ export class FourDDropDown implements AfterViewInit {
     @Input() public selectedValue: string;
     public listOptions: Array<string> = [];
 
-    constructor (private fourD:FourDInterface) {}
+    constructor(private fourD: FourDInterface) { }
 
     ngAfterViewInit() {
-        if (FourDInterface.authentication !== undefined && FourDInterface.authentication !== null) this.loadListFrom4D()
-        else {
+        if (FourDInterface.authentication !== undefined && FourDInterface.authentication !== null) {
+            this.loadListFrom4D();
+        } else {
             FourDInterface.userHasSignedIn.subscribe(user => {
                 this.loadListFrom4D();
             })
@@ -50,7 +51,7 @@ export class FourDDropDown implements AfterViewInit {
                 })
                 .catch((reason) => { console.log('error', reason); });
         }
-        
+
     }
 
 }

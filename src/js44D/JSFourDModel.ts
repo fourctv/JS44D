@@ -2,13 +2,11 @@ import { Injectable, ReflectiveInjector } from '@angular/core';
 import * as base64 from 'base-64';
 import * as utf8 from 'utf8/utf8';
 
-//import { LogService } from '../../core/services/logging/log.service';
-//import { Config } from '../../core/utils/config';
 
 import { FourDInterface, FourDQuery } from './JSFourDInterface';
 import { FourDCollection } from './JSFourDCollection';
 
-interface IFieldDescription {
+export interface IFieldDescription {
     name: string;
     longname: string;
     type: string;
@@ -29,13 +27,13 @@ interface IFieldDescription {
 @Injectable()
 export class FourDModel {
     /** 4D's Table name */
-    public tableName: string = '';
+    public tableName = '';
     /** 4D's table number*/
-    public tableNumber: number = 0;
+    public tableNumber = 0;
     /** Tabl's primary key field name */
     public primaryKey_: string;
 
-    public idAttribute: string = '_recnum';
+    public idAttribute = '_recnum';
 
     public fields: Array<IFieldDescription> = [];
 
@@ -45,11 +43,11 @@ export class FourDModel {
     public fourdSaveCallbackMethod_: string;
     public fourdDeleteCallbackMethod_: string;
 
-    //-----------------------
+    // -----------------------
     // Private variables
-    //-----------------------
+    // -----------------------
     // current record number
-    private _recnum: number = -3;
+    private _recnum = -3;
     // keeps all attributes for the current model
     private _attributes: Object = {};
     // keep a list of modified fields, to optimize Updates, only modified data is set to 4D
@@ -58,17 +56,14 @@ export class FourDModel {
     // injected FourDInterface service
     private fourD: FourDInterface;
 
-    // the generic log service
-    //private log: LogService;
 
     /** 
      * constructor: initialize model properties
     */
     constructor() {
         // inject FourDInterface
-        let injector = ReflectiveInjector.resolveAndCreate([FourDInterface]);
+        const injector = ReflectiveInjector.resolveAndCreate([FourDInterface]);
         this.fourD = injector.get(FourDInterface);
-        //this.log = FourDInterface.log;
     }
 
 
@@ -84,8 +79,8 @@ export class FourDModel {
      */
     set(field: string, value: any) {
         if (this.getFieldDescription(field).type === 'Date') {
-            if (typeof(value) === 'string' && value != '') {
-                value = new Date(value.replace(/-/g,'\/'));
+            if (typeof (value) === 'string' && value !== '') {
+                value = new Date(value.replace(/-/g, '\/'));
             }
         }
         if (this._attributes.hasOwnProperty(field)) {
@@ -109,8 +104,8 @@ export class FourDModel {
      */
     getFieldProperties(fieldName): IFieldDescription {
         let ret: IFieldDescription = null;
-        for (let col of this.fields) {
-            if (col.name === fieldName) ret = col;
+        for (const col of this.fields) {
+            if (col.name === fieldName) { ret = col; }
         };
         return ret;
     }
@@ -120,7 +115,7 @@ export class FourDModel {
      * clear up all record fields
      */
     clearRecord() {
-        for (let field of this.fields) {
+        for (const field of this.fields) {
             switch (field.type) {
                 case 'date':
                     this[field.name] = '';
@@ -165,39 +160,41 @@ export class FourDModel {
      * @return record as JSON string
      *
      */
-    recordToJSON(mode: string, noAudit: boolean):string {
-        let recordData: Object = {table:this.tableName, recnum:this.recordNumber};
+    recordToJSON(mode: string, noAudit: boolean): string {
+        const recordData: Object = { table: this.tableName, recnum: this.recordNumber };
         // set callback methods
-        if (this.fourdSaveCallbackMethod_) recordData['saveCallback']= this.fourdSaveCallbackMethod_ ; // set save callback method if set
+        if (this.fourdSaveCallbackMethod_) {
+            recordData['saveCallback'] = this.fourdSaveCallbackMethod_; // set save callback method if set
+        }
 
-        if (noAudit) recordData['noAudit']=true;				// disable audit log for this record
+        if (noAudit) { recordData['noAudit'] = true; }    // disable audit log for this record
 
         if ((mode === 'update') && this.hasOwnProperty('TimeStamp')) {
-            recordData['timeStamp']=this['TimeStamp'];
+            recordData['timeStamp'] = this['TimeStamp'];
         } // if updating, add current record's timestamp attribute
 
         recordData['fields'] = {}; // initialize fields propriety
-        for (let field of this.fields) {
-            var fieldName: string = field.name;
+        for (const field of this.fields) {
+            const fieldName: string = field.name;
             if (!this.isCalculatedField(field) &&
                 !this.isSubtable(field) &&
                 !this.isRelatedField(field) &&
                 (!this.isReadOnly(field) || (mode === 'insert')) &&			// May/15/09 send all non-read only fields, empty or not
                 (this.isModifiedField(fieldName) || (mode === 'insert'))) { 	// Nov 18/09 send ONLY fields that have indeed been modified
-                var value = '';
+                let value = '';
                 if ((this[fieldName] !== null) || (field.type !== 'boolean')) {
                     // send back only fields that do have some value and that belong to the table
                     // ignore calculated or related fields
                     switch (field.type) {
                         case 'Date':
                         case 'date':
-                            let dateValue: Date = this[fieldName];
+                            const dateValue: Date = this[fieldName];
                             value = dateValue.getFullYear().toString();
-                            if (dateValue.getMonth()<9) value +='0';
-                            value+= (dateValue.getMonth()+1).toString();
-                            if (dateValue.getDate()<10) value +='0';
-                            value+= dateValue.getDate().toString();
-                            recordData['fields'][field.longname]=value;
+                            if (dateValue.getMonth() < 9) { value += '0'; }
+                            value += (dateValue.getMonth() + 1).toString();
+                            if (dateValue.getDate() < 10) { value += '0'; }
+                            value += dateValue.getDate().toString();
+                            recordData['fields'][field.longname] = value;
                             break;
 
                         case 'time':
@@ -214,7 +211,8 @@ export class FourDModel {
 
                         case 'string':
                         case 'text':
-                            recordData['fields'][field.longname] = this[fieldName].trim(); // if text, wrap data inside a cdata, triming extra whitespace
+                            // if text, wrap data inside a cdata, triming extra whitespace
+                            recordData['fields'][field.longname] = this[fieldName].trim();
                             break;
 
                         case 'json':
@@ -233,51 +231,50 @@ export class FourDModel {
                             break;
 
                         default:
-                            recordData['fields'][field.longname]=this[fieldName];
+                            recordData['fields'][field.longname] = this[fieldName];
                             break;
                     }
                 }
- 
-                
+
+
             }
         };
 
-        //this.log.debug(recordData);
         return JSON.stringify(recordData);
-        
+
     }
 
 
     /**
      * Retrieve a record from 4D and populate its instance variables.
-     *  
+     *
      * @param recordNumber the record # to retrieve (optional, it defaults to the currentRecordNumber property)
      * @param recordID primary key value for the record to retrieve (optional, it defaults to the currentRecordNumber property)
      *    if specified the record is retrieved by querying on its primary key field
      * @param query query string for the record to retrieve (optional, it defaults to the currentRecordNumber property)
      * 
      * @return returns a Promise for the database operation
-     * 
-     * 
+     *
+     *
      */
     public getRecord(recordNumber: number = null, recordID: string = null, query: FourDQuery = null): Promise<FourDModel> {
         if (recordNumber || this.recordNumber >= 0) {
-            if (recordNumber) this.recordNumber = recordNumber;
+            if (recordNumber) { this.recordNumber = recordNumber; }
 
             // build request body with record number to retrieve
-            let body: any = { Username: FourDInterface.currentUser };
+            const body: any = { Username: FourDInterface.currentUser };
             body.TableName = this.tableName;
             body.RecordNum = this.recordNumber;
             body.VariablesList = base64.encode(utf8.encode(this.getColumnListJSON()));
 
             return new Promise((resolve, reject) => {
-                let me = this;
+                // const me = this;
                 this.fourD.call4DRESTMethod('REST_LoadData', body)
                     .subscribe(resultJSON => {
-                        me.clearRecord();
-                        me.populateModelData(resultJSON);
-                        me.clearRecordDirtyFlag();
-                        resolve(me);
+                        this.clearRecord();
+                        this.populateModelData(resultJSON);
+                        this.clearRecordDirtyFlag();
+                        resolve(this);
                     },
                     error => {
                         console.log('error:' + JSON.stringify(error));
@@ -291,7 +288,7 @@ export class FourDModel {
                 alert('No Primary Key specified for ' + this.tableName);
             } else {
                 // getting a record based on its primary key
-                query = {query:[this.tableName + '.' + this.primaryKey_ + ';=;' + recordID]}; // build query on record id
+                query = { query: [this.tableName + '.' + this.primaryKey_ + ';=;' + recordID] }; // build query on record id
             }
 
         } else if (!query) { // get record based on a query string
@@ -301,10 +298,10 @@ export class FourDModel {
 
         }
 
-        let theModel: any = this.constructor.valueOf();
-        let records: FourDCollection = new FourDCollection();
+        const theModel: any = this.constructor.valueOf();
+        const records: FourDCollection = new FourDCollection();
         records.model = theModel;
-        let me = this;
+        const me = this;
 
         // first we send to query to 4D to get all records that match the query criteria
         // then if at lest 1 record is returned by 4D, we use it's record number to refresh to complete record contents
@@ -314,7 +311,7 @@ export class FourDModel {
                     if (records.models.length > 0) {
                         me.recordNumber = records.models[0].recordNumber; // set the record number and refresh it
                         me.refresh().then((rec) => { rec.clearRecordDirtyFlag(); resolve(me); }).catch((error) => { reject(error); });
-                    } else reject('recordNotFound');
+                    } else { reject('recordNotFound'); }
                 })
                 .catch((error) => { reject(error); });
         });
@@ -324,47 +321,49 @@ export class FourDModel {
 
     /**
      * Refresh current record, grab a fresh copy from 4D
-     * 
+     *
      * @return returns a Promise for the database operation
-     * 
+     *
      */
     public refresh(): Promise<FourDModel> {
         if (this.recordNumber >= 0) {
             return this.getRecord(this.recordNumber);
-        } else return new Promise((resolve, reject) => {
-            reject('No current record number set!');
-        });
+        } else {
+            return new Promise((resolve, reject) => {
+                reject('No current record number set!');
+            });
+        }
 
     }
 
 
     /**
      * insert a new record in the database.
-     *  
-         * @return returns a Promise for the database operation
-     * 
+     *
+     * @return returns a Promise for the database operation
+     *
      * <p><i>the primary key property is set after the record is inserted</i></p>
-     * 
+     *
      */
     public insertRecord(): Promise<string> {
-        let body: any = { Username: FourDInterface.currentUser };
+        const body: any = { Username: FourDInterface.currentUser };
         body.TableName = this.tableName;
         body.RecordNum = this.recordNumber;
-        if (this.fourdSaveCallbackMethod_) body.CallBackMethod = this.fourdSaveCallbackMethod_;
+        if (this.fourdSaveCallbackMethod_) { body.CallBackMethod = this.fourdSaveCallbackMethod_; }
         body.Action = 'add';
         body.RecordData = base64.encode(utf8.encode(this.recordToJSON('add', false)));
 
         return new Promise((resolve, reject) => {
-            let me = this;
+            const me = this;
             this.fourD.call4DRESTMethod('REST_PostData', body)
                 .subscribe(resultJSON => {
                     if (resultJSON.returnCode === 'OK') {
                         // insert record went OK, retrieve calculated return code & record ID
                         me.recordNumber = resultJSON['_recnum'];
-                        if (me.primaryKey_ && me.primaryKey_ !== '') me[me.primaryKey_] = resultJSON['recordID'];
+                        if (me.primaryKey_ && me.primaryKey_ !== '') { me[me.primaryKey_] = resultJSON['recordID']; }
                         me.clearRecordDirtyFlag(); // clean up modified fields
                         resolve(<any>me);
-                    } else reject(resultJSON.returnCode);
+                    } else { reject(resultJSON.returnCode); }
                 },
                 error => {
                     console.log('error:' + JSON.stringify(error));
@@ -376,29 +375,29 @@ export class FourDModel {
     }
 
     /**
- * update record in the database.
- *  
- * @return returns a Promise for the database operation
- * 
- */
+     * update record in the database.
+     *
+     * @return returns a Promise for the database operation
+     *
+     */
     public updateRecord(): Promise<string> {
         if (this.recordNumber >= 0) {
-            let body: any = { Username: FourDInterface.currentUser };
+            const body: any = { Username: FourDInterface.currentUser };
             body.TableName = this.tableName;
             body.RecordNum = this.recordNumber;
-            if (this.fourdSaveCallbackMethod_) body.CallBackMethod = this.fourdSaveCallbackMethod_;
+            if (this.fourdSaveCallbackMethod_) { body.CallBackMethod = this.fourdSaveCallbackMethod_; }
             body.Action = 'update';
             body.RecordData = base64.encode(utf8.encode(this.recordToJSON('update', false)));
 
             return new Promise((resolve, reject) => {
-                let me = this;
+                const me = this;
                 this.fourD.call4DRESTMethod('REST_PostData', body)
                     .subscribe(resultJSON => {
                         if (resultJSON.returnCode === 'OK') {
                             // update record went OK
                             me.clearRecordDirtyFlag(); // clean up modified fields
                             resolve(<any>me);
-                        } else reject(resultJSON.returnCode);
+                        } else { reject(resultJSON.returnCode); }
                     },
                     error => {
                         console.log('error:' + JSON.stringify(error));
@@ -407,36 +406,38 @@ export class FourDModel {
             });
 
 
-        } else return new Promise((resolve, reject) => {
-            reject('No current record number set!');
-        });
+        } else {
+            return new Promise((resolve, reject) => {
+                reject('No current record number set!');
+            });
+        }
     }
 
     /**
- * delete current record
- *  
- * @param cascade true|false indicates if 4D should perform a cascade delete (optional, default=false).
- * 
- * @return returns a Promise for the database operation
- * 
- */
+     * delete current record
+     *
+     * @param cascade true|false indicates if 4D should perform a cascade delete (optional, default=false)
+     *
+     * @return returns a Promise for the database operation
+     *
+     */
     public deleteRecord(cascade: boolean = false): Promise<string> {
         if (this.recordNumber >= 0) {
-            let body: any = { Username: FourDInterface.currentUser };
+            const body: any = { Username: FourDInterface.currentUser };
             body.TableName = this.tableName;
             body.RecordNum = this.recordNumber;
-            if (this.fourdDeleteCallbackMethod_) body.CallBackMethod = this.fourdDeleteCallbackMethod_;
+            if (this.fourdDeleteCallbackMethod_) { body.CallBackMethod = this.fourdDeleteCallbackMethod_; }
             body.Action = 'delete';
-            if (cascade) body.cascadeDelete = cascade;
+            if (cascade) { body.cascadeDelete = cascade; }
 
             return new Promise((resolve, reject) => {
-                let me = this;
+                const me = this;
                 this.fourD.call4DRESTMethod('REST_PostData', body)
                     .subscribe(resultJSON => {
                         if (resultJSON.returnCode === 'OK') {
                             // delete record went OK
                             resolve(<any>me);
-                        } else reject(resultJSON.returnCode);
+                        } else { reject(resultJSON.returnCode); }
                     },
                     error => {
                         console.log('error:' + JSON.stringify(error));
@@ -446,35 +447,40 @@ export class FourDModel {
 
 
 
-        } else return new Promise((resolve, reject) => {
-            reject('No current record number set, and no query specified!');
-        });
+        } else {
+            return new Promise((resolve, reject) => {
+                reject('No current record number set, and no query specified!');
+            });
+        }
 
     }
 
     /**
      * Populates model from attributes/properties on a json Object
-     * 
+     *
      *  @param recordData json object whoe properties will be used to populate model
      */
     public populateModelData(recordData: Object) {
-        if (recordData.hasOwnProperty('_recnum')) this.recordNumber = recordData['_recnum'];
-        for (var field in recordData) {
+        if (recordData.hasOwnProperty('_recnum')) { this.recordNumber = recordData['_recnum']; }
+        for (const field in recordData) {
             if (field !== '_recnum' && recordData.hasOwnProperty(field)) {
-                if (this.getFieldProperties(field) && this.getFieldProperties(field).type === 'json') this[field] = JSON.parse(recordData[field])
-                else this[field] = recordData[field];
+                if (this.getFieldProperties(field) && this.getFieldProperties(field).type === 'json') {
+                    this[field] = JSON.parse(recordData[field]);
+                } else {
+                    this[field] = recordData[field];
+                }
             }
         }
 
     }
 
     /**
-     * Retrieves a list of records using a query string 
-     * 
+     * Retrieves a list of records using a query string
+     *
      * @param query
      * 	@param columnList custom column list to retrieve, JSON listing the columns to retrieve.
      * <p>if informed, only the columns listed will be retrieved instead of the whole record</p>
-     * 
+     *
      * 	@param startRec the starting record number to retrieve, used for paging.
      * 	@param numOfRecords the number of records to retrieve, the default -1 will retrieve all records in the resulting query.
      *  @param filterOptions
@@ -482,13 +488,17 @@ export class FourDModel {
      * <p> in the format:</p>
      *    &gt;table.field : to sort records by table.field in ascending order
      *    &lt;table.field : to sort records by table.field in descending order
-     * 
-     * 
+     *
+     *
      * @return returns a Promise for the database operation
      */
-    public getRecords(query: FourDQuery = null, columns: Array<string> = null, startRec: number = 0, numOfRecords: number = -1, filter: string = null, orderby: string = null): Promise<FourDCollection> {
-        let theModel: any = this.constructor.valueOf();
-        let records: FourDCollection = new FourDCollection();
+    public getRecords(query: FourDQuery = null,
+        columns: Array<string> = null,
+        startRec: number = 0, numOfRecords: number = -1,
+        filter: string = null,
+        orderby: string = null): Promise<FourDCollection> {
+        const theModel: any = this.constructor.valueOf();
+        const records: FourDCollection = new FourDCollection();
         records.model = theModel;
         return new Promise((resolve, reject) => {
             records.getRecords(query, (columns) ? columns : this.getColumnList(), startRec, numOfRecords, filter, orderby)
@@ -522,10 +532,10 @@ export class FourDModel {
 
 
     /**
-     * clear record modified flag. 
+     * clear record modified flag.
      * This can be used when one changes a record programmatically, but does not want to set the record modified flag.
      * Fon exampe on records initialization
-     * 
+     *
      */
     public clearRecordDirtyFlag() {
         this._modified = {};					// clear modified fields list
@@ -534,13 +544,13 @@ export class FourDModel {
 
     /**
      * test to see if current record has been modified.
-     *  
+     *
      * @return true indicates that some of the record's properties/fields has been modified.
-     * 
+     *
      */
     public recordIsDirty(): boolean {
-        for (let field of this.fields) {
-            if (this._modified.hasOwnProperty(field.name)) return true;
+        for (const field of this.fields) {
+            if (this._modified.hasOwnProperty(field.name)) { return true; }
         }
         return false;
     }
@@ -550,19 +560,25 @@ export class FourDModel {
      * prepares the record's JSON field description to send to 4D
      */
     public getColumnListJSON(): string {
-        let colList: Array<Object> = [];
-        let fields: Array<IFieldDescription> = this.fields;
-        for (let col of fields) {
+        const colList: Array<Object> = [];
+        const fields: Array<IFieldDescription> = this.fields;
+        for (const col of fields) {
             if (col.formula) {
                 colList.push({ name: col.name, formula: col.formula });
             } else if (col.subTable) {
-                let subFields: Array<Object> = [];
-                for (let sub of col.subTable.fields) {
+                const subFields: Array<Object> = [];
+                for (const sub of col.subTable.fields) {
                     subFields.push({ name: sub.name, field: sub.longname });
                 };
-                colList.push({ name: col.name, subTable: col.subTable.tableName, joinFK: col.joinFK, joinPK: col.joinPK, subFields: subFields });
+                colList.push({
+                    name: col.name,
+                    subTable: col.subTable.tableName,
+                    joinFK: col.joinFK,
+                    joinPK: col.joinPK,
+                    subFields: subFields
+                });
 
-            } else colList.push({ name: col.name, field: col.longname });
+            } else { colList.push({ name: col.name, field: col.longname }); }
         }
 
         return JSON.stringify(colList);
@@ -573,13 +589,13 @@ export class FourDModel {
      * returns an array with all fields defined for this data model
      */
     public getColumnList(includeSubTables: boolean = false): Array<any> {
-        let cols: Array<any> = [];
-        let fields: Array<IFieldDescription> = this.fields;
-        for (let col of fields) {
+        const cols: Array<any> = [];
+        const fields: Array<IFieldDescription> = this.fields;
+        for (const col of fields) {
             if (!this.isSubtable(col) || includeSubTables) {
                 if (col.formula) {
                     cols.push(col);
-                } else cols.push(col.name);
+                } else { cols.push(col.name); }
             }
         };
         return cols;
@@ -589,26 +605,26 @@ export class FourDModel {
      * Returns a field's longname, given its field name
      * @param fieldName the field name
      */
-    public getLongname(fieldName:string):string {
-        for (let field of this.fields) {
-            if (field.name === fieldName) return field.longname;
+    public getLongname(fieldName: string): string {
+        for (const field of this.fields) {
+            if (field.name === fieldName) { return field.longname; }
         }
 
         // not found, assume table.field
         return this.tableName + '.' + fieldName;
     }
 
-    //-----------------------
+    // -----------------------
     // Private methods
-    //-----------------------
+    // -----------------------
 
     /**
      * Returns a field's longname, given its field name
      * @param fieldName the field name
      */
-    private getFieldDescription(fieldName:string):IFieldDescription {
-        for (let field of this.fields) {
-            if (field.name === fieldName) return field;
+    private getFieldDescription(fieldName: string): IFieldDescription {
+        for (const field of this.fields) {
+            if (field.name === fieldName) { return field; }
         }
 
         return null;

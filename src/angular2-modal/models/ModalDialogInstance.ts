@@ -3,16 +3,16 @@ import { ComponentRef, Injectable } from '@angular/core';
 
 class Deferred<T> {
 
-  promise: Promise<T>;
-  resolve: (value?: T | PromiseLike<T>) => void;
-  reject:  (reason?: any) => void;
+    promise: Promise<T>;
+    resolve: (value?: T | PromiseLike<T>) => void;
+    reject: (reason?: any) => void;
 
-  constructor() {
-    this.promise = new Promise<T>((resolve, reject) => {
-      this.resolve = resolve;
-      this.reject  = reject;
-    });
-  }
+    constructor() {
+        this.promise = new Promise<T>((resolve, reject) => {
+            this.resolve = resolve;
+            this.reject = reject;
+        });
+    }
 }
 /**
  * API to an open modal window.
@@ -32,7 +32,7 @@ export class ModalDialogInstance {
     private _resultDefered: any;
 
     constructor() {
-        this._resultDefered = new Deferred(); //PromiseWrapper.completer();
+        this._resultDefered = new Deferred(); // PromiseWrapper.completer();
     }
 
     set backdropRef(value: ComponentRef<any>) {
@@ -53,19 +53,19 @@ export class ModalDialogInstance {
     /**
      * set the dialog title
      */
-    setTitle(title:string) {
-        let dialog= $(this.contentRef.location.nativeElement).data('kendoWindow');
+    setTitle(title: string) {
+        const dialog = $(this.contentRef.location.nativeElement).data('kendoWindow');
         dialog.title(title);
     }
-    
+
     /**
      *  Close the modal with a return value, i.e: result.
      */
     close(result: any = null) {
-        if ( this.contentRef.instance.beforeClose &&
-                this.contentRef.instance.beforeClose() === true ) return;
-//        this.dispose();
-        let dialog= $(this.contentRef.location.nativeElement).data('kendoWindow');
+        if (this.contentRef.instance.beforeClose &&
+            this.contentRef.instance.beforeClose() === true) { return; }
+        //        this.dispose();
+        const dialog = $(this.contentRef.location.nativeElement).data('kendoWindow');
         dialog.close();
         this._resultDefered.resolve(result);
     }
@@ -78,16 +78,16 @@ export class ModalDialogInstance {
      *  Usually, dismiss represent a Cancel button or a X button.
      */
     dismiss() {
-        if ( this.contentRef.instance.beforeDismiss &&
-            this.contentRef.instance.beforeDismiss() === true ) return;
+        if (this.contentRef.instance.beforeDismiss &&
+            this.contentRef.instance.beforeDismiss() === true) { return; }
         this.dispose();
         this._resultDefered.reject();
     }
 
     private dispose() {
-        if (this._bootstrapRef) this._bootstrapRef.destroy();
-        if (this._backdropRef) this._backdropRef.destroy();
-        if (this.contentRef) this.contentRef.destroy();
+        if (this._bootstrapRef) { this._bootstrapRef.destroy(); }
+        if (this._backdropRef) { this._backdropRef.destroy(); }
+        if (this.contentRef) { this.contentRef.destroy(); }
     }
 }
 

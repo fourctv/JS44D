@@ -1,4 +1,5 @@
-import {Type,
+import {
+    Type,
     ComponentFactoryResolver,
     ViewContainerRef,
     Injectable,
@@ -6,22 +7,22 @@ import {Type,
 } from '@angular/core';
 
 
-import {ModalConfig} from '../models/ModalConfig';
-import {ModalDialogInstance} from '../models/ModalDialogInstance';
+import { ModalConfig } from '../models/ModalConfig';
+import { ModalDialogInstance } from '../models/ModalDialogInstance';
 
 
 let _config: ModalConfig;
 
 @Injectable()
 export class Modal {
- 
-    public static hostViewRef:ViewContainerRef;
+
+    public static hostViewRef: ViewContainerRef;
     public static openDialogList = [];
 
-    private theDialog:any;
+    private theDialog: any;
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver, private appRef: ViewContainerRef,
-                @Optional() defaultConfig: ModalConfig) {
+        @Optional() defaultConfig: ModalConfig) {
         // The Modal class should be an application wide service (i.e: singleton).
         // This will run once in most applications...
         // If the user provides a ModalConfig instance to the DI,
@@ -39,13 +40,13 @@ export class Modal {
      * @returns {Promise<ModalDialogInstance>}
      */
     public open(componentType: any, parameters?: any,
-                config?: ModalConfig, allowMultiple:boolean=false, dialogID:string=''): Promise<string> {
+        config?: ModalConfig, allowMultiple: boolean = false, dialogID: string = ''): Promise<string> {
         // TODO: appRef.injector.get(APP_COMPONENT) Doesn't work.
         // When it does replace with the hack below.
-        //let viewRef = this.appRef.element.nativeElement.location;
-        //let viewRef: viewRef = this.appRef['_rootComponents'][0].location;
+        // let viewRef = this.appRef.element.nativeElement.location;
+        // let viewRef: viewRef = this.appRef['_rootComponents'][0].location;
 
-        return this.openInside(componentType, (Modal.hostViewRef)?Modal.hostViewRef:this.appRef, parameters, config, allowMultiple, dialogID);
+        return this.openInside(componentType, (Modal.hostViewRef) ? Modal.hostViewRef : this.appRef, parameters, config, allowMultiple, dialogID);
     }
 
     /**
@@ -59,31 +60,30 @@ export class Modal {
      * @returns {Promise<ModalDialogInstance>}
      */
     public openInside(componentType: Type<any>, viewRef: ViewContainerRef,
-                      parameters: any,
-                      config?: ModalConfig,
-                      allowMultiple:boolean=false,
-                      dialogID:string=''): Promise<string> {
-        
+        parameters: any,
+        config?: ModalConfig,
+        allowMultiple: boolean = false,
+        dialogID: string = ''): Promise<string> {
+
         if (!allowMultiple) {
-            for (var index = 0; index < Modal.openDialogList.length; index++) {
-                let item = Modal.openDialogList[index];
-                let id = (dialogID && dialogID !== '')?dialogID:componentType['name'];
+            for (let index = 0; index < Modal.openDialogList.length; index++) {
+                const item = Modal.openDialogList[index];
+                const id = (dialogID && dialogID !== '') ? dialogID : componentType['name'];
                 if (item.component === id) {
                     item.dialog.toFront(); // bring diaog to front
                     return null;
-                }            
+                }
             }
-         }
+        }
 
         config = (config) ? ModalConfig.makeValid(config, _config) : _config;
 
-        let dialogComponentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
-        let dialogComponentRef = viewRef.createComponent(dialogComponentFactory,0);
-        let dialogInstance = dialogComponentRef.instance.dialog = new ModalDialogInstance();
+        const dialogComponentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
+        const dialogComponentRef = viewRef.createComponent(dialogComponentFactory, 0);
+        const dialogInstance = dialogComponentRef.instance.dialog = new ModalDialogInstance();
         dialogComponentRef.instance.modelContentData = parameters;
 
-        let me = this;
-        me.theDialog = $(dialogComponentRef.location.nativeElement).kendoWindow({
+        this.theDialog = $(dialogComponentRef.location.nativeElement).kendoWindow({
             actions: config.actions,
             title: config.title,
             width: config.width,
@@ -95,40 +95,40 @@ export class Modal {
             modal: config.isModal,
             pinned: false,
             resizable: config.isResizable,
-            close: (event) => { me.closeDialog(event, me.theDialog);}
-            }).data('kendoWindow');
+            close: (event) => { this.closeDialog(event, this.theDialog); }
+        }).data('kendoWindow');
         if (config.selfCentered) {
-            me.theDialog.center().open(); 
-        } else me.theDialog.open(); 
-        
+            this.theDialog.center().open();
+        } else { this.theDialog.open(); }
+
         dialogInstance.contentRef = dialogComponentRef;
         dialogInstance.kendoDialog = this.theDialog;
-        
+
         // trick to avoid angular2 error "Expression has changed after it was checked"
         dialogComponentRef.changeDetectorRef.detectChanges(); // need this to avoid NG2 error/warning
 
         // if multiples not allowed, save this instance
         if (!allowMultiple) {
-            let id = (dialogID && dialogID !== '')?dialogID:componentType['name'];
-            Modal.openDialogList.push({component:id, dialog:this.theDialog});
+            const id = (dialogID && dialogID !== '') ? dialogID : componentType['name'];
+            Modal.openDialogList.push({ component: id, dialog: this.theDialog });
         }
 
         return dialogInstance.result;
 
     }
-    
+
     public closeDialog(event, theDialog) {
-        //console.log(event, theDialog);
-        for (var index = 0; index < Modal.openDialogList.length; index++) {
-            let item = Modal.openDialogList[index];
+        // console.log(event, theDialog);
+        for (let index = 0; index < Modal.openDialogList.length; index++) {
+            const item = Modal.openDialogList[index];
             if (item.dialog === theDialog) {
                 Modal.openDialogList.splice(index);
-            }          
+            }
         }
-  
+
         theDialog.destroy();
     }
-    
+
     /**
      * Opens a modal window blocking the whole screen.
      * @param componentType The angular Component to render as modal.
@@ -138,9 +138,9 @@ export class Modal {
      * @param dialogID a dialog identification token to control multiple occurrences.
      * @returns {Promise<ModalDialogInstance>}
      */
-    public openDialog(component:any, parameters:any, allowMultiple:boolean=false, dialogID:string=''): Promise<string>  {
+    public openDialog(component: any, parameters: any, allowMultiple: boolean = false, dialogID: string = ''): Promise<string> {
 
-       return this.open(<any>component, parameters, component.dialogConfig, allowMultiple, dialogID);
+        return this.open(<any>component, parameters, component.dialogConfig, allowMultiple, dialogID);
     }
 
 }

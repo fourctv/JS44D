@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {ICustomModal} from '../models/ICustomModal';
-import {ICustomModalComponent} from '../models/ICustomModalComponent';
-import {ModalDialogInstance} from '../models/ModalDialogInstance';
+import { ICustomModal } from '../models/ICustomModal';
+import { ICustomModalComponent } from '../models/ICustomModalComponent';
+import { ModalDialogInstance } from '../models/ModalDialogInstance';
 
 /**
  * Data definition
@@ -12,7 +12,7 @@ export class OKOnlyContent {
         public title: string = 'Hello World Title',
         public body: string = 'Hello World Body!',
         public okText: string = 'OK'
-    ) {}
+    ) { }
 }
 
 /**
@@ -21,7 +21,7 @@ export class OKOnlyContent {
 @Component({
     selector: 'modal-content',
     template:
-    `<div class="modal-header">
+        `<div class="modal-header">
         <h3 class="modal-title">{{context.title}}</h3>
         </div>
         <div class="modal-body">{{context.body}}</div>

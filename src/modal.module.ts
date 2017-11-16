@@ -10,13 +10,13 @@ import { OKOnlyModal, OKOnlyContent } from './angular2-modal/commonModals/okOnly
 import { YesNoModal, YesNoModalContent } from './angular2-modal/commonModals/yesNoModal';
 
 @NgModule({
-    declarations: [ 
+      declarations: [
             OKOnlyModal, YesNoModal
-            ], 
-      exports: [ 
+      ],
+      exports: [
             OKOnlyModal, YesNoModal
-            ], 
-      entryComponents: [ OKOnlyModal, YesNoModal ],
-      providers:[ Modal, ModalDialogInstance, ICustomModal ]
+      ],
+      entryComponents: [OKOnlyModal, YesNoModal],
+      providers: [Modal, ModalDialogInstance, ICustomModal]
 })
 export class ModalModule { }

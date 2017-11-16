@@ -11,31 +11,33 @@ import * as utf8 from 'utf8/utf8';
 /**
  * convert object to encoded url string
  */
-export var convertObjectToURL = function(obj:any) {
-    var str:Array<any> = [];
-    for (var p in obj)
+export let convertObjectToURL = function (obj: any) {
+    const str: Array<any> = [];
+    for (const p in obj) {
         if (obj.hasOwnProperty(p)) {
             str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
         }
+    }
     return str.join('&');
 };
 
+/* tslint:disable: no-use-before-declare */
 /**
  * Calculates hash code from URL string or POST form data
  */
-export var calculateHash = function(formData: Object) {
-    let value: string = '';
-    for (var key in formData) {
+export let calculateHash = function (formData: Object) {
+    let value = '';
+    for (const key in formData) {
         if (formData.hasOwnProperty(key)) {
-            if (value !== '') value += ',';
+            if (value !== '') { value += ','; }
             value += key + '=' + formData[key];
         }
     }
 
-    //console.log('hash:' + value);
+    // console.log('hash:' + value);
     return MD5.md5(value);
 };
-
+/* tslint */
 
 /**
  * A collecion of static functions to communicate with 4D backend
@@ -46,30 +48,30 @@ export class FourDInterface {
     // Global Properties
     //
     public static authentication: any;
-    public static currentUser: string = '';
-    public static currentUserID: number = 0;
-    public static currentUserPassword: string = '';
-  
-   /**
-     * 4D Web Server URL
-     */
-    public static fourDUrl: string = "http://localhost:8080"; // defaults to the initiator URL, can be modified by the main app during development
+    public static currentUser = '';
+    public static currentUserID = 0;
+    public static currentUserPassword = '';
+
+    /**
+      * 4D Web Server URL
+      */
+    public static fourDUrl = 'http://localhost:8080'; // defaults to the initiator URL, can be modified by the main app during development
 
     /**
      * current session key used in all http requests
      */
-    public static sessionKey: string = '';
- 
+    public static sessionKey = '';
+
     /**
      * indicates if web app is running standalone or inside workspace
      */
-    public static runningInsideWorkspace: boolean = false;
-    
-   /**
-     * point to the HTTP service we'll use
-     */
-    public static http:HttpClient;
-  
+    public static runningInsideWorkspace = false;
+
+    /**
+      * point to the HTTP service we'll use
+      */
+    public static http: HttpClient;
+
     //
     // cache variables 
     //
@@ -77,12 +79,7 @@ export class FourDInterface {
     private static _registryCache: Array<any> = [];
 
     public static userHasSignedIn: EventEmitter<any> = new EventEmitter();
-    
-/* 
-    constructor (@Inject(Http) _http:Http) {
-         this.http = _http;
-    }
- /**/    
+
 
     /**
      * Generic function to call 4D backend using Angular2 HTTP 
@@ -92,18 +89,12 @@ export class FourDInterface {
      * 
      * @return returns a Promise for the database operation
      */
-    public call4DRESTMethod(fourdMethod: string, body: any, options?:any): Observable<any> {
-        //const contentHeaders = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' });
-        //contentHeaders.append('Accept', 'text/json;text/html,application/xhtml+xml,application/xml,application/json;q=0.9,image/webp,*/*;q=0.8'); // need all this crap for 4D V15!!
+    public call4DRESTMethod(fourdMethod: string, body: any, options?: any): Observable<any> {
         body.Sessionkey = FourDInterface.sessionKey;
         body.hash = calculateHash(body);
-/*        if (options) {
-            options.headers = contentHeaders;
-        } else {
-            options = { headers: contentHeaders };
-        }*/
+
         return FourDInterface.http.post(FourDInterface.fourDUrl + '/4DAction/' + fourdMethod, convertObjectToURL(body), options);
- 
+
     }
 
     /**
@@ -114,14 +105,13 @@ export class FourDInterface {
      * @return returns a Promise for the database operation
      */
     public proxyURLThru4D(url: string): Observable<any> {
-        //const contentHeaders = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-        //contentHeaders.append('Accept', 'text/json;text/html,application/xhtml+xml,application/xml,application/json;q=0.9,image/webp,*/*;q=0.8'); // need all this crap for 4D V15!!
-        let body:any = { url:base64.encode(utf8.encode(url))};
+        const body: any = { url: base64.encode(utf8.encode(url)) };
         body.Sessionkey = FourDInterface.sessionKey;
         body.hash = calculateHash(body);
 
-        return FourDInterface.http.post(FourDInterface.fourDUrl + '/4DAction/REST_ProxyHTTPGet', convertObjectToURL(body), { /*headers: contentHeaders*/ });
- 
+        return FourDInterface.http.post(FourDInterface.fourDUrl + '/4DAction/REST_ProxyHTTPGet',
+            convertObjectToURL(body), {});
+
     }
 
 
@@ -132,22 +122,15 @@ export class FourDInterface {
      * 	@param pwd: MD5 password digest
      * 
      */
-    public signIn(user, pwd):Promise<any> {
+    public signIn(user, pwd): Promise<any> {
         FourDInterface.currentUser = user;
         FourDInterface.currentUserPassword = pwd;
 
-        let body = { username: base64.encode(utf8.encode(user)), password: base64.encode(utf8.encode(pwd)) };
+        const body = { username: base64.encode(utf8.encode(user)), password: base64.encode(utf8.encode(pwd)) };
 
         return new Promise((resolve, reject) => {
             this.call4DRESTMethod('REST_Authenticate', body)
                 .subscribe(resultJSON => {
-                    //let resultJSON = response.json();
-                    /*
-                    if (Config.IS_MOBILE_NATIVE()) {
-                        // on nativescript
-                        resultJSON = JSON.parse(resultJSON);
-                    }
-                    */
                     if (resultJSON.valid) {
                         FourDInterface.authentication = resultJSON.session; // save authentication
                         FourDInterface.currentUserID = resultJSON.session.options._userID;
@@ -185,19 +168,12 @@ export class FourDInterface {
             return new Promise((resolve, reject) => { resolve(FourDInterface._listCache[listName]); });
         }
 
-        let body: any = { list: listName };
+        const body: any = { list: listName };
 
         return new Promise((resolve, reject) => {
             this.call4DRESTMethod('REST_Get4DList', body)
                 .subscribe(resultJSON => {
-                    //let resultJSON = response.json();
-                    /*
-                    if (Config.IS_MOBILE_NATIVE()) {
-                        // on nativescript
-                        resultJSON = JSON.parse(resultJSON);
-                    }
-                    */
-                    let listValues = resultJSON.values;
+                    const listValues = resultJSON.values;
                     FourDInterface._listCache[listName] = listValues;
                     resolve(listValues);
                 },
@@ -208,28 +184,28 @@ export class FourDInterface {
 
         });
 
-    } 
-    
+    }
+
     /**
      * Update values of a 4D Choice List
      * 
      * @param listName 4D choice list name
      * @param listValues array of list values to update on 4D side
      */
-    public update4DList(listName:string, listItems:Array<string>): Promise<any> {
-        let body: any = {listName:listName, listValues:base64.encode(utf8.encode(JSON.stringify({items:listItems})))};
-        
+    public update4DList(listName: string, listItems: Array<string>): Promise<any> {
+        const body: any = { listName: listName, listValues: base64.encode(utf8.encode(JSON.stringify({ items: listItems }))) };
+
         return new Promise((resolve, reject) => {
-            this.call4DRESTMethod('REST_Update4DList', body, {responseType:'text'})
+            this.call4DRESTMethod('REST_Update4DList', body, { responseType: 'text' })
                 .subscribe(
-                response => {resolve();},
+                response => { resolve(); },
                 error => {
                     console.log('error:' + JSON.stringify(error));
                     reject(error);
                 });
 
         });
-        
+
     }
 
     /**
@@ -241,22 +217,14 @@ export class FourDInterface {
      * @return returns a Promise for the database operation
      * 
      */
-    public getFiltered4DList(listName: string, selector:string ): Promise<Array<string>> {
- 
-        let body: any = { Listname: listName, Selector:selector };
-        
+    public getFiltered4DList(listName: string, selector: string): Promise<Array<string>> {
+
+        const body: any = { Listname: listName, Selector: selector };
+
         return new Promise((resolve, reject) => {
             this.call4DRESTMethod('REST_GetFiltered4DList', body)
                 .subscribe(resultJSON => {
-                    //let resultJSON = response.json();
-                    /*
-                    if (Config.IS_MOBILE_NATIVE()) {
-                        // on nativescript
-                        resultJSON = JSON.parse(resultJSON);
-                    }
-                    */
-                    let listValues = resultJSON.values;
-                    resolve(listValues);
+                    resolve(resultJSON.values);
                 },
                 error => {
                     console.log('error:' + JSON.stringify(error));
@@ -266,7 +234,7 @@ export class FourDInterface {
         });
 
     }
-        
+
     /**
      * Function getRegistryValue: get current registry value
      * 
@@ -280,7 +248,10 @@ export class FourDInterface {
      * <b>Retrieved Registry entries are cached in to optimize traffic to/from 4D </b>
      * 
      */
-    public getRegistryValue(theClass: string, theParameter: string, theDefaultValue: string = '', theSelector: string = ''): Promise<string> {
+    public getRegistryValue(theClass: string,
+        theParameter: string,
+        theDefaultValue: string = '',
+        theSelector: string = ''): Promise<string> {
         let item: any = {};
         for (item of FourDInterface._registryCache) {
             if (item.class === theClass && item.parameter === theParameter && item.selector === theSelector) {
@@ -288,10 +259,10 @@ export class FourDInterface {
             }
         }
 
-        let body: any = { class: theClass, parameter: theParameter, defaultValue: theDefaultValue, selector: theSelector };
+        const body: any = { class: theClass, parameter: theParameter, defaultValue: theDefaultValue, selector: theSelector };
 
         return new Promise((resolve, reject) => {
-            this.call4DRESTMethod('REST_GetRegistryValue', body, {responseType: 'text'})
+            this.call4DRESTMethod('REST_GetRegistryValue', body, { responseType: 'text' })
                 .subscribe(
                 response => {
                     body.registryValue = response;
@@ -305,7 +276,7 @@ export class FourDInterface {
 
         });
 
-    }  
+    }
 
 
     /**
@@ -318,7 +289,7 @@ export class FourDInterface {
      * 
     */
     public setRegistryValue(theClass: string, theParameter: string, theValue: string, theSelector: string = ''): Promise<any> {
-        let body: any = { class: theClass, parameter: theParameter, value: theValue, selector: theSelector };
+        const body: any = { class: theClass, parameter: theParameter, value: theValue, selector: theSelector };
 
         return new Promise((resolve, reject) => {
             this.call4DRESTMethod('REST_SetRegistryValue', body)
@@ -333,8 +304,8 @@ export class FourDInterface {
 
         });
 
-    }  
- 
+    }
+
     /**
      * Converts a DOM date to 4D format (YYYYMMDD).
      *  
@@ -348,7 +319,7 @@ export class FourDInterface {
     }
 
 }
- 
+
 
 /**
  * MD5 has calculation
@@ -358,7 +329,7 @@ export class MD5 {
     static hex_chr = '0123456789abcdef'.split('');
 
     static md5cycle(x, k) {
-        var a = x[0], b = x[1], c = x[2], d = x[3];
+        let a = x[0], b = x[1], c = x[2], d = x[3];
 
         a = MD5.ff(a, b, c, d, k[0], 7, -680876936);
         d = MD5.ff(d, a, b, c, k[1], 12, -389564586);
@@ -457,19 +428,19 @@ export class MD5 {
     }
 
     static md51(s) {
-        var n = s.length,
-            state = [1732584193, -271733879, -1732584194, 271733878], i;
+        const n = s.length;
+        const state = [1732584193, -271733879, -1732584194, 271733878];
+        let i;
         for (i = 64; i <= s.length; i += 64) {
             MD5.md5cycle(state, MD5.md5blk(s.substring(i - 64, i)));
         }
         s = s.substring(i - 64);
-        var tail = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        for (i = 0; i < s.length; i++)
-            tail[i >> 2] |= s.charCodeAt(i) << ((i % 4) << 3);
+        const tail = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        for (i = 0; i < s.length; i++) { tail[i >> 2] |= s.charCodeAt(i) << ((i % 4) << 3); }
         tail[i >> 2] |= 0x80 << ((i % 4) << 3);
         if (i > 55) {
             MD5.md5cycle(state, tail);
-            for (i = 0; i < 16; i++) tail[i] = 0;
+            for (i = 0; i < 16; i++) { tail[i] = 0; }
         }
         tail[14] = n * 8;
         MD5.md5cycle(state, tail);
@@ -492,8 +463,8 @@ export class MD5 {
      * 8-bit unsigned value arrays.
      */
     static md5blk(s) { /* I figured global was faster.   */
-        var md5blks = [], i; /* Andy King said do it this way. */
-        for (i = 0; i < 64; i += 4) {
+        const md5blks = []; /* Andy King said do it this way. */
+        for (let i = 0; i < 64; i += 4) {
             md5blks[i >> 2] = s.charCodeAt(i)
                 + (s.charCodeAt(i + 1) << 8)
                 + (s.charCodeAt(i + 2) << 16)
@@ -503,16 +474,16 @@ export class MD5 {
     }
 
     static rhex(n) {
-        var s = '', j = 0;
-        for (; j < 4; j++)
+        let s = '', j = 0;
+        for (; j < 4; j++) {
             s += MD5.hex_chr[(n >> (j * 8 + 4)) & 0x0F]
                 + MD5.hex_chr[(n >> (j * 8)) & 0x0F];
+        }
         return s;
     }
 
     static hex(x) {
-        for (var i = 0; i < x.length; i++)
-            x[i] = MD5.rhex(x[i]);
+        for (let i = 0; i < x.length; i++) { x[i] = MD5.rhex(x[i]); }
         return x.join('');
     }
 
@@ -535,10 +506,10 @@ export class MD5 {
     * Encode a string as utf-8.
     * For efficiency, this assumes the input is valid utf-16.
     */
-    static str2rstr_utf8(input: String): String {
-        var output: String = '';
-        var i: number = -1;
-        var x: number, y: number;
+    static str2rstr_utf8(input: string): string {
+        let output = '';
+        let i = -1;
+        let x: number, y: number;
 
         while (++i < input.length) {
             /* Decode utf-16 surrogate pairs */
@@ -548,7 +519,7 @@ export class MD5 {
                 x = 0x10000 + ((x & 0x03FF) << 10) + (y & 0x03FF);
                 i++;
             }
-		
+
             /* Encode output as utf-8 */
             if (x <= 0x7F) {
                 output += String.fromCharCode(x);
@@ -572,12 +543,12 @@ export class MD5 {
 }
 
 export class FourDQuery {
-    query?:Array<any>;
-    union?:Array<any>;
-    intersection?:Array<any>;
-    custom?:string;
-    joinTable?:string;
-    joinPK?:string;
-    joinFK?:string;
-    join?:Array<any>;
+    query?: Array<any>;
+    union?: Array<any>;
+    intersection?: Array<any>;
+    custom?: string;
+    joinTable?: string;
+    joinPK?: string;
+    joinFK?: string;
+    join?: Array<any>;
 }

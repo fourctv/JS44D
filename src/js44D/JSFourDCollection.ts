@@ -2,9 +2,6 @@ import { Injectable, ReflectiveInjector } from '@angular/core';
 import * as base64 from 'base-64';
 import * as utf8 from 'utf8/utf8';
 
-//mport { LogService } from '../../core/services/logging/log.service';
-//import { Config } from '../../core/utils/config';
-
 import { FourDInterface, FourDQuery } from './JSFourDInterface';
 import { FourDModel } from './JSFourDModel';
 
@@ -14,69 +11,65 @@ export class FourDCollection {
     //
     // FourDCollection properties
     //
-    public model:any; // the model this collection is based on
-    public models:Array<any> = []; // array of models in the collection
+    public model: any; // the model this collection is based on
+    public models: Array<any> = []; // array of models in the collection
     public orderBy: string;    // default order by string
     public queryString: FourDQuery = null; // default query string 
     public filterOptions: string; // default filter to be applied on all queries
 
-    public columns: any[] = []; // columns to be populated on the Collection
+    public columns: Array<any> = []; // columns to be populated on the Collection
 
     public currentRecord: FourDModel; // holds current record from the current selection
-    public totalRecordCount: number = 0; // holds the total # of records found on the latst query
-         
+    public totalRecordCount = 0; // holds the total # of records found on the latst query
+
     // injected FourDInterface service
-    private fourD:FourDInterface;
-    
-    // the generic log service
-    //private log:LogService;
-        
+    private fourD: FourDInterface;
+
     //
     // constructor: initialize collection properties
     //
     constructor() {
-         // inject FourDInterface
-        let injector = ReflectiveInjector.resolveAndCreate([FourDInterface]);
+        // inject FourDInterface
+        const injector = ReflectiveInjector.resolveAndCreate([FourDInterface]);
         this.fourD = injector.get(FourDInterface);
-        //this.log = FourDInterface.log;
-  }
+    }
 
     /**
      * prepares the JSON field description to send to 4D, listing all columns to retrieve
      */
-    public getColumnListJSON(columns:Array<any>): string {
-        if (!columns) columns = this.columns;
-        let colList: Array<Object> = [];
-        for (let col of columns) {
+    public getColumnListJSON(columns: Array<any>): string {
+        if (!columns) { columns = this.columns; }
+        const colList: Array<Object> = [];
+        const modelDef = <any>(this.model);
+        let theModel: FourDModel = <any>(new modelDef());
+        let fld: any;
+        for (const col of columns) {
             if (typeof (col) === 'string') {
                 if (col.indexOf('.') > 0) { // is this a longname field?
                     colList.push({ name: col.substr(col.indexOf('.') + 1), field: col });
                 } else { // nope, so let's see if we have it in our datamodel
-                    let modelDef = <any>(this.model);
-                    let theModel: FourDModel = <any>(new modelDef());
-                    var fld = theModel.getFieldProperties(col);
+                    fld = theModel.getFieldProperties(col);
                     if (fld) { // field in our datamodel, use its properties
                         if (fld.formula) {
                             colList.push({ name: fld.name, formula: fld.formula });
-                        } else colList.push({ name: fld.name, field: fld.longname });
-                     }
+                        } else { colList.push({ name: fld.name, field: fld.longname }); }
+                    }
                 }
             } else if (col.field) {
-                let modelDef = <any>(this.model);
-                let theModel: FourDModel = <any>(new modelDef());
-                var fld = theModel.getFieldProperties(col.field);
+                theModel = <any>(new modelDef());
+                fld = theModel.getFieldProperties(col.field);
                 if (fld) {
                     if (fld.formula) {
                         colList.push({ name: fld.name, formula: fld.formula });
-                        } else colList.push({ name: fld.name, field: fld.longname });
+                    } else { colList.push({ name: fld.name, field: fld.longname }); }
                 }
             } else {
                 if (col.formula) {
                     colList.push({ name: col.name, formula: col.formula });
-                    } else colList.push({ name: col.name, field: col.longname });
+                } else { colList.push({ name: col.name, field: col.longname }); }
             }
         }
- 
+
         return JSON.stringify(colList);
 
     }
@@ -111,51 +104,37 @@ export class FourDCollection {
         if (!orderby || orderby === '') {
             orderby = this.orderBy;
         }
-            
-        /*
-        return new Promise((resolve, reject) => {
-            this.fetch().then((recList) => {resolve(recList);}).fail((error) => {reject(error);});
-        });
-        */
 
-        let body: any = { Username: FourDInterface.currentUser };
-        let modelDef = <any>(this.model);
+        const body: any = { Username: FourDInterface.currentUser };
+        const modelDef = <any>(this.model);
         let newModel: FourDModel = <any>(new modelDef());
         body.TableName = newModel.tableName;
         body.StartRec = startRec;
         body.NumRecs = numOfRecords;
 
         body.QueryString = JSON.stringify(query);
-        body.Columns = base64.encode(utf8.encode((columns)?this.getColumnListJSON(columns):this.getColumnListJSON(newModel.getColumnList())));
+        body.Columns = base64.encode(utf8.encode((columns) ? this.getColumnListJSON(columns) : this.getColumnListJSON(newModel.getColumnList())));
 
-        if (filter) body.FilterOptions = filter;
-        if (orderby) body.OrderBy = orderby;
+        if (filter) { body.FilterOptions = filter; }
+        if (orderby) { body.OrderBy = orderby; }
 
         return new Promise((resolve, reject) => {
-            let me = this;
+            // const me = this;
             this.fourD.call4DRESTMethod('REST_GetRecords', body)
                 .subscribe(resultJSON => {
-                    me.totalRecordCount = 0;
-                    me.models = [];
-                    //let jsonData:Object = response.json();
-                    /*
-                    if (Config.IS_MOBILE_NATIVE()) {
-                        // on nativescript
-                        jsonData = JSON.parse(jsonData);
-                    }
-                    */
+                    this.totalRecordCount = 0;
+                    this.models = [];
                     if (resultJSON && resultJSON['selected'] && resultJSON['records']) {
-                        me.totalRecordCount = resultJSON['selected'];
-                        let recList: Array<any> = resultJSON['records'];
+                        this.totalRecordCount = resultJSON['selected'];
+                        const recList: Array<any> = resultJSON['records'];
                         recList.forEach(record => {
-                            let modelDef = <any>(me.model);
-                            let newModel: FourDModel = <any>(new modelDef());
+                            newModel = <any>(new modelDef());
                             newModel.populateModelData(record);
-                            me.models.push(newModel);
+                            this.models.push(newModel);
                         });
                     }
 
-                    resolve(<any>me.models);
+                    resolve(<any>this.models);
                 },
                 error => {
                     console.log('error:' + error);
@@ -168,7 +147,7 @@ export class FourDCollection {
     /**
      * returns the length of the Collection, or the # of records loaded in
      */
-    public get length():number {
+    public get length(): number {
         return this.models.length;
     }
 

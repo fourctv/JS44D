@@ -24,6 +24,4 @@ export { Modal } from './angular2-modal/providers/Modal';
 export { OKOnlyModal, OKOnlyContent } from './angular2-modal/commonModals/okOnlyModal';
 export { YesNoModal, YesNoModalContent } from './angular2-modal/commonModals/yesNoModal';
 
-export { FourDInterface, FourDQuery, MD5 } from './js44D/JSFourDInterface';
-export { FourDModel } from './js44D/JSFourDModel';
-export { FourDCollection } from './js44D/JSFourDCollection';
+export { FourDInterface, FourDQuery, MD5, FourDModel, FourDCollection } from './js44D';

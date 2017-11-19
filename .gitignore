@@ -1,7 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
+/lib
 /tmp
 /out-tsc
 
@@ -35,6 +35,8 @@ testem.log
 yarn.lock
 package-lock.json
 *.js
+!/ui/index.js
+!gulpfile.js
 !karma.conf.js
 !protractor.conf.js
 !symlink.js

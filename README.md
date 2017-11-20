@@ -8,7 +8,7 @@ Pascal's [4D RESTApi](https://github.com/fourctv/FourDRESTApi) companion [Angula
 [![devDependency Status](https://david-dm.org/fourctv/JS44D/dev-status.svg)](https://david-dm.org/fourctv/JS44D#info=devDependencies)
 
 
-This library includes a series of Angular services, components and UI widgets, that interface to a 4D Database backend via **[4D RESTApi](https://github.com/fourctv/FourDRESTApi)** component. The Component must be installed in the 4D Database, and Web Serving must be enabled.
+This library includes a series of Angular services, components and UI widgets, that interface to a 4D Database backend via **[4D RESTApi](https://github.com/fourctv/FourDRESTApi)** component. The **4D RESTApi** Component must be installed in the 4D Database, and Web Serving must be enabled.
 
 Detailed documentation for each service/component in this library can be found on the [wiki here](https://github.com/fourctv/JS44D/wiki). Following is a quick run down of the library contents.
 
@@ -36,19 +36,21 @@ And you need to also include the UI modules in your **NgModule** declaration, wh
 import { JS44DModule, ModalModule } from 'js44d/ui';
 ```
 
+A quick note, the UI components/widgets are **WEB ONLY**, they do not work under Nativescript, so for {N} you can use only the service components.
+
 ## Services
-The library provides a set of services for accessing a 4D Database backend that has the **4D RESTApi** Component installed.
+The library provides a set of service classes for accessing a 4D Database backend that has the **4D RESTApi** Component installed.
 
 ### FourDInterface
 This is the base service class that implements most of the calls to **4D RESTApi**.
 
 The two key functions made available by this class are:
-- **call4DRESTMethod**: a wrapper function to enable calling any **4D RESTApi** entry point; it automatically adds a *Session Key* and a *hash* to each HTTP POST request sent to 4D
+- **call4DRESTMethod**: a wrapper function to enable calling any **4D RESTApi** entry point; it automatically adds a *Session Key* and a *hash* to each HTTP POST request sent to 4D, which are required by the **4D RESTApi** Component; this function is used by all other services and components to send requests to 4D.
 - **signin**: a function that will send a **REST_Authenticate** sign in request to 4D and process 4D's response.
 
 This class also provides some static variables:
 - **currentUser**: the name of the currectly signed in user
-- **authentication**: the authentication response object, returned by the **REST_Authenticate** call
+- **authentication**: the authentication response object, returned by the **REST_Authenticate** call ([see](https://github.com/fourctv/FourDRESTApi/wiki/REST_Authenticate))
 - **sessionKey**: the current session token, that must be present in all requests to 4D
 - etc..
 
@@ -68,10 +70,10 @@ Instances of this class, and its extensions, represent a record in the database.
 Additional functions are described in the **[FourDModel** wiki page](https://github.com/fourctv/JS44D/wiki/FourDModel-Class).
 
 ### FourDCollection
-A service class that represents a collection of 4D records. It is basically an Array of **FourDModel** instances.
+A service class that represents a collection of 4D records. It is basically an Array of **FourDModel** derived instances.
 
 This class provides a function to retrieve a set of records from a 4D Database:
-- **getRecords**: will take a [Query String](https://github.com/fourctv/FourDRESTApi/wiki/The-JS44D-Query-String) and send a **[REST_GetRecords](https://github.com/fourctv/FourDRESTApi/wiki/REST_GetRecords)** request to 4D to retrieve a collection of 4D records. Record data come as Data Model (*FourDModel*) instances.
+- **getRecords**: will take a [Query String](https://github.com/fourctv/FourDRESTApi/wiki/The-JS44D-Query-String) and send a **[REST_GetRecords](https://github.com/fourctv/FourDRESTApi/wiki/REST_GetRecords)** request to 4D to retrieve a collection of 4D records. Record data comes as a series of Data Model (*FourDModel*) instances.
 
 ## UI Widgets
 The following UI widgets and components, which also interact with a 4D backend, are available for use in Angular apps.
@@ -96,11 +98,11 @@ A query widget that provides functionality for querying a 4D Database, built upo
 It allows for a user defined query form, advanced query functionality and the ability to save and reuse queries.
 
 ### Record List Component
-This widget builds upon the **QueryBand** and **DataGrid** components. It associates a **QueryBand** and a **DataGrid**, so the results of a query are displayed on the associated **DataGrid**.
+This widget builds upon the **QueryBand** and **DataGrid** components. It associates a **QueryBand** to a **DataGrid**, so the results of a query are displayed on the associated **DataGrid**.
 
 ![](https://i.gyazo.com/b1a5070c05011be9fa6865b5aa770389.png)
 
-The widget provides a button bar with functionality to add/edit/delete records. It also allows for user defined custom buttons added to the button bar.
+Additionally the widget provides a button bar with functionality to add/edit/delete records. It also allows for user defined custom buttons added to the button bar.
 
 ### Web App Container Component
 This is a Web App wrapper component, that ensures that the application component runs authenticated. If upon app initialization, it is not yet authenticated to a 4D backend, this component will display a **Login** dialog to get user credentials and authenticate the user.

@@ -57,7 +57,7 @@ This class also provides some static variables:
 ### FourDModel
 This is a service class that provides CRUD functionality, as a Data Model base class. It provides the ability to retrieve, create, update or delete records from a table.
 
-This class builds upon the Data Model functionality, as described in the [Data Model wiki page](https://github.com/fourctv/JS44D/wiki/Data-Modeling). 
+This class builds upon the Data Model functionality, as described in the [Data Model wiki page](https://github.com/fourctv/JS44D/wiki/Data-Modelling). 
 
 All 4D table's Data Models extend the **FourDModel** class, describing each of the table's fields and providing getter/setter for each field.
 

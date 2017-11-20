@@ -8,7 +8,7 @@ Pascal's [4D RESTApi](https://github.com/fourctv/FourDRESTApi) companion [Angula
 [![devDependency Status](https://david-dm.org/fourctv/JS44D/dev-status.svg)](https://david-dm.org/fourctv/JS44D#info=devDependencies)
 
 
-This library includes a series of Angular services, components and widgets, that interface to a 4D Database backend via **[4D RESTApi](https://github.com/fourctv/FourDRESTApi)** component. The Component must be installed in the 4D Database, and Web Serving must be enabled.
+This library includes a series of Angular services, components and UI widgets, that interface to a 4D Database backend via **[4D RESTApi](https://github.com/fourctv/FourDRESTApi)** component. The Component must be installed in the 4D Database, and Web Serving must be enabled.
 
 Detailed documentation for each service/component in this library can be found on the [wiki here](https://github.com/fourctv/JS44D/wiki). Following is a quick run down of the library contents.
 
@@ -55,8 +55,8 @@ A service class that represents a collection of 4D records. It is basically an A
 This class provides a function to retrieve a set of records from a 4D Database:
 - **getRecords**: will take a [Query String](https://github.com/fourctv/FourDRESTApi/wiki/The-JS44D-Query-String) and send a **[REST_GetRecords](https://github.com/fourctv/FourDRESTApi/wiki/REST_GetRecords)** request to 4D to retrieve a collection of 4D records. Record data come as Data Model (*FourDModel*) instances.
 
-## Widgets
-The following widgets and components are available for use in Angular apps, and those also interact with a 4D backend.
+## UI Widgets
+The following UI widgets and components, which also interact with a 4D backend, are available for use in Angular apps.
 
 ### Login Component
 A basic Login dialog that takes a user name and password. It calls *FourDInterface signin* function, that sends a **REST_Authenticate** request to 4D to authenticate the given user.

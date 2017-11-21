@@ -67,13 +67,13 @@ Instances of this class, and its extensions, represent a record in the database.
 - **updateRecord**: updates a record in the database
 - **deleteRecord**: deletes a record from the database
 
-Additional functions are described in the **[FourDModel** wiki page](https://github.com/fourctv/JS44D/wiki/FourDModel-Class).
+Additional functions are described in the **[FourDModel](https://github.com/fourctv/JS44D/wiki/FourDModel-Class)** wiki page.
 
 ### FourDCollection
 A service class that represents a collection of 4D records. It is basically an Array of **FourDModel** derived instances.
 
 This class provides a function to retrieve a set of records from a 4D Database:
-- **getRecords**: will take a [Query String](https://github.com/fourctv/FourDRESTApi/wiki/The-JS44D-Query-String) and send a **[REST_GetRecords](https://github.com/fourctv/FourDRESTApi/wiki/REST_GetRecords)** request to 4D to retrieve a collection of 4D records. Record data comes as a series of Data Model (*FourDModel*) instances.
+- **getRecords**: will take a [Query String](https://github.com/fourctv/FourDRESTApi/wiki/The-JS44D-Query-String) and send a **[REST_GetRecords](https://github.com/fourctv/FourDRESTApi/wiki/REST_GetRecords)** request to 4D to retrieve a collection of 4D records. Record data comes as an array of Data Model (*FourDModel*) instances.
 
 ## UI Widgets
 The following UI widgets and components, which also interact with a 4D backend, are available for use in Angular apps.

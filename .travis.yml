@@ -1,5 +1,5 @@
 language: node_js
-node_js: stable
+node_js: "8"
 
 sudo: false
 
@@ -41,4 +41,4 @@ cache:
   directories: node_modules
 
 script:
-  - npm run test
+  - npm run build

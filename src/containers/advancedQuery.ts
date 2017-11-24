@@ -8,7 +8,6 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
 
 @Component({
     selector: 'advanced-query',
-    moduleId: module.id,
     template: `
     <form>
     <div *ngFor='let queryField of queryFieldList' style="display: inline-flex; margin: 5px; height: 30px;">

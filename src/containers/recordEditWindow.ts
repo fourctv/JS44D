@@ -12,7 +12,7 @@ import { ModalDialogInstance } from '../angular2-modal/models/ModalDialogInstanc
 
 export class RecordEditWindow implements ICustomModalComponent {
 
-    @Input() public currentRecord: FourDModel;
+    @Input() public currentRecord: any; // the Record Edit Window FourDModel
 
 
     public dialog: ModalDialogInstance;

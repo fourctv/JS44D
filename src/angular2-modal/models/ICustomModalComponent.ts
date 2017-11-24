@@ -4,7 +4,7 @@ import { ModalDialogInstance } from '../models/ModalDialogInstance';
  * A Type used as a binding key for dialog window Components
  */
 
-export declare class ICustomModalComponent {
+export class ICustomModalComponent {
     dialog: ModalDialogInstance;
 
     /**

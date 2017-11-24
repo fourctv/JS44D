@@ -29,7 +29,6 @@ import { ListSelectorDialog } from './dialogs/listSelectorDialog';
             LoginCmp
       ],
       exports: [
-            FormsModule, CommonModule,
             QueryBand, CustomButtonBarDirective, QueryBandDirective, AdvancedQueryComponent,
             RecordEditWindow, RecordList, Tabs, Tab, WebAppContainer,
             FourDDropDown, QuickFindInput,
@@ -37,6 +36,6 @@ import { ListSelectorDialog } from './dialogs/listSelectorDialog';
             ListSelectorDialog,
             LoginCmp
       ],
-      entryComponents: [RecordEditWindow, LoginCmp, AdvancedQueryComponent, ListSelectorDialog]
+      entryComponents: [LoginCmp, AdvancedQueryComponent, ListSelectorDialog]
 })
 export class JS44DModule { }

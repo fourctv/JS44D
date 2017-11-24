@@ -7,7 +7,6 @@ import { ModalConfig } from '../angular2-modal/models/ModalConfig';
 
 @Component({
     selector: 'list-selector',
-    moduleId: module.id,
     template: `
         <div style="display:flex;flex-direction:column;margin:10px;height:calc(100% - 30px);">
             <select size="20" class="largeFieldEntry" style="height:90%;padding:5px;margin-bottom:10px;" (change)="changeSelection($event)" (dblclick)="ok($event)">

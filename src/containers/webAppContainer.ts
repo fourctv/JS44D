@@ -6,7 +6,6 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
 
 @Component({
     selector: 'web-application',
-    moduleId: module.id,
     template: '<section class="webComponent" [hidden]="!userIsLoggedIn"><ng-content></ng-content></section>',
     encapsulation: ViewEncapsulation.None,
     providers: [Modal]

@@ -1,6 +1,6 @@
 import { Injectable, ReflectiveInjector } from '@angular/core';
-import * as base64 from 'base-64';
-import * as utf8 from 'utf8/utf8';
+import { Base64 } from './base64';
+import { Utf8 } from './utf8';
 
 import { FourDInterface, FourDQuery } from './JSFourDInterface';
 import { FourDModel } from './JSFourDModel';
@@ -113,7 +113,7 @@ export class FourDCollection {
         body.NumRecs = numOfRecords;
 
         body.QueryString = JSON.stringify(query);
-        body.Columns = base64.encode(utf8.encode((columns) ? this.getColumnListJSON(columns) : this.getColumnListJSON(newModel.getColumnList())));
+        body.Columns = Base64.encode(Utf8.utf8encode((columns) ? this.getColumnListJSON(columns) : this.getColumnListJSON(newModel.getColumnList())));
 
         if (filter) { body.FilterOptions = filter; }
         if (orderby) { body.OrderBy = orderby; }

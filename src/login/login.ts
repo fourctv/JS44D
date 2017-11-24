@@ -10,7 +10,6 @@ import { FourDInterface, MD5 } from '../js44D/JSFourDInterface';
 
 @Component({
     selector: 'log-in',
-    moduleId: module.id,
     template: `
     <div class="login container">
     <form class="form-vertical" role="form" (submit)="login()">

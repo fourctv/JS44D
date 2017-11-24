@@ -1,5 +1,4 @@
 *
-!lib/**/*
-!ui/**/*
+!dist/**/*
 !package.json
 !*.md

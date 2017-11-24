@@ -18,7 +18,6 @@ export class CustomButtonBarDirective { }
 
 @Component({
     selector: 'query-band',
-    moduleId: module.id,
     template: `
     <div dropdown class="btn-group btn-group-md" style="width:100%;padding-top:5px;height:40px;">
     <a role="button" class="btn" (click)="switchState()"><span class="glyphicon" [ngClass]="openStateIcon"></span></a>

@@ -2,20 +2,25 @@
     "compileOnSave": false,
     "compilerOptions": {
         "baseUrl": ".",
-        "sourceMap": true,
-        "module": "commonjs",
-        "declaration": true,
         "outDir": "./lib",
+        "target": "es5",
+        "module": "es2015",
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "target": "es5",
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "lib": [
-            "es2016",
-            "dom"
+        "sourceMap": true,
+        "inlineSources": true,
+        "noEmitHelpers": false,
+        "noImplicitAny": false,
+        "declaration": true,
+        "skipLibCheck": false,
+        "stripInternal": true,
+        "allowSyntheticDefaultImports": true,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "lib": ["dom", "es6"],
+        "types": [ "jquery", "kendo-ui",
+          "jasmine"
         ]
     },
     "include": [

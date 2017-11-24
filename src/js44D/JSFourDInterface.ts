@@ -1,8 +1,8 @@
 import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import * as base64 from 'base-64';
-import * as utf8 from 'utf8/utf8';
+import { Base64 } from './base64';
+import { Utf8 } from './utf8';
 
 
 //
@@ -105,7 +105,7 @@ export class FourDInterface {
      * @return returns a Promise for the database operation
      */
     public proxyURLThru4D(url: string): Observable<any> {
-        const body: any = { url: base64.encode(utf8.encode(url)) };
+        const body: any = { url: Base64.encode(Utf8.utf8encode(url)) };
         body.Sessionkey = FourDInterface.sessionKey;
         body.hash = calculateHash(body);
 
@@ -126,7 +126,7 @@ export class FourDInterface {
         FourDInterface.currentUser = user;
         FourDInterface.currentUserPassword = pwd;
 
-        const body = { username: base64.encode(utf8.encode(user)), password: base64.encode(utf8.encode(pwd)) };
+        const body = { username: Base64.encode(Utf8.utf8encode(user)), password: Base64.encode(Utf8.utf8encode(pwd)) };
 
         return new Promise((resolve, reject) => {
             this.call4DRESTMethod('REST_Authenticate', body)
@@ -193,7 +193,7 @@ export class FourDInterface {
      * @param listValues array of list values to update on 4D side
      */
     public update4DList(listName: string, listItems: Array<string>): Promise<any> {
-        const body: any = { listName: listName, listValues: base64.encode(utf8.encode(JSON.stringify({ items: listItems }))) };
+        const body: any = { listName: listName, listValues: Base64.encode(Utf8.utf8encode(JSON.stringify({ items: listItems }))) };
 
         return new Promise((resolve, reject) => {
             this.call4DRESTMethod('REST_Update4DList', body, { responseType: 'text' })

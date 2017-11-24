@@ -29,7 +29,7 @@ And those should be included in your **NgModule** declaration.
 
 As for UI components/widgets you reference/import them as:
 ```
-import { DataGrid } from 'js44d';
+import { widget } from 'js44d';
 ```
 And you need to also include the UI modules in your **NgModule** declaration, where you use them, as in:
 ```

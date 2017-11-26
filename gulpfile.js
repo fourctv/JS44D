@@ -13,9 +13,9 @@ gulp.task('trigger', function (cb) {
         "-H \"Content-Type: application/json\" " +
         "-H \"Accept: application/json\" " +
         "-H \"Travis-API-Version: 3\" " +
-        "-H \"Authorization: token T9CQjkTkP8jyihk5sZxY\" " +
+        "-H \"Authorization: token viET3ax59ZQs3SJ5dXKxXQ\" " +
 
-        "https://api.travis-ci.org/repo/fourctv%2FFourDAdmin/requests";
+        "https://api.travis-ci.org/repo/fourctv%2Ffourdadmin/requests";
     console.log(curl);
     exec(curl, function (err, stdout, stderr) {
         console.log('out:' + stdout);

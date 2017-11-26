@@ -16,8 +16,8 @@
     "packagr": "ng-packagr -p ng-package.json",
     "build.prod": "gulp clean && ng build ",
     "lint": "ng lint",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "trigger": "curl -s -X POST -H \"Content-Type: application/json\" -H \"Accept: application/json\" -H \"Travis-API-Version: 3\" -H \"Authorization: token T9CQjkTkP8jyihk5sZxY\" -d \"{\"request\": {\"branch\":\"master\"}}\" https://api.travis-ci.org/repo/fourctv%2FFourDAdmin/requests"
+    "trigger": "gulp trigger",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "main": "lib/index.js",
   "module": "lib/index.js",

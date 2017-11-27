@@ -1,6 +1,6 @@
 {
   "name": "js44d",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "4D REST Api Companion Angular library ",
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
     "build.prod": "gulp clean && ng build ",
     "lint": "ng lint",
     "trigger": "gulp trigger",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ng test"
   },
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -31,6 +31,7 @@
     "@angular/core": "^5.0.3",
     "@angular/forms": "^5.0.3",
     "@angular/platform-browser": "^5.0.3",
+    "@angular/platform-browser-dynamic": "^5.0.3",
     "ngx-bootstrap": "^1.9.3",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.18"

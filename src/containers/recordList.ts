@@ -1,5 +1,7 @@
 import { Component, ContentChild, ElementRef, ViewContainerRef, AfterContentInit, Input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
+import { FourDInterface } from '../js44D/JSFourDInterface';
 import { QueryBand } from './queryBand';
 import { AdvancedQueryComponent } from './advancedQuery';
 import { DataGrid } from '../dataGrid/dataGrid';
@@ -12,7 +14,7 @@ import { ListSelectorDialog } from '../dialogs/listSelectorDialog';
 @Component({
     selector: 'record-list',
     template: '<div class="recordList" (resize)="windowResized($event)"><ng-content></ng-content></div>',
-    providers: [ListSelectorDialog, Modal]
+    providers: [HttpClient, FourDInterface, ListSelectorDialog, Modal]
 })
 
 export class RecordList implements AfterContentInit {

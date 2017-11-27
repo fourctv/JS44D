@@ -4,17 +4,19 @@
 // ****************************
 
 import { Component, Injectable, EventEmitter, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 
 import { FourDModel } from '../js44D/JSFourDModel';
 import { FourDCollection } from '../js44D/JSFourDCollection';
-import { FourDQuery } from '../js44D/JSFourDInterface';
+import { FourDInterface, FourDQuery } from '../js44D/JSFourDInterface';
 
 @Component({
     selector: 'datagrid',
     template: `
     <div #theGrid style="height:100%;border-width: 0;">
-    </div>`
+    </div>`,
+    providers: [HttpClient, FourDInterface]
 })
 
 @Injectable()
@@ -424,12 +426,14 @@ export class DataGrid implements AfterViewInit {
     }
 
     setExternalDataSource(dataSource, columns) {
-        this.gridObject.destroy();
-        $(this.theGrid.nativeElement).empty();
+        if (this.theGrid) {
+            this.gridObject.destroy();
+            $(this.theGrid.nativeElement).empty();
 
-        this.dataSource = dataSource;
-        this.columns = columns;
-        this.initializeGrid();
+            this.dataSource = dataSource;
+            this.columns = columns;
+            this.initializeGrid();
+        }
     }
 
     getDataProvider() { return this.dataProvider; }
@@ -437,7 +441,7 @@ export class DataGrid implements AfterViewInit {
 
     private initializeGrid() {
         if (this._model) {
-            this.dataProvider = new FourDCollection(); // this is the Backbone model used to bring in records
+            this.dataProvider = new FourDCollection(); // this is the data model used to bring in records
             this.dataProvider.model = this._model;
             this.dataProvider.columns = this.columns;
         }

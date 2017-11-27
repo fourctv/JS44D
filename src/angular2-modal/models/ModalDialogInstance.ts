@@ -62,11 +62,13 @@ export class ModalDialogInstance {
      *  Close the modal with a return value, i.e: result.
      */
     close(result: any = null) {
-        if (this.contentRef.instance.beforeClose &&
-            this.contentRef.instance.beforeClose() === true) { return; }
-        //        this.dispose();
-        const dialog = $(this.contentRef.location.nativeElement).data('kendoWindow');
-        dialog.close();
+        if (this.contentRef && this.contentRef.instance) {
+            if (this.contentRef.instance.beforeClose &&
+                this.contentRef.instance.beforeClose() === true) { return; }
+            //        this.dispose();
+            const dialog = $(this.contentRef.location.nativeElement).data('kendoWindow');
+            dialog.close();
+        }
         this._resultDefered.resolve(result);
     }
 

@@ -28,8 +28,7 @@
     ],
     "exclude": [
         "node_modules",
-        "lib",
-        "ui",
+        "dist",
         "**/*.spec.ts"
     ]
 }

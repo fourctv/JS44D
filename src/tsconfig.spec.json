@@ -1,0 +1,26 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/spec",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "baseUrl": "",
+    "types": ["jquery", "kendo-ui",
+      "jasmine",
+      "node"
+    ]
+  },
+  "files": [
+    "test.ts",
+    "test.spec.ts",
+    "login/login.spec.ts"
+  ],
+  "include": [
+    "./**/*.spec.ts",
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ]
+}

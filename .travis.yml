@@ -41,5 +41,6 @@ cache:
   directories: node_modules
 
 script:
-  - npm run build && npm run trigger
+  - npm test
+  
   

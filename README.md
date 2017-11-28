@@ -19,13 +19,13 @@ npm install js44d --save
 ```
 
 ## Usage
-The library is internally split into 2 separate folders. One holding the 4D Interface service components, and another housing all the UI components/widgets.
+The library can be divided ino two sets of components: service classes and UI widgets. The Service Classes provide the interface to 4D backend. The UI widgets are not essential, but do provide some useful UI Components that use the Services Classes
 
-You reference the 4D Interface service components as:
+You reference the 4D Interface Service Classes as:
 ```
 import { FourDInterface, FourDModel, FourDCollection } from 'js44d';
 ```
-And those should be included in your **NgModule** declaration.
+They need to be included in your main **NgModule** declaration.
 
 As for UI components/widgets you reference/import them as:
 ```
@@ -38,7 +38,7 @@ import { JS44DModule, ModalModule } from 'js44d';
 
 A quick note, the UI components/widgets are **WEB ONLY**, they do not work under Nativescript, so for {N} you can use only the service components.
 
-## Services
+## 4D Interface Service Classes
 The library provides a set of service classes for accessing a 4D Database backend that has the **4D RESTApi** Component installed.
 
 ### FourDInterface
@@ -55,13 +55,13 @@ This class also provides some static variables:
 - etc..
 
 ### FourDModel
-This is a service class that provides CRUD functionality, as a Data Model base class. It provides the ability to retrieve, create, update or delete records from a table.
+This is a service class that provides CRUD functionality, acting as a Data Model base class. It provides the ability to retrieve, create, update or delete records from a 4D table.
 
 This class builds upon the Data Model functionality, as described in the [Data Model wiki page](https://github.com/fourctv/JS44D/wiki/Data-Modelling). 
 
 All 4D table's Data Models extend the **FourDModel** class, describing each of the table's fields and providing getter/setter for each field.
 
-Instances of this class, and its extensions, represent a record in the database. This service provides basic CRUD functions to access those records:
+Instances of the **FourDModel** class, and its extensions, represent a record in the database. This service provides basic CRUD functions to access those records:
 - **getRecord**: retrieves a single record from the database
 - **insertRecord**: adds a new record to the database
 - **updateRecord**: updates a record in the database
@@ -76,7 +76,7 @@ This class provides a function to retrieve a set of records from a 4D Database:
 - **getRecords**: will take a [Query String](https://github.com/fourctv/FourDRESTApi/wiki/The-JS44D-Query-String) and send a **[REST_GetRecords](https://github.com/fourctv/FourDRESTApi/wiki/REST_GetRecords)** request to 4D to retrieve a collection of 4D records. Record data comes as an array of Data Model (*FourDModel*) instances.
 
 ## UI Widgets
-The following UI widgets and components, which also interact with a 4D backend, are available for use in Angular apps.
+The following UI widgets and components, which also interact with a 4D backend, are available for use in Angular apps. Detailed documentation for each widget is found on the [wiki pages](https://github.com/fourctv/JS44D/wiki).
 
 ### Login Component
 A basic Login dialog that takes a user name and password. It calls *FourDInterface signin* function, that sends a **REST_Authenticate** request to 4D to authenticate the given user.

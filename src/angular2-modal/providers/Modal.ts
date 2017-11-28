@@ -19,7 +19,7 @@ export class Modal {
     public static hostViewRef: ViewContainerRef;
     public static openDialogList = [];
 
-    private theDialog: any;
+    public theDialog: any;
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver, private appRef: ViewContainerRef,
         @Optional() defaultConfig: ModalConfig) {
@@ -70,8 +70,8 @@ export class Modal {
                 const item = Modal.openDialogList[index];
                 const id = (dialogID && dialogID !== '') ? dialogID : componentType['name'];
                 if (item.component === id) {
-                    item.dialog.toFront(); // bring diaog to front
-                    return null;
+                    item.dialog.kendoDialog.toFront(); // bring dialog to front
+                    return item.dialog.result;
                 }
             }
         }
@@ -110,7 +110,7 @@ export class Modal {
         // if multiples not allowed, save this instance
         if (!allowMultiple) {
             const id = (dialogID && dialogID !== '') ? dialogID : componentType['name'];
-            Modal.openDialogList.push({ component: id, dialog: this.theDialog });
+            Modal.openDialogList.push({ component: id, dialog: dialogInstance });
         }
 
         return dialogInstance.result;

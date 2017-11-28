@@ -126,6 +126,11 @@ export class FourDInterface {
         FourDInterface.currentUser = user;
         FourDInterface.currentUserPassword = pwd;
 
+        // clean up previous authentication data
+        FourDInterface.authentication = null; 
+        FourDInterface.currentUserID = 0;
+        FourDInterface.sessionKey = ''; 
+
         const body = { username: Base64.encode(Utf8.utf8encode(user)), password: Base64.encode(Utf8.utf8encode(pwd)) };
 
         return new Promise((resolve, reject) => {

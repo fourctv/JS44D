@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
@@ -19,7 +20,7 @@ import { ListSelectorDialog } from './dialogs/listSelectorDialog';
 
 
 @NgModule({
-      imports: [FormsModule, CommonModule, BsDropdownModule.forRoot()],
+      imports: [FormsModule, CommonModule, HttpClientModule, BsDropdownModule.forRoot()],
       declarations: [
             QueryBand, CustomButtonBarDirective, QueryBandDirective, AdvancedQueryComponent,
             RecordEditWindow, RecordList, Tabs, Tab, WebAppContainer,
@@ -28,6 +29,7 @@ import { ListSelectorDialog } from './dialogs/listSelectorDialog';
             ListSelectorDialog,
             LoginCmp
       ],
+      providers: [HttpClient],
       exports: [
             QueryBand, CustomButtonBarDirective, QueryBandDirective, AdvancedQueryComponent,
             RecordEditWindow, RecordList, Tabs, Tab, WebAppContainer,

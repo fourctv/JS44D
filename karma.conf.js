@@ -16,6 +16,8 @@ module.exports = function (config) {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     files: [
+      'https://code.jquery.com/jquery-3.2.1.min.js',
+      'http://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"',
       { pattern: './src/test.ts', watched: false }
     ],
     preprocessors: {
@@ -37,8 +39,9 @@ module.exports = function (config) {
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: false,
+    autoWatch: true,
     browsers: ['Chrome'],
+    crossOriginAttribute: false,
     singleRun: true
   });
 };

@@ -10,50 +10,8 @@ import { DebugElement } from '@angular/core';
 import { ModalDialogInstance } from '../angular2-modal/models/ModalDialogInstance';
 import { FourDInterface, MD5 } from '../js44D/JSFourDInterface';
 
+import { JS44DModule } from '../js44D.module';
 import { LoginCmp } from './login';
-
-// ------------- trick to inject HttpClient
-
-const injector = ReflectiveInjector.resolveAndCreate(getAnnotations(HttpClientModule)[0].providers);
-
-const http = injector.get(HttpClient);
-declare let Reflect: any;
-function getAnnotations(typeOrFunc): any[]|null {
-  // Prefer the direct API.
-  if ((<any>typeOrFunc).annotations) {
-    let annotations = (<any>typeOrFunc).annotations;
-    if (typeof annotations === 'function' && annotations.annotations) {
-      annotations = annotations.annotations;
-    }
-    return annotations;
-  }
-
-  // API of tsickle for lowering decorators to properties on the class.
-  if ((<any>typeOrFunc).decorators) {
-    return convertTsickleDecoratorIntoMetadata((<any>typeOrFunc).decorators);
-  }
-
-  // API for metadata created by invoking the decorators.
-  if (Reflect && Reflect.getOwnMetadata) {
-    return Reflect.getOwnMetadata('annotations', typeOrFunc);
-  }
-  return null;
-}
-
-function convertTsickleDecoratorIntoMetadata(decoratorInvocations: any[]): any[] {
-  if (!decoratorInvocations) {
-    return [];
-  }
-  return decoratorInvocations.map(decoratorInvocation => {
-    const decoratorType = decoratorInvocation.type;
-    const annotationCls = decoratorType.annotationCls;
-    const annotationArgs = decoratorInvocation.args ? decoratorInvocation.args : [];
-    return new annotationCls(...annotationArgs);
-  });
-}
-
-// --------------- trick to inject HttpClient
-
 
 describe('LoginCmp (inline template)', () => {
 
@@ -62,14 +20,11 @@ describe('LoginCmp (inline template)', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule, CommonModule, HttpClientModule],
-            providers: [HttpClient, FourDInterface, ModalDialogInstance],
-            declarations: [
-                LoginCmp
-            ]
-        })
-            .compileComponents();
-        FourDInterface.http = http;
+            imports: [FormsModule, CommonModule, HttpClientModule, JS44DModule],
+            providers: [HttpClient, FourDInterface, ModalDialogInstance]
+        }).compileComponents();
+        
+        FourDInterface.http = TestBed.get(HttpClient);
         FourDInterface.fourDUrl = 'http://www.vakeano.com';
     }));
 
@@ -109,22 +64,21 @@ describe('LoginCmp (inline template)', () => {
         });
     }));
 
-    it('Login -> should log into 4D', async(() => {
-        component.login();
-
-        fixture.whenStable().then(() => { // wait for async get 4D Version
-            fixture.detectChanges();        // update view with 4D version
-            expect(FourDInterface.authentication).toBeTruthy();
-        });
-    }));
-
     it('Login -> should fail invalid log into 4D', async(() => {
         component.username = 'foo';
         component.login();
 
-        fixture.whenStable().then(() => { // wait for async get 4D Version
-            fixture.detectChanges();        // update view with 4D version
+        fixture.whenStable().then(() => { // wait for async log into 4D (invalid)
+            fixture.detectChanges();        
             expect(FourDInterface.authentication).toBeFalsy();
+        });
+    }));
+
+    it('Login -> should log into 4D', async(() => {
+        component.login();
+
+        fixture.whenStable().then(() => { // wait for async log into 4D (valid)
+            expect(FourDInterface.authentication).toBeTruthy();
         });
     }));
 

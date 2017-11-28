@@ -42,5 +42,6 @@ cache:
 
 script:
   - npm test
+  - npm run trigger
   
   

@@ -6,7 +6,7 @@ Pascal's [4D RESTApi](https://github.com/fourctv/FourDRESTApi) companion [Angula
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Dependency Status](https://david-dm.org/fourctv/JS44D.svg)](https://david-dm.org/fourctv/JS44D)
 [![devDependency Status](https://david-dm.org/fourctv/JS44D/dev-status.svg)](https://david-dm.org/fourctv/JS44D#info=devDependencies)
-
+[![npm version](https://badge.fury.io/js/js44d.svg)](https://badge.fury.io/js/js44d)
 
 This library includes a series of Angular services, components and UI widgets, that interface to a 4D Database backend via **[4D RESTApi](https://github.com/fourctv/FourDRESTApi)** component. The **4D RESTApi** Component must be installed in the 4D Database, and Web Serving must be enabled.
 

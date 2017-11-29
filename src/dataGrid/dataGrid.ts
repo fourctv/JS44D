@@ -3,7 +3,7 @@
 //    based on kendoui-grid: http://demos.telerik.com/kendo-ui/grid/index
 // ****************************
 
-import { Component, Injectable, EventEmitter, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { Component, EventEmitter, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -19,7 +19,6 @@ import { FourDInterface, FourDQuery } from '../js44D/JSFourDInterface';
     providers: [HttpClient, FourDInterface]
 })
 
-@Injectable()
 export class DataGrid implements AfterViewInit {
     //
     // Declare kendui-grid configuration

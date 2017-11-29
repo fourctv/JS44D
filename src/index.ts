@@ -1,10 +1,12 @@
+import { fourDModule } from './fourD.module';
 import { JS44DModule } from './js44D.module';
 import { ModalModule } from './modal.module';
 
-export { FourDInterface, FourDQuery, MD5, FourDModel, FourDCollection } from './js44D';
+export { fourDModule } from './fourD.module';
 export { JS44DModule } from './js44D.module';
 export { ModalModule } from './modal.module';
 
+export { FourDInterface, FourDQuery, MD5, FourDModel, FourDCollection } from './js44D';
 export { QueryBand, CustomButtonBarDirective, QueryBandDirective } from './containers/queryBand';
 export { AdvancedQueryComponent } from './containers/advancedQuery';
 export { RecordList } from './containers/recordList';

@@ -1,5 +1,5 @@
-import { Injectable, Inject, EventEmitter } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, Inject, EventEmitter, ReflectiveInjector } from '@angular/core';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Base64 } from './base64';
 import { Utf8 } from './utf8';
@@ -40,7 +40,54 @@ export let calculateHash = function (formData: Object) {
 /* tslint */
 
 /**
- * A collecion of static functions to communicate with 4D backend
+ *  SOme weird stuff to dynamically inject HTTPCLient manually
+ *   need to do this because for some reason I cannot inject it directly via constructor
+ *  datagrid instantiation code keeps gneerating a rutime error saying HttpClient is not declared as provider
+ *   although it is indeed declared all over the place...
+ * 
+ * ******** TBD: find out and fix that, or improve the code below because I'm afraid it may fail in the future
+ */
+declare let Reflect: any;
+function getAnnotations(typeOrFunc): any[]|null {
+  // Prefer the direct API.
+  if ((<any>typeOrFunc).annotations) {
+    let annotations = (<any>typeOrFunc).annotations;
+    if (typeof annotations === 'function' && annotations.annotations) {
+      annotations = annotations.annotations;
+    }
+    return annotations;
+  }
+
+  // API of tsickle for lowering decorators to properties on the class.
+  if ((<any>typeOrFunc).decorators) {
+    return convertTsickleDecoratorIntoMetadata((<any>typeOrFunc).decorators);
+  }
+
+  // API for metadata created by invoking the decorators.
+  if (Reflect && Reflect.getOwnMetadata) {
+    return Reflect.getOwnMetadata('annotations', typeOrFunc);
+  }
+  return null;
+}
+
+function convertTsickleDecoratorIntoMetadata(decoratorInvocations: any[]): any[] {
+  if (!decoratorInvocations) {
+    return [];
+  }
+  return decoratorInvocations.map(decoratorInvocation => {
+    const decoratorType = decoratorInvocation.type;
+    const annotationCls = decoratorType.annotationCls;
+    const annotationArgs = decoratorInvocation.args ? decoratorInvocation.args : [];
+    return new annotationCls(...annotationArgs);
+  });
+}
+/**
+ * end of the weird code, that needs to be reviewed... it does work in ng5.0.3
+ */
+
+
+/**
+ * Main 4D backend interface code
  */
 @Injectable()
 export class FourDInterface {
@@ -70,7 +117,9 @@ export class FourDInterface {
     /**
       * point to the HTTP service we'll use
       */
-    public static http: HttpClient;
+    private injector = ReflectiveInjector.resolveAndCreate(getAnnotations(HttpClientModule)[0].providers);
+    private httpClient = this.injector.get(HttpClient);
+
 
     //
     // cache variables 
@@ -79,6 +128,7 @@ export class FourDInterface {
     private static _registryCache: Array<any> = [];
 
     public static userHasSignedIn: EventEmitter<any> = new EventEmitter();
+
 
 
     /**
@@ -93,7 +143,7 @@ export class FourDInterface {
         body.Sessionkey = FourDInterface.sessionKey;
         body.hash = calculateHash(body);
 
-        return FourDInterface.http.post(FourDInterface.fourDUrl + '/4DAction/' + fourdMethod, convertObjectToURL(body), options);
+        return this.httpClient.post(FourDInterface.fourDUrl + '/4DAction/' + fourdMethod, convertObjectToURL(body), options);
 
     }
 
@@ -109,7 +159,7 @@ export class FourDInterface {
         body.Sessionkey = FourDInterface.sessionKey;
         body.hash = calculateHash(body);
 
-        return FourDInterface.http.post(FourDInterface.fourDUrl + '/4DAction/REST_ProxyHTTPGet',
+        return this.httpClient.post(FourDInterface.fourDUrl + '/4DAction/REST_ProxyHTTPGet',
             convertObjectToURL(body), {});
 
     }

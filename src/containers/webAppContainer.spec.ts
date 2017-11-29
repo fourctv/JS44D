@@ -20,7 +20,6 @@ describe('WebAppContainer (inline template)', () => {
 
     let component: WebAppContainer;
     let fixture: ComponentFixture<WebAppContainer>;
-    //let fourd: FourDInterface;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -28,7 +27,6 @@ describe('WebAppContainer (inline template)', () => {
             providers: [HttpClient, FourDInterface, ModalDialogInstance]
         }).compileComponents();
 
-        FourDInterface.http = TestBed.get(HttpClient);
         FourDInterface.fourDUrl = 'http://www.vakeano.com';
     }));
 

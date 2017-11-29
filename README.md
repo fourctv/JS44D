@@ -19,24 +19,51 @@ npm install js44d --save
 ```
 
 ## Usage
-The library can be divided ino two sets of components: service classes and UI widgets. The Service Classes provide the interface to 4D backend. The UI widgets are not essential, but do provide some useful UI Components that use the Services Classes
+The library can be divided into three sets of components: 4D Service classes, UI widgets and a Modal Dialog Service class. The 4D Service Classes provide the interface to 4D backend. The UI widgets are not essential, but do provide some useful UI Components that use the Services Classes. The Modal Dialog provides funcionality to open multiple floating Dialog windows, similar to Windows MDI funcionality.
+
+Each of the three sets are declared in a separate **NgModule**: _fourDModule_, _JS44DModule_ and _ModalModule_.
 
 You reference the 4D Interface Service Classes as:
 ```
 import { FourDInterface, FourDModel, FourDCollection } from 'js44d';
 ```
-They need to be included in your main **NgModule** declaration.
+They need to be included in your main **NgModule** declaration, by using the _fourDModule_.
 
-As for UI components/widgets you reference/import them as:
+As for UI components/widgets and the Modal dialog service, you reference/import them as:
 ```
 import { widget } from 'js44d';
 ```
-And you need to also include the UI modules in your **NgModule** declaration, where you use them, as in:
+
+You need to include the modules in your **NgModule** declaration, where you use them, as in:
 ```
-import { JS44DModule, ModalModule } from 'js44d';
+...
+import { fourDModule, JS44DModule, ModalModule } from 'js44d';
+...
+@NgModule({
+  imports: [
+    ...,
+    fourDModule, JS44DModule, ModalModule
+  ]
+  ],
+  exports: [fourDModule, JS44DModule, ModalModule],
+
 ```
 
-A quick note, the UI components/widgets are **WEB ONLY**, they do not work under Nativescript, so for {N} you can use only the service components.
+A quick note, the UI components/widgets are **WEB ONLY**, they do not work under Nativescript, so for {N} you can use only the service components. For NativeScript your module declaration should look something like this:
+```
+...
+import { FourDInterface, FourDModel, FourDCollection } from 'js44d';
+...
+
+@NgModule({
+    ...
+    providers: [
+        ...,
+        FourDInterface, FourDModel, FourDCollection
+    ],
+...
+```
+
 
 ## 4D Interface Service Classes
 The library provides a set of service classes for accessing a 4D Database backend that has the **4D RESTApi** Component installed.

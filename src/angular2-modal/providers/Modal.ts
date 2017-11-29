@@ -95,7 +95,7 @@ export class Modal {
             modal: config.isModal,
             pinned: false,
             resizable: config.isResizable,
-            close: (event) => { this.closeDialog(event, this.theDialog); }
+            close: (event) => { this.closeDialog(event, dialogInstance); }
         }).data('kendoWindow');
         if (config.selfCentered) {
             this.theDialog.center().open();
@@ -117,16 +117,16 @@ export class Modal {
 
     }
 
-    public closeDialog(event, theDialog) {
+    public closeDialog(event, theDialogInstance) {
         // console.log(event, theDialog);
         for (let index = 0; index < Modal.openDialogList.length; index++) {
             const item = Modal.openDialogList[index];
-            if (item.dialog === theDialog) {
+            if (item.dialog === theDialogInstance) {
                 Modal.openDialogList.splice(index);
             }
         }
 
-        theDialog.destroy();
+        theDialogInstance.kendoDialog.destroy();
     }
 
     /**

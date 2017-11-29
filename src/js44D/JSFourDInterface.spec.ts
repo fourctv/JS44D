@@ -1,5 +1,4 @@
 import { async, inject, fakeAsync, tick, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
 
 import { FourDInterface, MD5 } from '../js44D/JSFourDInterface';
 
@@ -11,7 +10,7 @@ describe('FourDInterface Service', () => {
     it('FourDInterface -> should get 4D version', async(() => {
         fourD.call4DRESTMethod('REST_GetApplicationVersion', {}, { responseType: 'text' })
         .subscribe((v) => { 
-            console.log(v);
+            console.log('4D version: '+v);
             expect(v).not.toBe('');
         });
     }));

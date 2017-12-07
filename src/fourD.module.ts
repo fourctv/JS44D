@@ -2,7 +2,9 @@
 import { NgModule } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-import { FourDInterface, FourDModel, FourDCollection } from './js44D';
+import { FourDInterface } from './js44D/JSFourDInterface';
+import { FourDModel } from './js44D/JSFourDModel';
+import { FourDCollection } from './js44D/JSFourDCollection';
 
 
 @NgModule({

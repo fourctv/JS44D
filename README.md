@@ -19,7 +19,7 @@ npm install js44d --save
 ```
 
 ## Usage
-The library can be divided into three sets of components: 4D Service classes, UI widgets and a Modal Dialog Service class. The 4D Service Classes provide the interface to 4D backend. The UI widgets are not essential, but do provide some useful UI Components that use the Services Classes. The Modal Dialog provides funcionality to open multiple floating Dialog windows, similar to Windows MDI funcionality.
+The library can be divided into three sets of components: 4D Service classes, UI widgets and a Modal Dialog Service class. The 4D Service Classes provide the interface to a 4D backend. The UI widgets are not essential, but do provide some useful UI Components that use the Services Classes. The Modal Dialog provides funcionality to open multiple floating Dialog windows, similar to Windows MDI funcionality.
 
 Each of the three sets are declared in a separate **NgModule**: _fourDModule_, _JS44DModule_ and _ModalModule_.
 
@@ -27,14 +27,14 @@ You reference the 4D Interface Service Classes as:
 ```
 import { FourDInterface, FourDModel, FourDCollection } from 'js44d';
 ```
-They need to be included in your main **NgModule** declaration, by using the _fourDModule_.
+They need to be included in your main **NgModule** declaration, by importing the _fourDModule_.
 
 As for UI components/widgets and the Modal dialog service, you reference/import them as:
 ```
-import { widget } from 'js44d';
+import { ..widget.. } from 'js44d';
 ```
 
-You need to include the modules in your **NgModule** declaration, where you use them, as in:
+You need to import the modules in your **NgModule** declaration, where you use them, as in:
 ```
 ...
 import { fourDModule, JS44DModule, ModalModule } from 'js44d';
@@ -49,7 +49,7 @@ import { fourDModule, JS44DModule, ModalModule } from 'js44d';
 
 ```
 
-A quick note, the UI components/widgets are **WEB ONLY**, they do not work under Nativescript, so for {N} you can use only the service components. For NativeScript your module declaration should look something like this:
+A quick note, the UI components/widgets are **WEB ONLY**, they do not work under Nativescript, so for {N} you can use only the 4D Service Classes. For NativeScript your module declaration should look something like this:
 ```
 ...
 import { FourDInterface, FourDModel, FourDCollection } from 'js44d';
@@ -72,7 +72,7 @@ The library provides a set of service classes for accessing a 4D Database backen
 This is the base service class that implements most of the calls to **4D RESTApi**.
 
 The two key functions made available by this class are:
-- **call4DRESTMethod**: a wrapper function to enable calling any **4D RESTApi** entry point; it automatically adds a *Session Key* and a *hash* to each HTTP POST request sent to 4D, which are required by the **4D RESTApi** Component; this function is used by all other services and components to send requests to 4D.
+- **call4DRESTMethod**: a wrapper function to enable calling any **4D RESTApi** entry point; it automatically adds a *Session Key* and a *hash* tokens to each HTTP POST request sent to 4D, which are required by the **4D RESTApi** Component; this function is used by all other services and components to send requests to 4D.
 - **signin**: a function that will send a **REST_Authenticate** sign in request to 4D and process 4D's response.
 
 This class also provides some static variables:
@@ -82,7 +82,7 @@ This class also provides some static variables:
 - etc..
 
 ### FourDModel
-This is a service class that provides CRUD functionality, acting as a Data Model base class. It provides the ability to retrieve, create, update or delete records from a 4D table.
+This is a service class that provides CRUD functionality, acting as a Data Model base class. It provides the ability to retrieve, create, update or delete records from any 4D table.
 
 This class builds upon the Data Model functionality, as described in the [Data Model wiki page](https://github.com/fourctv/JS44D/wiki/Data-Modelling). 
 
@@ -100,7 +100,7 @@ Additional functions are described in the **[FourDModel](https://github.com/four
 A service class that represents a collection of 4D records. It is basically an Array of **FourDModel** derived instances.
 
 This class provides a function to retrieve a set of records from a 4D Database:
-- **getRecords**: will take a [Query String](https://github.com/fourctv/FourDRESTApi/wiki/The-JS44D-Query-String) and send a **[REST_GetRecords](https://github.com/fourctv/FourDRESTApi/wiki/REST_GetRecords)** request to 4D to retrieve a collection of 4D records. Record data comes as an array of Data Model (*FourDModel*) instances.
+- **getRecords**: will take a [Query String](https://github.com/fourctv/FourDRESTApi/wiki/The-JS44D-Query-String) and send a **[REST_GetRecords](https://github.com/fourctv/FourDRESTApi/wiki/REST_GetRecords)** request to 4D to retrieve a collection of 4D records. Record data comes as an Array of Data Model (*FourDModel*) instances.
 
 ## UI Widgets
 The following UI widgets and components, which also interact with a 4D backend, are available for use in Angular apps. Detailed documentation for each widget is found on the [wiki pages](https://github.com/fourctv/JS44D/wiki).
@@ -135,7 +135,7 @@ Additionally the widget provides a button bar with functionality to add/edit/del
 This is a Web App wrapper component, that ensures that the application component runs authenticated. If upon app initialization, it is not yet authenticated to a 4D backend, this component will display a **Login** dialog to get user credentials and authenticate the user.
 
 ### 4D List DropDown Control
-This is an HTML **select** drop down whose items are obtained from a 4D Choice List. One of the parameters to this widget is the choice list name.
+This is an HTML **select** drop down whose items are obtained directly from a 4D Choice List. One of the parameters to this widget is the choice list name.
 
 Example:
 ```

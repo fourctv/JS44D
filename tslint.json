@@ -2,6 +2,7 @@
   "rulesDirectory": [
     "node_modules/codelyzer"
   ],
+  "linterOptions": {"exclude": ["**/js44D/utf8.ts", "**/js44D/base64.ts"]},
   "rules": {
     "callable-types": true,
     "class-name": true,

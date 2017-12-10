@@ -12,4 +12,4 @@ import { FourDCollection } from './js44D/JSFourDCollection';
       providers: [HttpClient, FourDInterface, FourDModel, FourDCollection],
       exports: [HttpClientModule]
 })
-export class fourDModule { }
+export class FourDModule { }

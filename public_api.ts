@@ -1,4 +1,4 @@
-export { fourDModule } from './src/fourD.module';
+export { FourDModule } from './src/fourD.module';
 export { JS44DModule } from './src/js44D.module';
 export { ModalModule } from './src/modal.module';
 

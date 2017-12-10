@@ -1,6 +1,6 @@
 {
   "name": "js44d",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "4D REST Api Companion Angular library ",
   "repository": {
     "type": "git",
@@ -12,10 +12,9 @@
     "url": "https://github.com/fourctv/JS44D/issues"
   },
   "scripts": {
-    "build": "gulp clean && tsc",
+    "docs": "compodoc -p tsconfig.json -d /Users/jcarneiro/Documents/fourctv.github.io/js44D",
     "packagr": "ng-packagr -p ng-package.json",
-    "build.prod": "gulp clean && ng build ",
-    "lint": "ng lint",
+    "lint": "tslint -p tslint.json",
     "trigger": "gulp trigger",
     "test": "ng test"
   },

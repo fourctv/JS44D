@@ -4,11 +4,11 @@ export class Base64 {
 
 	/*--------------------------------------------------------------------------*/
 
-	InvalidCharacterError = function(message) {
+	InvalidCharacterError = function (message) {
 		this.message = message;
 	};
-	
-	private static error = function(message) {
+
+	private static error = function (message) {
 		// Note: the error messages used throughout this file match those used by
 		// the native `atob`/`btoa` implementation in Chromium.
 		throw new this.InvalidCharacterError(message);
@@ -22,7 +22,7 @@ export class Base64 {
 	// HTML Standard. http://whatwg.org/html/webappapis.html#dom-windowbase64-atob
 	// The optimized base64-decoding algorithm used is based on @atk’s excellent
 	// implementation. https://gist.github.com/atk/1020396
-	public static decode(input):string {
+	public static decode(input): string {
 		input = String(input)
 			.replace(Base64.REGEX_SPACE_CHARACTERS, '');
 		var length = input.length;
@@ -60,7 +60,7 @@ export class Base64 {
 
 	// `encode` is designed to be fully compatible with `btoa` as described in the
 	// HTML Standard: http://whatwg.org/html/webappapis.html#dom-windowbase64-btoa
-	public static encode(input):string {
+	public static encode(input): string {
 		input = String(input);
 		if (/[^\0-\xFF]/.test(input)) {
 			// Note: no need to special-case astral symbols here, as surrogates are

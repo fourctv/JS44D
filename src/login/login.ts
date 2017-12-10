@@ -69,13 +69,13 @@ export class LoginCmp implements ICustomModalComponent {
 
     constructor(public dialog: ModalDialogInstance, private fourD: FourDInterface) {
         this.fourD.call4DRESTMethod('REST_GetApplicationVersion', {}, { responseType: 'text' })
-            .subscribe((v) => { 
-                this.fourDVersion = v; 
+            .subscribe((v) => {
+                this.fourDVersion = v;
             });
     }
 
     login() {
-        //event.preventDefault();
+        // event.preventDefault();
         const md5pwd: string = MD5.md5(this.password);
         this.fourD.signIn(this.username, md5pwd.toUpperCase())
             .then((authentication) => {
@@ -83,7 +83,7 @@ export class LoginCmp implements ICustomModalComponent {
                     // console.log('authenticated');
 
                     this.showError = false;
-                    if (this.dialog) this.dialog.close('loggedin');
+                    if (this.dialog) { this.dialog.close('loggedin'); }
                 } else {
                     console.log('oops');
                     this.showError = true;

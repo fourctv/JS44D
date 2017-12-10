@@ -21,13 +21,13 @@ npm install js44d --save
 ## Usage
 The library can be divided into three sets of components: 4D Service classes, UI widgets and a Modal Dialog Service class. The 4D Service Classes provide the interface to a 4D backend. The UI widgets are not essential, but do provide some useful UI Components that use the Services Classes. The Modal Dialog provides funcionality to open multiple floating Dialog windows, similar to Windows MDI funcionality.
 
-Each of the three sets are declared in a separate **NgModule**: _fourDModule_, _JS44DModule_ and _ModalModule_.
+Each of the three sets are declared in a separate **NgModule**: _FourDModule_, _JS44DModule_ and _ModalModule_.
 
 You reference the 4D Interface Service Classes as:
 ```
 import { FourDInterface, FourDModel, FourDCollection } from 'js44d';
 ```
-They need to be included in your main **NgModule** declaration, by importing the _fourDModule_.
+They need to be included in your main **NgModule** declaration, by importing the _FourDModule_.
 
 As for UI components/widgets and the Modal dialog service, you reference/import them as:
 ```
@@ -37,15 +37,15 @@ import { ..widget.. } from 'js44d';
 You need to import the modules in your **NgModule** declaration, where you use them, as in:
 ```
 ...
-import { fourDModule, JS44DModule, ModalModule } from 'js44d';
+import { FourDModule, JS44DModule, ModalModule } from 'js44d';
 ...
 @NgModule({
   imports: [
     ...,
-    fourDModule, JS44DModule, ModalModule
+    FourDModule, JS44DModule, ModalModule
   ]
   ],
-  exports: [fourDModule, JS44DModule, ModalModule],
+  exports: [FourDModule, JS44DModule, ModalModule],
 
 ```
 

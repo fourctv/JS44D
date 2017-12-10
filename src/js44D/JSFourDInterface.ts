@@ -115,19 +115,23 @@ export class FourDInterface {
     public static runningInsideWorkspace = false;
 
     /**
-      * point to the HTTP service we'll use
-      */
-    private injector = ReflectiveInjector.resolveAndCreate(getAnnotations(HttpClientModule)[0].providers);
-    private httpClient = this.injector.get(HttpClient);
+     * Event emitted when user has successfully signed into 4D
+     */
+    public static userHasSignedIn: EventEmitter<any> = new EventEmitter();
 
-
-    //
-    // cache variables 
-    //
+    /**
+     * cache variables 
+     */
     private static _listCache: any = {};
     private static _registryCache: Array<any> = [];
 
-    public static userHasSignedIn: EventEmitter<any> = new EventEmitter();
+    
+
+    /**
+      * point to the HTTP service we'll use
+      */
+    private injector = ReflectiveInjector.resolveAndCreate(getAnnotations(HttpClientModule)[0].providers);  
+    private httpClient = this.injector.get(HttpClient);    
 
 
 

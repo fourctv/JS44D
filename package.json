@@ -16,7 +16,8 @@
     "packagr": "ng-packagr -p ng-package.json",
     "lint": "tslint -p tslint.json",
     "trigger": "gulp trigger",
-    "test": "ng test"
+    "test": "ng test",
+    "install": "npm i @angular/common@5  @angular/compiler@5 @angular/core@5 @angular/forms@5 @angular/platform-browser@5 @angular/platform-browser-dynamic@5 rxjs@5.5.2 zone.js jquery ngx-bootstrap & npm i"
   },
   "main": "lib/index.js",
   "module": "lib/index.js",

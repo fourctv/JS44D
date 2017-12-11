@@ -24,6 +24,7 @@
   "homepage": "https://github.com/fourctv/JS44D#readme",
   "bundleDependencies": false,
   "deprecated": false,
+  "dependencies": {},
   "peerDependencies": {
     "@angular/common": ">=4.3.0 || >5.0.0",
     "@angular/compiler": ">=4.3.0 || >5.0.0",

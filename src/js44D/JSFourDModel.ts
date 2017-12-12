@@ -228,6 +228,7 @@ export class FourDModel {
                              value = '<![CDATA['+Base64.encodeByteArray(ba)+']]>'; // if blob, wrap data inside a cdata
                              }
                              */
+                            recordData['fields'][field.longname] = this[fieldName];
                             break;
 
                         default:

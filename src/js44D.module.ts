@@ -18,6 +18,8 @@ import { DataGrid } from './dataGrid/dataGrid';
 import { LoginCmp } from './login/login';
 import { ListSelectorDialog } from './dialogs/listSelectorDialog';
 
+import { Base64ImageRef } from './pipes/Base64ImageRef.pipe';
+
 
 @NgModule({
       imports: [FormsModule, CommonModule, HttpClientModule, BsDropdownModule.forRoot()],
@@ -27,6 +29,7 @@ import { ListSelectorDialog } from './dialogs/listSelectorDialog';
             FourDDropDown, QuickFindInput,
             DataGrid,
             ListSelectorDialog,
+            Base64ImageRef,
             LoginCmp
       ],
       providers: [HttpClient],
@@ -36,6 +39,7 @@ import { ListSelectorDialog } from './dialogs/listSelectorDialog';
             FourDDropDown, QuickFindInput,
             DataGrid,
             ListSelectorDialog,
+            Base64ImageRef,
             LoginCmp
       ],
       entryComponents: [LoginCmp, AdvancedQueryComponent, ListSelectorDialog]

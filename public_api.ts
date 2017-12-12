@@ -17,6 +17,8 @@ export { DataGrid } from './src/dataGrid/dataGrid';
 export { LoginCmp } from './src/login/login';
 export { ListSelectorDialog } from './src/dialogs/listSelectorDialog';
 
+export { Base64ImageRef } from './src/pipes/Base64ImageRef.pipe';
+
 export { ICustomModal } from './src/angular2-modal/models/ICustomModal';
 export { ICustomModalComponent } from './src/angular2-modal/models/ICustomModalComponent';
 export { ModalConfig } from './src/angular2-modal/models/ModalConfig';

@@ -1,0 +1,411 @@
+@import './scss/variables';
+
+/* Reset */
+html, body, div {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Box-sizing border-box */
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+
+/* platform specific */
+.desktop lang-switcher {
+  display: none;
+}
+
+/* add our css declarations */
+
+/* doiuse-disable */
+@font-face {
+  src: url("/assets/fonts/Gotham-Book.ttf");
+  font-family: GothamBook;
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  src: url("/assets/fonts/Gotham-BookItalic.ttf");
+  font-family: GothamBook;
+  font-style: italic;
+  font-weight: normal;
+}
+
+@font-face {
+  src: url("/assets/fonts/Gotham-Book.ttf");
+  font-family: GothamBook;
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  src: url("/assets/fonts/Gotham-BookItalic.ttf");
+  font-family: GothamBook;
+  font-style: italic;
+  font-weight: bold;
+}
+
+@font-face {
+  src: url("/assets/fonts/Gotham-Medium.ttf");
+  font-family: GothamMedium;
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  src: url("/assets/fonts/Gotham-MediumItalic.ttf");
+  font-family: GothamMedium;
+  font-style: italic;
+  font-weight: normal;
+}
+
+@font-face {
+  src: url("/assets/fonts/Gotham-Medium.ttf");
+  font-family: GothamMedium;
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  src: url("/assets/fonts/Gotham-MediumItalic.ttf");
+  font-family: GothamMedium;
+  font-style: italic;
+  font-weight: bold;
+}
+
+/* doiuse-enable */
+
+/* Box-sizing border-box */
+* {
+  box-sizing: border-box;
+}
+
+/* Set up a default font and some padding to provide breathing room */
+body {
+  font-family: Roboto, GothamBook, sans-serif;
+  font-size: 12px;
+  background-color: #eaeef1;
+  color: #222221;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+label input {
+  font-weight: normal;
+  font-size: 12px;
+  font-family: GothamBook;
+}
+
+.webComponent {
+    position: absolute;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    height: calc(100% - 115px);
+    width: calc(100% - 15px);
+}
+
+/*
+  4C-TV Text Styles used in various Controls
+*/
+.checkBoxes {
+  font-weight: normal;
+  font-size: 12px;
+  font-family: GothamBook;
+}
+
+.comments {
+  font-style: italic;
+  font-size: 9pt;
+  font-family: GothamBook;
+}
+
+.fieldData {
+  font-weight: normal;
+  font-size: 12px;
+  font-family: GothamBook;
+}
+
+.fieldEntry {
+  font-weight: normal;
+  font-size: 12px;
+  font-family: GothamBook;
+}
+
+.fieldPrompt {
+  font-weight: normal;
+  font-size: 12px;
+  font-family: GothamBook;
+}
+
+label.fieldPrompt {
+    padding-right:10px;
+}
+
+.fieldPromptBold {
+  font-weight: bold;
+  font-size: 12px;
+  font-family: GothamMedium;
+}
+
+label.fieldPromptBold {
+    padding-right:10px;
+}
+
+.formHeader {
+  font-weight: bold;
+  font-size: 18pt;
+  font-family: GothamMedium;
+}
+
+.formHeaderSmall {
+  font-weight: bold;
+  font-size: 14pt;
+  font-family: GothamMedium;
+}
+
+.largeFieldEntry {
+  font-size: 14pt;
+  font-weight: bold;
+  font-family: GothamBook;
+}
+
+.listHeader {
+  font-weight: bold;
+  font-size: 12px;
+  font-family: GothamBook;
+}
+
+.largeButton {
+  font-family: GothamMedium;
+  font-size: 18px;
+  font-weight: bold;
+  background-image: linear-gradient(to bottom right, #333c40, #282828);
+  box-shadow: 2px 2px 2px 2px white;
+  color: white;
+  min-width: 40px;
+  min-height: 31px;
+  border-radius: 10px;
+}
+
+.largeButton:hover {
+  background-image: linear-gradient(to bottom, #6f7f9f, #333c40, #282828);
+  cursor:pointer;
+}
+
+.regularButton {
+  font-family: GothamMedium;
+  font-size: 12px;
+  font-weight: bold;
+  background-image: linear-gradient(to bottom right, #333c40, #282828);
+  box-shadow: 2px 2px 2px 2px white;
+  color: white;
+  min-width: 40px;
+  min-height: 18px;
+  border-radius: 14px;
+}
+
+.regularButton:disabled {
+  color: dimgrey;
+}
+
+.regularButton:hover {
+  background-image: linear-gradient(to bottom, #6f7f9f, #333c40, #282828);
+  cursor:pointer;
+}
+
+.smallButton {
+  font-family: GothamBook;
+  font-size: 10px;
+  font-weight: bold;
+  background-image: linear-gradient(to bottom right, #333c40, #282828);
+  box-shadow: 2px 2px 2px 2px white;
+  color: white;
+  min-width: 30px;
+  min-height: 16px;
+  border-radius: 14px;
+}
+
+.smallButton:hover {
+  background-image: linear-gradient(to bottom, #6f7f9f, #333c40, #282828);
+  cursor:pointer;
+
+}
+
+.tinyButtons {
+  font-family: GothamBook;
+  font-weight: normal;
+  font-size: 8px;
+  background-image: linear-gradient(to bottom right, #333c40, #282828);
+  box-shadow: 2px 2px 2px 2px white;
+  color: white;
+  min-width: 26px;
+  min-height: 13px;
+  border-radius: 12px;
+}
+
+.tinyButtons:hover {
+  background-image: linear-gradient(to bottom, #6f7f9f, #333c40, #282828);
+  cursor:pointer;
+}
+
+.title {
+  font-weight: normal;
+  font-size: 12pt;
+  font-family: GothamMedium;
+}
+
+.dropDownList {
+  background-image: linear-gradient(to bottom right, #333c40, #282828);
+  box-shadow: 2px 2px 2px 2px white;
+  border-radius: 10px;
+  color: white;
+}
+
+.dropDownList:hover {
+  background-image: linear-gradient(to bottom, #6f7f9f, #333c40, #282828);
+  cursor:pointer;
+}
+
+.recordList {
+  height: 100%;
+}
+
+.titledGroupBox {
+    padding: 0 5px 5px 5px;
+    margin-bottom: 15px;
+    border: 1px groove gray;
+}
+
+.buttonBar {
+    float:right;
+    padding-right: 40px;
+    padding-top: 10px;
+}
+
+legend {
+    width:initial;
+    padding: 0 5px 0 5px;
+    margin-bottom: 10px;
+    border: 0;
+}
+
+.formPanel {
+    margin:15px;
+}
+
+.tabPane {
+    padding: 12px;
+    border:1px solid #ddd;
+}
+
+/* KendoUI Window */
+.k-window {
+  border-color: black;
+  -webkit-box-shadow: 1px 1px 7px 1px black;
+  box-shadow: 1px 1px 7px 1px black;
+  background-color: #ffffff;
+  border-width: 2px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  line-height: 1.42857143;
+}
+
+div.k-window {
+  display: inline-block;
+  position: absolute;
+  z-index: 10001;
+  border-style: solid;
+  border-width: 2px;
+  padding-top: 2em;
+}
+
+/* doiuse-disable */
+.k-window-action {
+   -webkit-filter: invert(100%);
+   filter: invert(100%);
+}
+
+/* doiuse-enable */
+
+.k-window-titlebar {
+  background-image: linear-gradient(to bottom, #6f7f9f, #333c40, #6f7f9f);
+  box-shadow: 0 0 0 1px black;
+  color: whitefff;
+}
+
+.k-window-title {
+  font-weight: bold;
+  font-size: 14px;
+  font-family: GothamMedium;
+  color: white;
+}
+.quickFinder-query-icon {
+    background-image: url("/assets/icons/advancedQueryIcon.png");
+}
+
+.quickFinder-clear-icon {
+    background-image: url("/assets/icons/clearIcon.png");
+    }
+
+.quickFinder-export-icon {
+    background-image: url("/assets/icons/exportIcon.png");
+    }
+
+.quickFinder-manageSets-icon {
+    background-image: url("/assets/icons/manageSetsIcon.png");
+}
+
+.quickFinder-qff-icon {
+    background-image: url("/assets/icons/queryFromFileIcon.png");
+}
+
+.quickFinder-refresh-icon {
+    background-image: url("/assets/icons/refreshIcon.png");
+}
+
+.quickFinder-sort-icon {
+    background-image: url("/assets/icons/sortIcon.png");
+}
+
+.imdb-icon {
+    background-image: url("/assets/icons/IMDBLogo.jpg");
+    border-color: transparent;
+    width: 48px;
+    height: 48px;
+    display:inline-block;
+}
+
+.yes-icon {
+    background-image: url("/assets/icons/yesIcon.jpg");
+    border-color: transparent;
+    width: 24px;
+    height: 24px;
+    background-size: 24px 24px;
+    display:inline-block;
+}
+
+.no-icon {
+    background-image: url("/assets/icons/noIcon.jpg");
+    border-color: transparent;
+    width: 16px;
+    height: 16px;
+    background-size: 16px 16px;
+    display:inline-block;
+}

@@ -12,6 +12,8 @@ This library includes a series of Angular services, components and UI widgets, t
 
 Detailed documentation for each service/component in this library can be found on the [wiki here](https://github.com/fourctv/JS44D/wiki). Following is a quick run down of the library contents.
 
+There is a step by step procedure to get started with the **4D RESTApi** component and this library at this [wiki page.](https://github.com/fourctv/JS44D/wiki/Let's-Get-Started) That page will instruct you on how to get going on the 4D and Angular sides.
+
 ## Installation
 Install `js44d` library using `npm`, as:
 ```

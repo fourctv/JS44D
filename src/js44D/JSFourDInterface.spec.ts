@@ -5,8 +5,14 @@ import { FourDInterface, MD5 } from '../js44D/JSFourDInterface';
 describe('FourDInterface Service', () => {
     let fourD: FourDInterface;
 
-    beforeEach(() => { fourD = new FourDInterface })
+    beforeEach(() => { 
+        fourD = new FourDInterface;
+    })
 
+    beforeEach(async(() => {
+        FourDInterface.fourDUrl = 'http://www.vakeano.com';
+    }));
+    
     it('FourDInterface -> should get 4D version', async(() => {
         fourD.call4DRESTMethod('REST_GetApplicationVersion', {}, { responseType: 'text' })
             .subscribe((v) => {

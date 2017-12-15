@@ -191,6 +191,8 @@ export class FourDInterface {
             this.call4DRESTMethod('REST_Authenticate', body)
                 .subscribe(resultJSON => {
                     if (resultJSON.valid) {
+                        FourDInterface.currentUser = user;
+                        FourDInterface.currentUserPassword = pwd;
                         FourDInterface.authentication = resultJSON.session; // save authentication
                         FourDInterface.currentUserID = resultJSON.session.options._userID;
                         FourDInterface.sessionKey = resultJSON.session.key; // and the session ID we'll use from now on...

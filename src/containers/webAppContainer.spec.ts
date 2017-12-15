@@ -34,20 +34,10 @@ describe('WebAppContainer (inline template)', () => {
         fixture = TestBed.createComponent(WebAppContainer);
         component = fixture.componentInstance;
         fixture.detectChanges();
-        // fourd = TestBed.get(FourDInterface);
     });
 
     it('WebAppComponent -> should show Login dialog', () => {
         expect(component.modal.theDialog.title()).toBe('Login');
     });
 
-    it('WebAppComponent -> should log into 4D', async(inject([FourDInterface], (fourD: FourDInterface) => {
-        fixture.detectChanges();
-        fourD.signIn('admin', MD5.md5('admin')).then(() => { // try to sign into 4D
-            expect(FourDInterface.currentUser).toBe('admin', 'user name not properly set!');
-            expect(FourDInterface.authentication).toBeTruthy('no authentication received');
-            expect(FourDInterface.authentication.options.isAdmin).toBeTruthy('user should have admin privileges');
-            expect(FourDInterface.sessionKey).not.toBe('', 'no session key received');
-        });
-    })));
 });

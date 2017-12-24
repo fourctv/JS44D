@@ -13,6 +13,7 @@
   },
   "scripts": {
     "docs": "compodoc -p tsconfig.json -d /Users/jcarneiro/Documents/fourctv.github.io/js44D",
+    "docserve": "compodoc -p tsconfig.json -d /Users/jcarneiro/Documents/fourctv.github.io/js44D -s -w",
     "packagr": "ng-packagr -p ng-package.json",
     "lint": "tslint -p tslint.json",
     "trigger": "gulp trigger",

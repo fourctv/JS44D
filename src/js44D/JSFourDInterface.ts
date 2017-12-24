@@ -42,7 +42,7 @@ export let calculateHash = function (formData: Object) {
 /**
  *  SOme weird stuff to dynamically inject HTTPCLient manually
  *   need to do this because for some reason I cannot inject it directly via constructor
- *  datagrid instantiation code keeps gneerating a rutime error saying HttpClient is not declared as provider
+ *  datagrid instantiation code keeps generating a runtime error saying HttpClient is not declared as provider
  *   although it is indeed declared all over the place...
  * 
  * ******** TBD: find out and fix that, or improve the code below because I'm afraid it may fail in the future
@@ -81,9 +81,9 @@ function convertTsickleDecoratorIntoMetadata(decoratorInvocations: any[]): any[]
     return new annotationCls(...annotationArgs);
   });
 }
-/**
- * end of the weird code, that needs to be reviewed... it does work in ng5.0.3
- */
+//
+// end of the weird code, that needs to be reviewed... it does work in ng5.0.3
+//
 
 
 /**
@@ -94,9 +94,20 @@ export class FourDInterface {
     //
     // Global Properties
     //
+    /**
+     * The Authentication object received from 4D after user sign's in.
+     * 
+     * It holds the Session Key, user privileges and attributes.
+     */
     public static authentication: any;
+
+    /** name of current user logged into 4D */
     public static currentUser = '';
+    
+    /** ID of current user logged into 4D */
     public static currentUserID = 0;
+
+    /** password of current user logged into 4D */
     public static currentUserPassword = '';
 
     /**
@@ -110,7 +121,7 @@ export class FourDInterface {
     public static sessionKey = '';
 
     /**
-     * indicates if web app is running standalone or inside workspace
+     * indicates if web app is running standalone or inside a workspace
      */
     public static runningInsideWorkspace = false;
 
@@ -119,29 +130,30 @@ export class FourDInterface {
      */
     public static userHasSignedIn: EventEmitter<any> = new EventEmitter();
 
-    /**
-     * cache variables 
-     */
+    /** 4D lists entries are cached to optimize traffic to/from 4D</b></p> */
     private static _listCache: any = {};
+
+    /** Registry entries are cached to optimize traffic to/from 4D</b></p> */
     private static _registryCache: Array<any> = [];
 
     
 
-    /**
-      * point to the HTTP service we'll use
-      */
     private injector = ReflectiveInjector.resolveAndCreate(getAnnotations(HttpClientModule)[0].providers);  
+    /**
+      * point to the HTTPClient service we'll use
+      */
     private httpClient = this.injector.get(HttpClient);    
 
 
 
     /**
-     * Generic function to call 4D backend using Angular2 HTTP 
+     * Generic function to call 4D backend using Angular5 HTTPClient. <p>A Session Key and payload hash code with be added to each request as required by FourDRESTApi.</p>
      * 
-     * 	@param fourdMethod: 4D's method name
-     * 	@param body: the request body to send to 4D, an object that will be converted to URLSearchParams
+     * 	@param fourdMethod 4D method name to call, one of the FourDRESTApi entry points
+     * 	@param body the request body to send to 4D, an object that will be converted to URLSearchParams
+     * 	@param options additional, optional, HTTPClient post options
      * 
-     * @return returns a Promise for the database operation
+     * @returns returns an Observable for the database operation; caller can subscribe to it and act upon the request completion
      */
     public call4DRESTMethod(fourdMethod: string, body: any, options?: any): Observable<any> {
         body.Sessionkey = FourDInterface.sessionKey;
@@ -152,11 +164,11 @@ export class FourDInterface {
     }
 
     /**
-     * Generic function to call 4D backend using Angular2 HTTP 
+     * Call 4D backend REST_ProxyHTTPGet entry point to proxy a URL request thru 4D in order to avoid CORS issues 
      * 
-     * 	@param url: the utl request to proxy thru 4D
+     * 	@param url: the URL request to proxy thru 4D
      * 
-     * @return returns a Promise for the database operation
+     * @returns returns an Observable for the database operation
      */
     public proxyURLThru4D(url: string): Observable<any> {
         const body: any = { url: Base64.encode(Utf8.utf8encode(url)) };
@@ -170,10 +182,12 @@ export class FourDInterface {
 
 
     /**
-     * Sign into 4D backend 
+     * Sign in to 4D backend 
      * 
      * 	@param user: user name
      * 	@param pwd: MD5 password digest
+     * 
+     * @returns returns a Promise that can be subscribed to to handle the request completion; the Promise result is the Authentication object returned by 4D
      * 
      */
     public signIn(user, pwd): Promise<any> {
@@ -215,13 +229,11 @@ export class FourDInterface {
     }
 
     /**
-     * Gets the values of a 4D Choice List.
+     * Gets the values of a 4D Choice List. <p><i>4D lists entries are cached to optimize traffic to/from 4D</i></p>
      * 
      * 	@param listName the 4D Choice List name
      * 
-     * @return returns a Promise for the database operation
-     * 
-     * <p><b>4D lists are cached to optimize traffic to/from 4D</b></p>
+     * @returns returns a Promise for the database operation, whose result is a string Array with all the choice list values
      * 
      **/
     public get4DList(listName: string): Promise<Array<string>> {
@@ -275,7 +287,7 @@ export class FourDInterface {
       * 
      * @param listName 4D list name
      * @param selector the hierarchical selector, only items under that selector in the hierarchy will be returned
-     * @return returns a Promise for the database operation
+     * @returns returns a Promise for the database operation
      * 
      */
     public getFiltered4DList(listName: string, selector: string): Promise<Array<string>> {
@@ -297,14 +309,14 @@ export class FourDInterface {
     }
 
     /**
-     * Function getRegistryValue: get current registry value
+     *  Get current Registry entry value. <p><i>Registry entries are cached to optimize traffic to/from 4D</i></p>
      * 
      * @param theClass the Registry Class to retrieve
      * @param theParameter the Registry Parameter to retrieve (optional, if blank gets all values for the Registry Class)
      * @param theDefaultValue a default value to return, in case the Registry entry is not defined in 4D
      * @param theSelector the Registry Selector to retrieve (optional, if blank gets all values for the Registry Class/Parameter)
      * 
-     * @return returns a Promise for the database operation
+     * @returns returns a Promise for the database operation
      * 
      * <b>Retrieved Registry entries are cached in to optimize traffic to/from 4D </b>
      * 
@@ -341,7 +353,7 @@ export class FourDInterface {
 
 
     /**
-     * Function setRegistryValue: set a registry entry value
+     * Sets a Registry entry value
      * 
      * @param theClass the Registry Class to set
      * @param theParameter the Registry Parameter to set
@@ -371,7 +383,7 @@ export class FourDInterface {
      * Converts a DOM date to 4D format (YYYYMMDD).
      *  
      * @param theDate a DOM date value
-     * @return a 4D formatted date string (YYYYMMDD)
+     * @returns a 4D formatted date string (YYYYMMDD)
      * 
      */
     public dateTo4DFormat(theDate: Date): string {
@@ -603,13 +615,24 @@ export class MD5 {
 
 }
 
+/**
+ * Describes the properties of a 4D Query String  - [see RESTApi documentation](https://github.com/fourctv/FourDRESTApi/wiki/The-JS44D-Query-String)
+ */
 export class FourDQuery {
+    /** a simple 4D query, where the items in the query terms array are similar to 4D Query lines and have the following format: <b>table.field; comparator ; argument; [and, or]</b>.  */
     query?: Array<any>;
+    /** an union of multiple queries, items in the array are FourDQuery instances */
     union?: Array<any>;
+    /** an intersection of multiple queries, items in the array are FourDQuery instances */
     intersection?: Array<any>;
+    /** a custom 4D method to perform the query, other properties in the item are sent to the method to determine the query to perform */
     custom?: string;
-    joinTable?: string;
-    joinPK?: string;
-    joinFK?: string;
+    /** sets a join between a related tabled; query terms are applied to the join table and <b>joinPK</b> and <b>joinFK</b> establishes the links between the two tables */
     join?: Array<any>;
+    /** the join table, a table name */
+    joinTable?: string;
+    /** the join table primary key used to establish the join */
+    joinPK?: string;
+    /** the main table foreign key used to establish the join */
+    joinFK?: string;
 }

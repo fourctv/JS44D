@@ -6,19 +6,42 @@ import { Utf8 } from './utf8';
 import { FourDInterface, FourDQuery } from './JSFourDInterface';
 import { FourDCollection } from './JSFourDCollection';
 
+/**
+ * This is the description for each field in a Data Model
+ */
 export interface IFieldDescription {
+    /** the field name, must be unique in the Data Model */
     name: string;
+    /** the field dot long name, in the format 'table.field', applicable if a database field */
     longname: string;
+    /** the field type, possible values are: string, number, Number, Date, time, boolean, blob, json, picture */
     type: string;
+    /** if field is a calculated value, this is a 4D expresstion that returns the field contents */
     formula: string;
+    /** if field is a subtable <i>(related many table)</i>, this is the FourDModel that represents records in that table */
     subTable: FourDModel;
+    /** not used */
     className: string;
+    /** if field is a subtable, this is the foreign key field in the main table */
     joinFK: string;
+    /** if field is a subtable, this is the primary key field in the related many table */
     joinPK: string;
+    /** indicates field comes from a related table */
     isrelated: boolean;
+    /** if field is a foreign key that relates to a one table, this is the related one field name in dot long format */
+    relatesTo: string;
+    /** indicates field is read only, and can't me modified */
     readonly: boolean;
+    /** the choice list associated to the field */
     list: string;
+    /** field is a required field, cannot be empty or null */
     required: boolean;
+    /** indicates that the field is indexed on 4D side */
+    indexed: boolean;
+    /** field is unique */
+    unique: boolean;
+    /** if an alpha field, the field length as defined in the 4D Structure */
+    length: number;
 }
 
 /**
@@ -28,19 +51,20 @@ export interface IFieldDescription {
 export class FourDModel {
     /** 4D's Table name */
     public tableName = '';
-    /** 4D's table number*/
+    /** 4D's table number */
     public tableNumber = 0;
-    /** Tabl's primary key field name */
+    /** Table's primary key field name */
     public primaryKey_: string;
 
+    /** record number field/attribute name, usually '_recnum' */
     public idAttribute = '_recnum';
 
+    /** Table definition, array describing all fields in the Data Model and how they map to the 4D Structure */
     public fields: Array<IFieldDescription> = [];
 
-    /**
-     * callback methods to be executed on 4D side before a Save or Delete operation
-     */
+    /** callback method to be executed on 4D side before a Save operation */
     public fourdSaveCallbackMethod_: string;
+    /** callback method to be executed on 4D side before a Delete operation */
     public fourdDeleteCallbackMethod_: string;
 
     // -----------------------
@@ -68,14 +92,14 @@ export class FourDModel {
 
 
     /**
-     * get a field value
+     * Get a field value
      */
     get(field: string): any {
         return this._attributes[field];
     }
 
     /**
-     * set a field value
+     * Set a field value, updates field modified flag
      */
     set(field: string, value: any) {
         if (this.getFieldDescription(field).type === 'Date') {
@@ -98,9 +122,12 @@ export class FourDModel {
     }
 
     /**
-     * return the description for a given field
+     * Returns the description for a given field
      * 
-     * @param fieldName: the field name to get properties for
+     * @param fieldName the field name to get properties for
+     * 
+     * @returns the field name properties, an IFieldDescription instance
+     * 
      */
     getFieldProperties(fieldName): IFieldDescription {
         let ret: IFieldDescription = null;
@@ -112,12 +139,13 @@ export class FourDModel {
 
 
     /**
-     * clear up all record fields
+     * Clears up all record fields
      */
     clearRecord() {
         for (const field of this.fields) {
             switch (field.type) {
                 case 'date':
+                case 'Date':
                     this[field.name] = '';
                     break;
 
@@ -129,6 +157,7 @@ export class FourDModel {
                     this[field.name] = false;
                     break;
 
+                case 'string':
                 case 'text':
                     this[field.name] = '';
                     break;
@@ -155,9 +184,12 @@ export class FourDModel {
     }
 
     /**
-     * serialize record data into its JSON representation as used in 4D
+     * Serializes record data into its JSON representation as used in 4D
      *
-     * @return record as JSON string
+     * @param mode can be 'insert' or 'update', if mode is 'update' the JSON string will contain only fields that have been modified
+     * @param noAudit 'no audit' flag to be sent to 4D, if 'true' record audit log will be disabled 
+     * 
+     * @returns record contents as JSON string
      *
      */
     recordToJSON(mode: string, noAudit: boolean): string {
@@ -247,14 +279,14 @@ export class FourDModel {
 
 
     /**
-     * Retrieve a record from 4D and populate its instance variables.
+     * Retrieve a record from 4D and populates the Data Model.
      *
      * @param recordNumber the record # to retrieve (optional, it defaults to the currentRecordNumber property)
      * @param recordID primary key value for the record to retrieve (optional, it defaults to the currentRecordNumber property)
      *    if specified the record is retrieved by querying on its primary key field
      * @param query query string for the record to retrieve (optional, it defaults to the currentRecordNumber property)
      * 
-     * @return returns a Promise for the database operation
+     * @returns returns a Promise for the database operation, whose result is the FourDModel instance
      *
      *
      */
@@ -323,7 +355,7 @@ export class FourDModel {
     /**
      * Refresh current record, grab a fresh copy from 4D
      *
-     * @return returns a Promise for the database operation
+     * @returns returns a Promise for the database operation, whose result is the FourDModel instance
      *
      */
     public refresh(): Promise<FourDModel> {
@@ -339,11 +371,9 @@ export class FourDModel {
 
 
     /**
-     * insert a new record in the database.
+     * Insert a new record in the database.
      *
-     * @return returns a Promise for the database operation
-     *
-     * <p><i>the primary key property is set after the record is inserted</i></p>
+     * @returns returns a Promise for the database operation, whose result is the FourDModel instance. <p><i>the primary key property is set after the record is inserted</i></p>
      *
      */
     public insertRecord(): Promise<string> {
@@ -376,9 +406,9 @@ export class FourDModel {
     }
 
     /**
-     * update record in the database.
+     * Update record in the database.
      *
-     * @return returns a Promise for the database operation
+     * @returns returns a Promise for the database operation, whose result is the FourDModel instance
      *
      */
     public updateRecord(): Promise<string> {
@@ -415,11 +445,11 @@ export class FourDModel {
     }
 
     /**
-     * delete current record
+     * Delete record from the database
      *
      * @param cascade true|false indicates if 4D should perform a cascade delete (optional, default=false)
      *
-     * @return returns a Promise for the database operation
+     * @returns returns a Promise for the database operation, whose result is the FourDModel instance
      *
      */
     public deleteRecord(cascade: boolean = false): Promise<string> {
@@ -457,9 +487,9 @@ export class FourDModel {
     }
 
     /**
-     * Populates model from attributes/properties on a json Object
+     * Populates model with attributes/properties from a json Object
      *
-     *  @param recordData json object whoe properties will be used to populate model
+     *  @param recordData json object whose properties will be used to populate the Data Model
      */
     public populateModelData(recordData: Object) {
         if (recordData.hasOwnProperty('_recnum')) { this.recordNumber = recordData['_recnum']; }
@@ -478,20 +508,15 @@ export class FourDModel {
     /**
      * Retrieves a list of records using a query string
      *
-     * @param query
-     * 	@param columnList custom column list to retrieve, JSON listing the columns to retrieve.
-     * <p>if informed, only the columns listed will be retrieved instead of the whole record</p>
-     *
+     *  @param query the FourDQuery object that defines the query to be used for retrieving from 4D
+     * 	@param columns custom column list to retrieve, JSON array of the columns to retrieve. <p>if informed, only the columns listed will be retrieved instead of the whole record</p>
      * 	@param startRec the starting record number to retrieve, used for paging.
      * 	@param numOfRecords the number of records to retrieve, the default -1 will retrieve all records in the resulting query.
-     *  @param filterOptions
-     *  @param orderBy optional order By clause to retrieve records in a set order.
-     * <p> in the format:</p>
-     *    &gt;table.field : to sort records by table.field in ascending order
-     *    &lt;table.field : to sort records by table.field in descending order
+     *  @param filter optional, FourDQuery to further filter records to he retrieved
+     *  @param orderby optional order By clause to retrieve records in a set order. <p> in the format:</p><p>    &gt;table.field : to sort records by table.field in ascending order</p><p>    &lt;table.field : to sort records by table.field in descending order</p>
      *
      *
-     * @return returns a Promise for the database operation
+     * @returns returns a Promise for the database operation, whose result is a FourDCollection with the query results
      */
     public getRecords(query: FourDQuery = null,
         columns: Array<string> = null,
@@ -510,8 +535,9 @@ export class FourDModel {
     }
 
     /**
-     * @public
-       * @return current record number (4D's record number, equivalent to ROWID)
+     * Get the current record's record number
+     * 
+     *  @returns current record number (4D's record number, equivalent to ROWID)
      *
      */
     public get recordNumber(): number {
@@ -520,11 +546,9 @@ export class FourDModel {
     public set recordNumber(v: number) { this._recnum = v; }
 
     /**
-     * @public
      * Checks to see if a record is currently loaded
      *
-     * @param field field description for the Class definition
-     * @return true if field is on a related table
+     * @returns true if a record is loaded into this FourDModel instance
      *
      */
     public isRecordLoaded(): boolean {
@@ -533,9 +557,10 @@ export class FourDModel {
 
 
     /**
-     * clear record modified flag.
+     * Clears record modified flag.
+     * 
      * This can be used when one changes a record programmatically, but does not want to set the record modified flag.
-     * Fon exampe on records initialization
+     * For example on record initialization.
      *
      */
     public clearRecordDirtyFlag() {
@@ -544,9 +569,9 @@ export class FourDModel {
 
 
     /**
-     * test to see if current record has been modified.
+     * Check if current record has been modified.
      *
-     * @return true indicates that some of the record's properties/fields has been modified.
+     * @returns true indicates that record contents have been modified.
      *
      */
     public recordIsDirty(): boolean {
@@ -558,7 +583,9 @@ export class FourDModel {
 
 
     /**
-     * prepares the record's JSON field description to send to 4D
+     * Prepares the record's JSON field description to send to 4D
+     * 
+     * @returns JSON string representing all fields in the Data Model
      */
     public getColumnListJSON(): string {
         const colList: Array<Object> = [];
@@ -587,7 +614,11 @@ export class FourDModel {
     }
 
     /**
-     * returns an array with all fields defined for this data model
+     * Gets a list of fields in the Data Model
+     * 
+     * @param includeSubTables if 'true', includes fields in subtables defined in the Data Model
+     * 
+     * @returns an array with all fields defined for this data model
      */
     public getColumnList(includeSubTables: boolean = false): Array<any> {
         const cols: Array<any> = [];
@@ -604,7 +635,10 @@ export class FourDModel {
 
     /**
      * Returns a field's longname, given its field name
+     * 
      * @param fieldName the field name
+     * 
+     * @returns the field dot longname, as 'table.field'
      */
     public getLongname(fieldName: string): string {
         for (const field of this.fields) {
@@ -620,8 +654,11 @@ export class FourDModel {
     // -----------------------
 
     /**
-     * Returns a field's longname, given its field name
+     * Returns a field's data model description
+     * 
      * @param fieldName the field name
+     * 
+     * @returns the field's iFieldDescription
      */
     private getFieldDescription(fieldName: string): IFieldDescription {
         for (const field of this.fields) {
@@ -632,7 +669,6 @@ export class FourDModel {
     }
 
     /**
-     * @private
      * Checks to see if a field is from a related table
      *
      * @param field field description for the Class definition
@@ -644,11 +680,10 @@ export class FourDModel {
     }
 
     /**
-     * @private
-     * Checks to see if a field contents has been modified
+     * Checks to see if a field contents have been modified
      *
      * @param field field/property name
-     * @return true if field has been modified
+     * @returns true if field has been modified
      *
      */
     private isModifiedField(field: string): boolean {
@@ -656,11 +691,11 @@ export class FourDModel {
     }
 
     /**
-     * @private
      * Checks to see if a field is a calculated field
      *
-     * @param field field description for the Class definition
-     * @return true if field is on a related table
+     * @param field field description from the Data Model
+     * 
+     * @returns true if field is formula, a calculated field
      *
      */
     private isCalculatedField(field: IFieldDescription): boolean {
@@ -668,11 +703,10 @@ export class FourDModel {
     }
 
     /**
-     * @private
      * Checks to see if a field is a related many subtable
      *
-     * @param field field description for the Class definition
-     * @return true if field is a related many subtabletable
+     * @param field field description from the Data Model
+     * @returna true if field is a related many subtable
      *
      */
     private isSubtable(field: IFieldDescription): boolean {
@@ -680,11 +714,10 @@ export class FourDModel {
     }
 
     /**
-     * @private
      * Checks to see if a field is read only
      *
-     * @param field field description for the Class definition
-     * @return true if field is read only
+     * @param field field description from the Data Model
+     * @returns true if field is read only
      *
      */
     private isReadOnly(field: IFieldDescription): boolean {

@@ -163,3 +163,10 @@ A simple horizontal tab component, that provides functionality to allow user to 
 
 ![](https://i.gyazo.com/28da0be86dec85749ef72e3438d2711d.gif)
 
+
+# Contributors 
+
+[<img alt="Julio Carneiro" src="https://avatars1.githubusercontent.com/u/15777910?v=3&s=117" width="117">](https://github.com/fourctv) |
+:---: |
+[Julio Carneiro](https://github.com/fourctv) |
+

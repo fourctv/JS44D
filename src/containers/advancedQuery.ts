@@ -36,9 +36,9 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
         <div [ngSwitch]="queryField.field.type" style="margin-left: 5px; align-self: center;">
             <input *ngSwitchCase="'string'"  [name]="queryField.id" type="text" class="fieldEntry"  style="width:180px;height:20px;" [(ngModel)]="queryField.value"/>
             <input *ngSwitchCase="'Date'"  [name]="queryField.id" type="date" class="fieldEntry"  style="width:125px;height:20px;" [(ngModel)]="queryField.value"/>
-            <input *ngSwitchCase="'Time'"  [name]="queryField.id" type="time" class="fieldEntry"  style="width:100px;height:20px;" [(ngModel)]="queryField.value"/>
+            <input *ngSwitchCase="'time'"  [name]="queryField.id" type="time" class="fieldEntry"  style="width:100px;height:20px;" [(ngModel)]="queryField.value"/>
             <input *ngSwitchCase="'number'"  [name]="queryField.id" type="number" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
-            <input *ngSwitchCase="'float'"  [name]="queryField.id" type="number" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
+            <input *ngSwitchCase="'Number'"  [name]="queryField.id" type="number" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
             <input *ngSwitchCase="'boolean'"  [name]="queryField.id" type="checkbox" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
         
         </div>

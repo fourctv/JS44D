@@ -150,6 +150,7 @@ export class FourDModel {
                     break;
 
                 case 'time':
+                case 'Time':
                     this[field.name] = '';
                     break;
 
@@ -230,10 +231,12 @@ export class FourDModel {
                             break;
 
                         case 'time':
+                        case 'Time':
                             recordData['fields'][field.longname] = this[fieldName];
                             break;
 
                         case 'number':
+                        case 'Number':
                             recordData['fields'][field.longname] = Number(this[fieldName]);
                             break;
 

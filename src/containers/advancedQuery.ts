@@ -37,11 +37,17 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
             <input *ngSwitchCase="'string'"  [name]="queryField.id" type="text" class="fieldEntry"  style="width:180px;height:20px;" [(ngModel)]="queryField.value"/>
             <input *ngSwitchCase="'Date'"  [name]="queryField.id" type="date" class="fieldEntry"  style="width:125px;height:20px;" [(ngModel)]="queryField.value"/>
             <input *ngSwitchCase="'time'"  [name]="queryField.id" type="time" class="fieldEntry"  style="width:100px;height:20px;" [(ngModel)]="queryField.value"/>
+            <input *ngSwitchCase="'Time'"  [name]="queryField.id" type="time" class="fieldEntry"  style="width:100px;height:20px;" [(ngModel)]="queryField.value"/>
             <input *ngSwitchCase="'number'"  [name]="queryField.id" type="number" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
             <input *ngSwitchCase="'Number'"  [name]="queryField.id" type="number" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
+            <input *ngSwitchCase="'float'"  [name]="queryField.id" type="number" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
             <input *ngSwitchCase="'boolean'"  [name]="queryField.id" type="checkbox" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
-        
-        </div>
+            <label *ngSwitchCase="'any'" class="fieldEntry" >Can't query on Object fields</label>
+            <label *ngSwitchCase="'json'" class="fieldEntry" >Can't query on Object fields</label>
+            <label *ngSwitchCase="'blob'" class="fieldEntry" >Can't query on Blob fields</label>
+            <label *ngSwitchCase="'Blob'" class="fieldEntry" >Can't query on Blob fields</label>
+            <label *ngSwitchCase="'picture'" class="fieldEntry" >Can't query on Picture fields</label>
+            </div>
         <div style="margin-left: 5px; align-self: center;" [hidden]="queryFieldList.length < 2 || queryField.id === 'query0'">
             <select   (change)='queryField.connector = $event.target.value' [(value)]='queryField.connector' style="height:20px;">
                 <option value='And' >And</option>

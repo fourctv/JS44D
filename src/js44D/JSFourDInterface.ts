@@ -619,20 +619,22 @@ export class MD5 {
  * Describes the properties of a 4D Query String  - [see RESTApi documentation](https://github.com/fourctv/FourDRESTApi/wiki/The-JS44D-Query-String)
  */
 export class FourDQuery {
-    /** a simple 4D query, where the items in the query terms array are similar to 4D Query lines and have the following format: <b>table.field; comparator ; argument; [and, or]</b>.  */
+    /** Value is a string Array that corresponds to a simple 4D query. The items in the query terms array are similar to 4D Query lines and have the following format: <b>table.field; comparator ; argument; [and, or]</b>.  */
     query?: Array<any>;
-    /** an union of multiple queries, items in the array are FourDQuery instances */
+    /** Value is a SQL Where clause string, that is used on a QUERY BY SQL on 4D side */
+    sql?: string;
+    /** An union of multiple queries, value is a FourDQuery instances Array. Results from each query are combined in a set union */
     union?: Array<any>;
-    /** an intersection of multiple queries, items in the array are FourDQuery instances */
+    /** An intersection of multiple queries, value is a FourDQuery instances Array. Results from each query are combined in a set intersection */
     intersection?: Array<any>;
-    /** a custom 4D method to perform the query, other properties in the item are sent to the method to determine the query to perform */
+    /** Value is a string that corresponds to a 4D method name. Method is called to perform the query. Other properties in the FourDQuery instance are sent to the method to determine the query to perform */
     custom?: string;
-    /** sets a join between a related tabled; query terms are applied to the join table and <b>joinPK</b> and <b>joinFK</b> establishes the links between the two tables */
+    /** Sets a join between a related tabled; query terms are applied to the join table and <b>joinPK</b> and <b>joinFK</b> establishes the links between the two tables */
     join?: Array<any>;
-    /** the join table, a table name */
+    /** A join query property. This is the join table, a table name */
     joinTable?: string;
-    /** the join table primary key used to establish the join */
+    /** A join query property. The join table primary key used to establish the join */
     joinPK?: string;
-    /** the main table foreign key used to establish the join */
+    /** A join query property. The main table foreign key used to establish the join */
     joinFK?: string;
 }

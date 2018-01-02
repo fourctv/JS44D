@@ -2,7 +2,6 @@ import { async, inject, fakeAsync, tick, ComponentFixture, TestBed } from '@angu
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ReflectiveInjector } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { By } from '@angular/platform-browser';

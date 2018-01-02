@@ -39,51 +39,6 @@ export let calculateHash = function (formData: Object) {
 };
 /* tslint */
 
-/**
- *  SOme weird stuff to dynamically inject HTTPCLient manually
- *   need to do this because for some reason I cannot inject it directly via constructor
- *  datagrid instantiation code keeps generating a runtime error saying HttpClient is not declared as provider
- *   although it is indeed declared all over the place...
- * 
- * ******** TBD: find out and fix that, or improve the code below because I'm afraid it may fail in the future
- */
-declare let Reflect: any;
-function getAnnotations(typeOrFunc): any[]|null {
-  // Prefer the direct API.
-  if ((<any>typeOrFunc).annotations) {
-    let annotations = (<any>typeOrFunc).annotations;
-    if (typeof annotations === 'function' && annotations.annotations) {
-      annotations = annotations.annotations;
-    }
-    return annotations;
-  }
-
-  // API of tsickle for lowering decorators to properties on the class.
-  if ((<any>typeOrFunc).decorators) {
-    return convertTsickleDecoratorIntoMetadata((<any>typeOrFunc).decorators);
-  }
-
-  // API for metadata created by invoking the decorators.
-  if (Reflect && Reflect.getOwnMetadata) {
-    return Reflect.getOwnMetadata('annotations', typeOrFunc);
-  }
-  return null;
-}
-
-function convertTsickleDecoratorIntoMetadata(decoratorInvocations: any[]): any[] {
-  if (!decoratorInvocations) {
-    return [];
-  }
-  return decoratorInvocations.map(decoratorInvocation => {
-    const decoratorType = decoratorInvocation.type;
-    const annotationCls = decoratorType.annotationCls;
-    const annotationArgs = decoratorInvocation.args ? decoratorInvocation.args : [];
-    return new annotationCls(...annotationArgs);
-  });
-}
-//
-// end of the weird code, that needs to be reviewed... it does work in ng5.0.3
-//
 
 
 /**
@@ -94,6 +49,8 @@ export class FourDInterface {
     //
     // Global Properties
     //
+    public static interfaceInstance:FourDInterface;
+
     /**
      * The Authentication object received from 4D after user sign's in.
      * 
@@ -136,14 +93,12 @@ export class FourDInterface {
     /** Registry entries are cached to optimize traffic to/from 4D</b></p> */
     private static _registryCache: Array<any> = [];
 
-    
-
-    private injector = ReflectiveInjector.resolveAndCreate(getAnnotations(HttpClientModule)[0].providers);  
-    /**
-      * point to the HTTPClient service we'll use
+     /**
+      * Inject HTTPClient service we'll use
       */
-    private httpClient = this.injector.get(HttpClient);    
-
+    constructor(@Inject(HttpClient) private httpClient:HttpClient) {
+        FourDInterface.interfaceInstance = this;
+    }
 
 
     /**

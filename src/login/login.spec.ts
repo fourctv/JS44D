@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ReflectiveInjector } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { By } from '@angular/platform-browser';

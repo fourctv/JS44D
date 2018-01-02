@@ -1,4 +1,4 @@
-import { Component, Input, ReflectiveInjector } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { ModalDialogInstance } from '../angular2-modal/models/ModalDialogInstance';
 import { ICustomModalComponent } from '../angular2-modal/models/ICustomModalComponent';

@@ -41,8 +41,9 @@ export class FourDCollection {
     //
     constructor() {
         // inject FourDInterface
-        const injector = ReflectiveInjector.resolveAndCreate([FourDInterface]);
-        this.fourD = injector.get(FourDInterface);
+        //const injector = ReflectiveInjector.resolveAndCreate([FourDInterface]);
+        //this.fourD = injector.get(FourDInterface);
+        this.fourD = FourDInterface.interfaceInstance;
     }
 
     /**

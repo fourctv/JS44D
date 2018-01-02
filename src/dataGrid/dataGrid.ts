@@ -3,7 +3,7 @@
 //    based on kendoui-grid: http://demos.telerik.com/kendo-ui/grid/index
 // ****************************
 
-import { Component, EventEmitter, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { Component, EventEmitter, ViewChild, AfterViewInit, Input, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -233,6 +233,7 @@ export class DataGrid implements AfterViewInit {
         pageSize: this.pageSize
     });
 
+    constructor(@Inject(HttpClient) private http:HttpClient, @Inject(FourDInterface) private fourD:FourDInterface ) {}
 
     @ViewChild('theGrid') public theGrid: any;
 

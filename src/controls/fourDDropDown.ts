@@ -25,7 +25,7 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
 export class FourDDropDown implements AfterViewInit {
     @Input() public listName: string;
     @Input() public selectedValue: string;
-    public listOptions: Array<string> = [];
+    @Input() public listOptions: Array<string> = [];
 
     constructor(private fourD: FourDInterface) { }
 

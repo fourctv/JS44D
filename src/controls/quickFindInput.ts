@@ -9,7 +9,7 @@ import 'rxjs/Rx';
 
 export class QuickFindInput {
 
-    public quickFind = new FormControl();
+    @Input() public quickFind = new FormControl();
     @Input() public value = '';
     public runQuickFinder: EventEmitter<any> = new EventEmitter();
 

@@ -1,7 +1,7 @@
 {
   "name": "js44d",
-  "version": "1.1.23",
-  "description": "4D REST Api Companion Angular library (Material Design version)",
+  "version": "1.1.24",
+  "description": "4D REST Api Companion Angular library",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fourctv/JS44D.git"
@@ -28,12 +28,10 @@
   "deprecated": false,
   "dependencies": { },
   "peerDependencies": {
-    "@angular/cdk": ">5.0.0",
-    "@angular/common": ">=4.3.0 || >5.0.0",
+     "@angular/common": ">=4.3.0 || >5.0.0",
     "@angular/compiler": ">=4.3.0 || >5.0.0",
     "@angular/core": ">=4.3.0 || >5.0.0",
     "@angular/forms": ">=4.3.0 || >5.0.0",
-    "@angular/material": ">=5.0.0",
     "@angular/platform-browser": ">=4.3.0 || >5.0.0",
     "@angular/platform-browser-dynamic": ">=4.3.0 || >5.0.0",
     "jquery": ">=3.2.1",

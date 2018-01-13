@@ -26,20 +26,7 @@
   "homepage": "https://github.com/fourctv/JS44D#readme",
   "bundleDependencies": false,
   "deprecated": false,
-  "dependencies": {
-    "@angular/cdk": "^5.0.4",
-    "@angular/common": "^5.2.0",
-    "@angular/compiler": "^5.2.0",
-    "@angular/core": "^5.2.0",
-    "@angular/forms": "^5.2.0",
-    "@angular/material": "^5.0.4",
-    "@angular/platform-browser": "^5.2.0",
-    "@angular/platform-browser-dynamic": "^5.2.0",
-    "jquery": "^3.2.1",
-    "ngx-bootstrap": "^2.0.0-rc.0",
-    "rxjs": "^5.5.2",
-    "zone.js": "^0.8.20"
-  },
+  "dependencies": { },
   "peerDependencies": {
     "@angular/cdk": ">5.0.0",
     "@angular/common": ">=4.3.0 || >5.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "js44d",
-  "version": "1.1.24",
+  "version": "1.1.25",
   "description": "4D REST Api Companion Angular library",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "lint": "tslint -p tslint.json",
     "trigger": "gulp trigger",
     "test": "ng test",
-    "deps": "npm i @angular/common@5  @angular/compiler@5 @angular/core@5 @angular/forms@5 @angular/platform-browser@5 @angular/platform-browser-dynamic@5 rxjs@5.5.2 zone.js jquery ngx-bootstrap @angular/material @angular/cdk & npm i"
+    "deps": "npm i @angular/common@5  @angular/compiler@5 @angular/core@5 @angular/forms@5 @angular/platform-browser@5 @angular/platform-browser-dynamic@5 rxjs@5.5.2 zone.js jquery ngx-bootstrap & npm i"
   },
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -26,9 +26,9 @@
   "homepage": "https://github.com/fourctv/JS44D#readme",
   "bundleDependencies": false,
   "deprecated": false,
-  "dependencies": { },
+  "dependencies": {},
   "peerDependencies": {
-     "@angular/common": ">=4.3.0 || >5.0.0",
+    "@angular/common": ">=4.3.0 || >5.0.0",
     "@angular/compiler": ">=4.3.0 || >5.0.0",
     "@angular/core": ">=4.3.0 || >5.0.0",
     "@angular/forms": ">=4.3.0 || >5.0.0",

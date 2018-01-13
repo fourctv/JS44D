@@ -44,9 +44,9 @@ export class CustomButtonBarDirective { }
 
     <div class="btn-group btn-group-md" style="position:absolute;right:20px">
         <ng-content select="custombuttonbar"></ng-content>
-        <button type="button" class="regularButton" style="width:70px;margin-left: 5px;" (click)="doAddRecord()" [ngClass]="enableButton('ADD')">Add</button>
-        <button type="button" class="regularButton" style="width:70px;margin-left: 5px;" (click)="doEditRecord()" [ngClass]="enableButton('EDIT')">Edit</button>
-        <button type="button" class="regularButton" style="width:70px;margin-left: 5px;" (click)="doDeleteRecord()" [ngClass]="enableButton('DEL')">Delete</button>
+        <button type="button" class="regularButton mat-raised-button mat-primary" color="primary" style="width:70px;margin-left: 5px;" (click)="doAddRecord()" [ngClass]="enableButton('ADD')">Add</button>
+        <button type="button" class="regularButton mat-raised-button mat-primary" color="primary" style="width:70px;margin-left: 5px;" (click)="doEditRecord()" [ngClass]="enableButton('EDIT')">Edit</button>
+        <button type="button" class="regularButton mat-raised-button mat-warn" color="warn" style="width:70px;margin-left: 5px;" (click)="doDeleteRecord()" [ngClass]="enableButton('DEL')">Delete</button>
     </div>
 </div>
 <div [hidden]="!queryBandIsOpen" style="margin-bottom:10px;margin-left:5px;margin-top:5px;border: 1px;border-style: ridge;padding: 5px; background-color:lightgrey;">

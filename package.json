@@ -1,7 +1,7 @@
 {
   "name": "js44d",
-  "version": "1.1.22",
-  "description": "4D REST Api Companion Angular library ",
+  "version": "1.1.23",
+  "description": "4D REST Api Companion Angular library (Material Design version)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fourctv/JS44D.git"
@@ -18,7 +18,7 @@
     "lint": "tslint -p tslint.json",
     "trigger": "gulp trigger",
     "test": "ng test",
-    "deps": "npm i @angular/common@5  @angular/compiler@5 @angular/core@5 @angular/forms@5 @angular/platform-browser@5 @angular/platform-browser-dynamic@5 rxjs@5.5.2 zone.js jquery ngx-bootstrap & npm i"
+    "deps": "npm i @angular/common@5  @angular/compiler@5 @angular/core@5 @angular/forms@5 @angular/platform-browser@5 @angular/platform-browser-dynamic@5 rxjs@5.5.2 zone.js jquery ngx-bootstrap @angular/material @angular/cdk & npm i"
   },
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -26,12 +26,27 @@
   "homepage": "https://github.com/fourctv/JS44D#readme",
   "bundleDependencies": false,
   "deprecated": false,
-  "dependencies": {},
+  "dependencies": {
+    "@angular/cdk": "^5.0.4",
+    "@angular/common": "^5.2.0",
+    "@angular/compiler": "^5.2.0",
+    "@angular/core": "^5.2.0",
+    "@angular/forms": "^5.2.0",
+    "@angular/material": "^5.0.4",
+    "@angular/platform-browser": "^5.2.0",
+    "@angular/platform-browser-dynamic": "^5.2.0",
+    "jquery": "^3.2.1",
+    "ngx-bootstrap": "^2.0.0-rc.0",
+    "rxjs": "^5.5.2",
+    "zone.js": "^0.8.20"
+  },
   "peerDependencies": {
+    "@angular/cdk": ">5.0.0",
     "@angular/common": ">=4.3.0 || >5.0.0",
     "@angular/compiler": ">=4.3.0 || >5.0.0",
     "@angular/core": ">=4.3.0 || >5.0.0",
     "@angular/forms": ">=4.3.0 || >5.0.0",
+    "@angular/material": ">=5.0.0",
     "@angular/platform-browser": ">=4.3.0 || >5.0.0",
     "@angular/platform-browser-dynamic": ">=4.3.0 || >5.0.0",
     "jquery": ">=3.2.1",

@@ -58,10 +58,10 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
 
     <div style="margin: 10px; width:550px; display: inline-flex;">
         <div style="flex-grow: 1;">
-            <button class="regularButton" style="width:100px;" (click)="moreLines()">More...</button>
-            <button class="regularButton" style="width:100px;" (click)="lessLines()" [hidden]="queryFieldList.length < 2">Less...</button>
+            <button class="regularButton mat-raised-button mat-primary" style="width:100px;" (click)="moreLines()">More...</button>
+            <button class="regularButton mat-raised-button mat-primary" style="width:100px;" (click)="lessLines()" [hidden]="queryFieldList.length < 2">Less...</button>
         </div>
-        <button class="regularButton" style="width:100px;" (click)="doQuery()">Query</button>
+        <button class="regularButton mat-raised-button mat-primary" style="width:100px;" (click)="doQuery()">Query</button>
     </div>
 
 </form>

@@ -14,7 +14,7 @@ import { ModalConfig } from '../angular2-modal/models/ModalConfig';
             </select>
             <div >
                 <label [hidden]="message == ''">{{message}}</label>
-                <button class="regularButton" style="width:70px;float:right;margin-right:5px;" (click)="ok($event)">{{buttonText}}</button>
+                <button class="regularButton mat-raised-button mat-primary" style="width:70px;float:right;margin-right:5px;" (click)="ok($event)">{{buttonText}}</button>
             </div>
         </div>
    `,

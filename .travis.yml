@@ -1,12 +1,15 @@
 language: node_js
 node_js: "8"
 
-sudo: false
+sudo: required
 
+ 
 install: true  # yarn bug
 
 addons:
-  firefox: "45.0"
+  apt:
+    packages:
+      - google-chrome-stable	
 
 os:
   - linux
@@ -21,7 +24,7 @@ before_install:
 
 before_script:
   - npm uninstall @angular/tsc-wrapped
-  - npm i @angular/common@5  @angular/compiler@5 @angular/core@5 @angular/forms@5 @angular/platform-browser@5 @angular/platform-browser-dynamic@5 rxjs@5.5.2 zone.js
+  - npm i @angular/common@5  @angular/compiler@5 @angular/core@5 @angular/forms@5 @angular/platform-browser@5 @angular/platform-browser-dynamic@5 rxjs zone.js
   - npm i jquery ngx-bootstrap
   - npm install
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi

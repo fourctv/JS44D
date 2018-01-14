@@ -3,6 +3,9 @@ node_js: "8"
 
 sudo: false
 
+-addons:		
+ -  firefox: "45.0"		
+ -
 install: true  # yarn bug
 
 os:
@@ -25,7 +28,7 @@ before_script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then nohup bash -c "webdriver-manager start 2>&1 &"; fi  # Protractor CI
 
 after_failure:
-  - cat /home/travis/build/fourctv/js44D/npm-debug.log
+  - ng -v
 
 branches:
   only: master

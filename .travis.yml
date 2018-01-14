@@ -3,9 +3,9 @@ node_js: "8"
 
 sudo: false
 
--addons:		
+addons:		
  -  firefox: "45.0"		
- -
+ 
 install: true  # yarn bug
 
 os:

@@ -51,7 +51,15 @@ import { FourDModule, JS44DModule, ModalModule } from 'js44d';
 
 ```
 
-A quick note, the UI components/widgets are **WEB ONLY**, they do not work under Nativescript, so for {N} you can use only the 4D Service Classes. For NativeScript your module declaration should look something like this:
+If you plan on using any of the UI widgets, then you need to grab a copy of the [assets folder](https://github.com/fourctv/JS44D/tree/master/assets) contents and drop all that in your own **assets** directory. You need to also add the following line to your `styles.scss` file:
+
+```
+@import './assets/main';
+```
+
+And you can edit `src/assets/main.scss` at will, to add you own styles or modify the existing styles that are used by JS44D UI Widgets.
+
+A quick note, the UI components/widgets are **WEB ONLY**, they do not work under Nativescript, so for {N} you can only use the 4D Service Classes. For NativeScript your module declaration should look something like this:
 ```
 ...
 import { FourDInterface, FourDModel, FourDCollection } from 'js44d';

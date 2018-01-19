@@ -17,8 +17,7 @@
     "build": "ng-packagr -p ng-package.json",
     "lint": "tslint -p tslint.json",
     "trigger": "gulp trigger",
-    "test": "ng test",
-    "deps": "npm i @angular/common@5  @angular/compiler@5 @angular/core@5 @angular/forms@5 @angular/platform-browser@5 @angular/platform-browser-dynamic@5 rxjs@5 zone.js jquery ngx-bootstrap & npm i"
+    "test": "ng test"
   },
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -41,7 +40,13 @@
   },
   "devDependencies": {
     "@angular/cli": "^1.6.3",
+    "@angular/common": "^5.2.1",
+    "@angular/compiler": "^5.2.1",
     "@angular/compiler-cli": "^5.2.1",
+    "@angular/core": "^5.2.1",
+    "@angular/forms": "^5.2.1",
+    "@angular/platform-browser": "^5.2.1",
+    "@angular/platform-browser-dynamic": "^5.2.1",
     "@types/jasmine": "^2.8.3",
     "@types/jquery": "^3.2.17",
     "@types/kendo-ui": "^2017.3.3",
@@ -51,6 +56,7 @@
     "gulp": "^3.9.1",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
+    "jquery": "^3.3.0",
     "karma": "^2.0.0",
     "karma-chrome-launcher": "~2.2.0",
     "karma-cli": "~1.0.1",
@@ -58,9 +64,12 @@
     "karma-jasmine": "^1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
     "ng-packagr": "^1.6.0",
+    "ngx-bootstrap": "^2.0.0-rc.1",
     "protractor": "^5.2.2",
+    "rxjs": "^5.5.6",
     "ts-node": "^4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "^2.6.2"
+    "typescript": "^2.6.2",
+    "zone.js": "^0.8.20"
   }
 }

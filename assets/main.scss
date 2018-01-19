@@ -31,6 +31,8 @@ body {
 /* add our css declarations */
 
 /* doiuse-disable */
+
+/* add Gotham-Book font family, used in our UI Widgets */
 @font-face {
   src: url("/assets/fonts/Gotham-Book.ttf");
   font-family: GothamBook;
@@ -120,7 +122,7 @@ label input {
 }
 
 /*
-  4C-TV Text Styles used in various Controls
+  JS44D Text Styles to be used in various Controls, implementing Gotham-Book font
 */
 .checkBoxes {
   font-weight: normal;
@@ -190,6 +192,7 @@ label.fieldPromptBold {
   font-family: GothamBook;
 }
 
+/* Define our buttons, in various sizes, and how they should look */
 .largeButton {
   font-family: GothamMedium;
   font-size: 18px;
@@ -313,7 +316,7 @@ legend {
     border:1px solid #ddd;
 }
 
-/* KendoUI Window */
+/* KendoUI Window, define the look for our floating dialog windows */
 .k-window {
   border-color: black;
   -webkit-box-shadow: 1px 1px 7px 1px black;
@@ -356,6 +359,8 @@ div.k-window {
   font-family: GothamMedium;
   color: white;
 }
+
+/* declare icons used on the Query Band */
 .quickFinder-query-icon {
     background-image: url("/assets/icons/advancedQueryIcon.png");
 }
@@ -384,14 +389,7 @@ div.k-window {
     background-image: url("/assets/icons/sortIcon.png");
 }
 
-.imdb-icon {
-    background-image: url("/assets/icons/IMDBLogo.jpg");
-    border-color: transparent;
-    width: 48px;
-    height: 48px;
-    display:inline-block;
-}
-
+/* declare icons used on some of the predefined modal dialogs */
 .yes-icon {
     background-image: url("/assets/icons/yesIcon.jpg");
     border-color: transparent;

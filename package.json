@@ -1,6 +1,6 @@
 {
   "name": "js44d",
-  "version": "1.1.26",
+  "version": "1.1.27",
   "description": "4D REST Api Companion Angular library",
   "repository": {
     "type": "git",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@angular/cli": "^1.6.3",
-    "@angular/compiler-cli": "^5.2.0",
+    "@angular/compiler-cli": "^5.2.1",
     "@types/jasmine": "^2.8.3",
     "@types/jquery": "^3.2.17",
     "@types/kendo-ui": "^2017.3.3",

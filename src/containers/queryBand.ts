@@ -1,4 +1,4 @@
-import { Directive, Component, EventEmitter, ElementRef, ContentChild, Input } from '@angular/core';
+import { Directive, Component, EventEmitter, ElementRef, ContentChild, Input, Output } from '@angular/core';
 
 @Directive({
     selector: 'queryband'
@@ -149,20 +149,20 @@ export class QueryBand {
     //
     // Events emitted by the QueryBand
     //
-    queryFromQBE: EventEmitter<any> = new EventEmitter();
-    queryFromFile: EventEmitter<any> = new EventEmitter();
-    queryRefresh: EventEmitter<any> = new EventEmitter();
-    querySortGrid: EventEmitter<any> = new EventEmitter();
-    queryExportGrid: EventEmitter<any> = new EventEmitter();
+    @Output() queryFromQBE: EventEmitter<any> = new EventEmitter();
+    @Output() queryFromFile: EventEmitter<any> = new EventEmitter();
+    @Output() queryRefresh: EventEmitter<any> = new EventEmitter();
+    @Output() querySortGrid: EventEmitter<any> = new EventEmitter();
+    @Output() queryExportGrid: EventEmitter<any> = new EventEmitter();
 
-    queryManageSets: EventEmitter<any> = new EventEmitter();
+    @Output() queryManageSets: EventEmitter<any> = new EventEmitter();
 
     //
     // Events emitted by the QueryBand's Button Bar
     //
-    queryAddRecord: EventEmitter<any> = new EventEmitter();
-    queryEditRecord: EventEmitter<any> = new EventEmitter();
-    queryDeleteRecord: EventEmitter<any> = new EventEmitter();
+    @Output() queryAddRecord: EventEmitter<any> = new EventEmitter();
+    @Output() queryEditRecord: EventEmitter<any> = new EventEmitter();
+    @Output() queryDeleteRecord: EventEmitter<any> = new EventEmitter();
 
     //
     // Internal variables

@@ -346,6 +346,18 @@ export class FourDInterface {
         return theDate.toJSON().substr(0, 10).replace(/-/g, '');
     }
 
+    /**
+     * Converts a 4D YMD date to DOM format .
+     *  
+     * @param theDate a 4D date value, formatted as string (YYYYMMDD)
+     * @returns a DOM date 
+     * 
+     */
+    public dateToDOMFormat(theDate: string): Date {
+        const dateValue = theDate.substr(0,4)+'/'+theDate.substr(4,2)+'/'+theDate.substr(6,2);
+        return new Date(dateValue);
+    }
+
 }
 
 

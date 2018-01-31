@@ -67,6 +67,9 @@ export class FourDModel {
     /** callback method to be executed on 4D side before a Delete operation */
     public fourdDeleteCallbackMethod_: string;
 
+    // injected FourDInterface service
+    public fourD: FourDInterface;
+
     // -----------------------
     // Private variables
     // -----------------------
@@ -76,9 +79,6 @@ export class FourDModel {
     private _attributes: Object = {};
     // keep a list of modified fields, to optimize Updates, only modified data is set to 4D
     private _modified: Object = {};
-
-    // injected FourDInterface service
-    private fourD: FourDInterface;
 
 
     /** 
@@ -538,6 +538,32 @@ export class FourDModel {
 
     }
 
+    /**
+     * Retrieves a set of variables or 4D execute formula values
+     * 
+     * @param values an Array of objects with the following format: {formula: 'a 4d formula', value:'the resulting value returned by 4D'}
+     * @param method the name of a 4D method to be called before processing the formulas
+     *
+     * @returns returns a Promise for the database operation, whose result is the values Array populated by 4D
+     */
+    public getValuesFrom4D(values:Array<any>, method:string = ''): Promise<Array<any>> {
+        const body: any = { VariablesList: Base64.encode(Utf8.utf8encode(JSON.stringify(values))) };
+        if (method && method != '') {
+            body.CallbackMethod = method;
+        }
+        return new Promise((resolve, reject) => {
+            // const me = this;
+            this.fourD.call4DRESTMethod('REST_GetValues', body)
+                .subscribe(result => {
+                    resolve(result);
+                },
+                error => {
+                    console.log('error:' + JSON.stringify(error));
+                    reject(error);
+                });
+        });
+
+    }
     /**
      * Get the current record's record number
      * 

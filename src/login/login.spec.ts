@@ -66,6 +66,8 @@ describe('LoginCmp (inline template)', () => {
         component.username = 'foo';
         component.login();
 
+        fixture.detectChanges();
+
         fixture.whenStable().then(() => { // wait for async log into 4D (invalid)
             fixture.detectChanges();        
             expect(FourDInterface.authentication).toBeFalsy();
@@ -74,6 +76,8 @@ describe('LoginCmp (inline template)', () => {
 
     it('Login -> should log into 4D', async(() => {
         component.login();
+        
+        fixture.detectChanges();
 
         fixture.whenStable().then(() => { // wait for async log into 4D (valid)
             expect(FourDInterface.authentication).toBeTruthy();

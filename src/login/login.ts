@@ -56,7 +56,7 @@ export class LoginCmp implements ICustomModalComponent {
     @Input() public password = '';
     @Input() public showError = false;
     @Input() public fourDVersion = '';
-    @Input() public webAppVersion = '1.17.05.29a';
+    @Input() public webAppVersion = '1.18.02.14a';
 
 
     public set modelContentData(parms: ICustomModal) {

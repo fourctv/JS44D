@@ -199,7 +199,11 @@ export class DataGrid implements AfterViewInit {
                 // let me = this;
                 this.dataProvider.getRecords(query, (this.optimizeGridLoading) ? this.columns : null, start, numrecs, this.dataProvider.filterOptions, orderby)
                     .then((reclist) => {
-                        options.success(this.dataProvider.models);
+                        let data = [];
+                        reclist.forEach(element => {
+                            data.push(element.extractModelData())
+                        });
+                        options.success(data);
                     });
 
             },

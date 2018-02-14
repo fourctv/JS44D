@@ -242,7 +242,7 @@ export class FourDModel {
                             break;
 
                         case 'boolean':
-                            recordData['fields'][field.longname] = this[fieldName];
+                            recordData['fields'][field.longname] = (this[fieldName])?true:false;
                             break;
 
                         case 'string':
@@ -507,6 +507,15 @@ export class FourDModel {
             }
         }
 
+    }
+
+    public extractModelData():Object {
+        let data = {_recnum: this._recnum};
+        for (const field of this.fields) {
+            data[field.name] = this.get(field.name);
+        }
+
+        return data;
     }
 
     /**

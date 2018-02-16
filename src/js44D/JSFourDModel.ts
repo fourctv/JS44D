@@ -238,7 +238,7 @@ export class FourDModel {
 
                         case 'number':
                         case 'Number':
-                            recordData['fields'][field.longname] = Number(this[fieldName]);
+                            recordData['fields'][field.longname] = +this[fieldName];
                             break;
 
                         case 'boolean':
@@ -247,8 +247,12 @@ export class FourDModel {
 
                         case 'string':
                         case 'text':
-                            // if text, wrap data inside a cdata, triming extra whitespace
-                            recordData['fields'][field.longname] = this[fieldName].trim();
+                        if (typeof(this[fieldName]) === 'string') {
+                            // if text, trim extra whitespace
+                                recordData['fields'][field.longname] = this[fieldName].trim();
+                            } else {
+                                recordData['fields'][field.longname] = this[fieldName].toString();
+                            }
                             break;
 
                         case 'json':

@@ -22,6 +22,7 @@ import { LoginCmp } from './login/login';
 import { ListSelectorDialog } from './dialogs/listSelectorDialog';
 
 import { Base64ImageRef } from './pipes/Base64ImageRef.pipe';
+import { FourDDateToString } from './pipes/FourDDateToString.pipe';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { Base64ImageRef } from './pipes/Base64ImageRef.pipe';
             DataGrid,
             ListSelectorDialog,
             Base64ImageRef,
+            FourDDateToString,
             LoginCmp
       ],
       providers: [HttpClient, FourDInterface],
@@ -43,6 +45,7 @@ import { Base64ImageRef } from './pipes/Base64ImageRef.pipe';
             DataGrid,
             ListSelectorDialog,
             Base64ImageRef,
+            FourDDateToString,
             LoginCmp
       ],
       entryComponents: [LoginCmp, AdvancedQueryComponent, ListSelectorDialog]

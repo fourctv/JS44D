@@ -216,7 +216,7 @@ export class FourDModel {
                 (!this.isReadOnly(field) || (mode === 'insert')) &&			// May/15/09 send all non-read only fields, empty or not
                 (this.isModifiedField(fieldName) || (mode === 'insert'))) { 	// Nov 18/09 send ONLY fields that have indeed been modified
                 let value = '';
-                if ((this[fieldName] !== null) || (field.type !== 'boolean')) {
+                if (((this[fieldName] !== null) && (this[fieldName] !== undefined)) || (field.type === 'boolean')) {
                     // send back only fields that do have some value and that belong to the table
                     // ignore calculated or related fields
                     switch (field.type) {

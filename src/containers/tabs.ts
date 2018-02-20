@@ -20,9 +20,13 @@ export class Tabs {
   selectTab(event, tab) {
     event.preventDefault();
 
+    this.selectThisTab(tab);
+
+  }
+
+  selectThisTab(tab) {
     this.tabs.forEach((tabItem) => tabItem.active = false);
     tab.active = true;
-
   }
 
 

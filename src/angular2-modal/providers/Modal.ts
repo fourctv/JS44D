@@ -13,6 +13,7 @@ import { ModalDialogInstance } from '../models/ModalDialogInstance';
 
 let _config: ModalConfig;
 
+// @dynamic
 @Injectable()
 export class Modal {
 
@@ -37,7 +38,7 @@ export class Modal {
      * @param config A Modal Configuration object.
      * @param allowMultiple indicates if multiple version of the same dialog are allowed.
      * @param dialogID a dialog identification token to control multiple occurrences.
-     * @returns {Promise<ModalDialogInstance>}
+     * @returns Promise<ModalDialogInstance>
      */
     public open(componentType: any, parameters?: any,
         config?: ModalConfig, allowMultiple: boolean = false, dialogID: string = ''): Promise<string> {
@@ -57,7 +58,7 @@ export class Modal {
      * @param config A Modal Configuration object.
      * @param allowMultiple indicates if multiple version of the same dialog are allowed.
      * @param dialogID a dialog identification token to control multiple occurrences.
-     * @returns {Promise<ModalDialogInstance>}
+     * @returns Promise<ModalDialogInstance>
      */
     public openInside(componentType: Type<any>, viewRef: ViewContainerRef,
         parameters: any,
@@ -136,7 +137,7 @@ export class Modal {
     * @param config A Modal Configuration object.
      * @param allowMultiple indicates if multiple version of the same dialog are allowed.
      * @param dialogID a dialog identification token to control multiple occurrences.
-     * @returns {Promise<ModalDialogInstance>}
+     * @returns Promise<ModalDialogInstance>
      */
     public openDialog(component: any, parameters: any, allowMultiple: boolean = false, dialogID: string = ''): Promise<string> {
 

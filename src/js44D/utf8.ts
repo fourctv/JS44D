@@ -1,4 +1,5 @@
 /*! https://mths.be/utf8js v2.1.2 by @mathias */
+// @dynamic
 export class Utf8 {
 
 

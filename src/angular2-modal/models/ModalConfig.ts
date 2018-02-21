@@ -62,7 +62,7 @@ export class ModalConfig {
       * Makes a ModalConfig instance valid.
       * @param config
       * @param defaultConfig A Default config to use as master, optional.
-      * @returns {ModalConfig} The same config instance sent.
+      * @returns ModalConfig The same config instance sent.
       */
     static makeValid(config: ModalConfig, defaultConfig?: ModalConfig) {
         defaultConfig = (defaultConfig) ? defaultConfig : _defaultConfig;

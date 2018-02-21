@@ -11,6 +11,7 @@ import { Utf8 } from './utf8';
 /**
  * convert object to encoded url string
  */
+
 export let convertObjectToURL = function (obj: any) {
     const str: Array<any> = [];
     for (const p in obj) {
@@ -44,6 +45,7 @@ export let calculateHash = function (formData: Object) {
 /**
  * Main 4D backend interface code
  */
+// @dynamic
 @Injectable()
 export class FourDInterface {
     //

@@ -1,4 +1,5 @@
 /*! http://mths.be/base64 v0.1.0 by @mathias | MIT license */
+// @dynamic
 export class Base64 {
 
 

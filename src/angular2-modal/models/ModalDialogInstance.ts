@@ -44,7 +44,7 @@ export class ModalDialogInstance {
 
     /**
      * A Promise that is resolved on a close event and rejected on a dismiss event.
-     * @returns {Promise<T>|any|*|Promise<any>}
+     * @returns Promise<T>|any|*|Promise<any>
      */
     get result(): Promise<any> {
         return this._resultDefered.promise;

@@ -3,6 +3,8 @@ export { JS44DModule } from './src/js44D.module';
 export { ModalModule } from './src/modal.module';
 
 export { FourDInterface, FourDQuery, MD5 } from './src/js44D/JSFourDInterface';
+export { Base64 } from './src/js44D/base64';
+export { Utf8 } from './src/js44D/utf8';
 export { FourDModel } from './src/js44D/JSFourDModel';
 export { FourDCollection } from './src/js44D/JSFourDCollection';
 export { QueryBand, CustomButtonBarDirective, QueryBandDirective } from './src/containers/queryBand';

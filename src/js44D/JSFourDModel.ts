@@ -103,22 +103,26 @@ export class FourDModel {
      * Set a field value, updates field modified flag
      */
     set(field: string, value: any) {
-        if (this.getFieldDescription(field).type === 'Date') {
-            if (typeof (value) === 'string' && value !== '') {
-                value = new Date(value.replace(/-/g, '\/'));
+        if (this.getFieldProperties(field)) {
+            if (this.getFieldDescription(field).type === 'Date') {
+                if (typeof (value) === 'string' && value !== '') {
+                    value = new Date(value.replace(/-/g, '\/'));
+                }
             }
-        }
-        if (this._attributes.hasOwnProperty(field)) {
-            // we are updating an attribute
-            if (this._attributes[field] !== value) {
-                // make sure value is indeed changing...
+            if (this._attributes.hasOwnProperty(field)) {
+                // we are updating an attribute
+                if (this._attributes[field] !== value) {
+                    // make sure value is indeed changing...
+                    this._attributes[field] = value;
+                    this._modified[field] = true; // mark field as modified
+                }
+            } else {
+                // setting a new attribute
                 this._attributes[field] = value;
                 this._modified[field] = true; // mark field as modified
             }
         } else {
-            // setting a new attribute
             this._attributes[field] = value;
-            this._modified[field] = true; // mark field as modified
         }
     }
 
@@ -242,13 +246,13 @@ export class FourDModel {
                             break;
 
                         case 'boolean':
-                            recordData['fields'][field.longname] = (this[fieldName])?true:false;
+                            recordData['fields'][field.longname] = (this[fieldName]) ? true : false;
                             break;
 
                         case 'string':
                         case 'text':
-                        if (typeof(this[fieldName]) === 'string') {
-                            // if text, trim extra whitespace
+                            if (typeof (this[fieldName]) === 'string') {
+                                // if text, trim extra whitespace
                                 recordData['fields'][field.longname] = this[fieldName].trim();
                             } else {
                                 recordData['fields'][field.longname] = this[fieldName].toString();
@@ -317,10 +321,10 @@ export class FourDModel {
                         this.clearRecordDirtyFlag();
                         resolve(this);
                     },
-                    error => {
-                        console.log('error:' + JSON.stringify(error));
-                        reject(error);
-                    });
+                        error => {
+                            console.log('error:' + JSON.stringify(error));
+                            reject(error);
+                        });
             });
 
         } else if (recordID) { // get record using its record ID
@@ -404,10 +408,10 @@ export class FourDModel {
                         resolve(<any>me);
                     } else { reject(resultJSON.returnCode); }
                 },
-                error => {
-                    console.log('error:' + JSON.stringify(error));
-                    reject(error.text());
-                });
+                    error => {
+                        console.log('error:' + JSON.stringify(error));
+                        reject(error.text());
+                    });
         });
 
 
@@ -438,10 +442,10 @@ export class FourDModel {
                             resolve(<any>me);
                         } else { reject(resultJSON.returnCode); }
                     },
-                    error => {
-                        console.log('error:' + JSON.stringify(error));
-                        reject(error);
-                    });
+                        error => {
+                            console.log('error:' + JSON.stringify(error));
+                            reject(error);
+                        });
             });
 
 
@@ -478,10 +482,10 @@ export class FourDModel {
                             resolve(<any>me);
                         } else { reject(resultJSON.returnCode); }
                     },
-                    error => {
-                        console.log('error:' + JSON.stringify(error));
-                        reject(error);
-                    });
+                        error => {
+                            console.log('error:' + JSON.stringify(error));
+                            reject(error);
+                        });
             });
 
 
@@ -502,8 +506,8 @@ export class FourDModel {
     public populateModelData(recordData: Object) {
         if (recordData.hasOwnProperty('_recnum')) { this.recordNumber = recordData['_recnum']; }
         for (const field in recordData) {
-            if (field !== '_recnum' && recordData.hasOwnProperty(field)) {
-                if (this.getFieldProperties(field) && this.getFieldProperties(field).type === 'json') {
+            if (field !== '_recnum' && this.getFieldProperties(field)) {
+                if (this.getFieldProperties(field).type === 'json') {
                     this[field] = JSON.parse(recordData[field]);
                 } else {
                     this[field] = recordData[field];
@@ -513,8 +517,8 @@ export class FourDModel {
 
     }
 
-    public extractModelData():Object {
-        let data = {_recnum: this._recnum};
+    public extractModelData(): Object {
+        let data = { _recnum: this._recnum };
         for (const field of this.fields) {
             data[field.name] = this.get(field.name);
         }
@@ -559,7 +563,7 @@ export class FourDModel {
      *
      * @returns returns a Promise for the database operation, whose result is the values Array populated by 4D
      */
-    public getValuesFrom4D(values:Array<any>, method:string = ''): Promise<Array<any>> {
+    public getValuesFrom4D(values: Array<any>, method: string = ''): Promise<Array<any>> {
         const body: any = { VariablesList: Base64.encode(Utf8.utf8encode(JSON.stringify(values))) };
         if (method && method != '') {
             body.CallbackMethod = method;
@@ -570,10 +574,10 @@ export class FourDModel {
                 .subscribe(result => {
                     resolve(result);
                 },
-                error => {
-                    console.log('error:' + JSON.stringify(error));
-                    reject(error);
-                });
+                    error => {
+                        console.log('error:' + JSON.stringify(error));
+                        reject(error);
+                    });
         });
 
     }
@@ -649,7 +653,7 @@ export class FourDModel {
                     subFields: subFields
                 });
 
-            } else { colList.push({ name: col.name, field: col.longname }); }
+            } else if (col.longname) { colList.push({ name: col.name, field: col.longname }); }
         }
 
         return JSON.stringify(colList);

@@ -26,7 +26,7 @@ import { FourDDateToString } from './pipes/FourDDateToString.pipe';
 
 
 @NgModule({
-      imports: [FormsModule, CommonModule, HttpClientModule, BsDropdownModule.forRoot(), FourDModule],
+      imports: [FormsModule, CommonModule, HttpClientModule, BsDropdownModule, FourDModule],
       declarations: [ 
             QueryBand, CustomButtonBarDirective, QueryBandDirective, AdvancedQueryComponent,
             RecordEditWindow, RecordList, Tabs, Tab, WebAppContainer,

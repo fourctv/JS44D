@@ -68,7 +68,7 @@ export class FourDCollection {
                     if (fld) { // field in our datamodel, use its properties
                         if (fld.formula) {
                             colList.push({ name: fld.name, formula: fld.formula });
-                        } else { colList.push({ name: fld.name, field: fld.longname }); }
+                        } else if (fld.longname) { colList.push({ name: fld.name, field: fld.longname }); }
                     }
                 }
             } else if (col.field) {
@@ -77,12 +77,12 @@ export class FourDCollection {
                 if (fld) {
                     if (fld.formula) {
                         colList.push({ name: fld.name, formula: fld.formula });
-                    } else { colList.push({ name: fld.name, field: fld.longname }); }
+                    } else if (fld.longname) { colList.push({ name: fld.name, field: fld.longname }); }
                 }
             } else {
                 if (col.formula) {
                     colList.push({ name: col.name, formula: col.formula });
-                } else { colList.push({ name: col.name, field: col.longname }); }
+                } else if (fld.longname) { colList.push({ name: col.name, field: col.longname }); }
             }
         }
 

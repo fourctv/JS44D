@@ -533,7 +533,7 @@ export class FourDModel {
     public extractModelData(): Object {
         let data = { _recnum: this._recnum };
         for (const field of this.fields) {
-            data[field.name] = this.get(field.name);
+            data[field.name] = this[field.name];
         }
 
         return data;

@@ -108,6 +108,13 @@ export class FourDModel {
                 if (typeof (value) === 'string' && value !== '') {
                     value = new Date(value.replace(/-/g, '\/'));
                 }
+            } else if (this.getFieldDescription(field).type === 'Time') {
+                if (typeof (value) === 'string' && value !== '') {
+                    const hh = +value.substr(0,2);
+                    const mm = +value.substr(3,2);
+                    const ss = +value.substr(6,2);
+                    value = new Date(0,0,0,hh,mm,ss);
+                }
             }
             if (this._attributes.hasOwnProperty(field)) {
                 // we are updating an attribute
@@ -151,12 +158,12 @@ export class FourDModel {
             switch (field.type) {
                 case 'date':
                 case 'Date':
-                    this[field.name] = '';
+                    this[field.name] = null;
                     break;
 
                 case 'time':
                 case 'Time':
-                    this[field.name] = '';
+                    this[field.name] = null;
                     break;
 
                 case 'boolean':
@@ -237,7 +244,9 @@ export class FourDModel {
 
                         case 'time':
                         case 'Time':
-                            recordData['fields'][field.longname] = this[fieldName];
+                            const timeValue:Date = this[fieldName];
+                            value = timeValue.toTimeString();
+                            recordData['fields'][field.longname] = value;
                             break;
 
                         case 'number':
@@ -507,10 +516,14 @@ export class FourDModel {
         if (recordData.hasOwnProperty('_recnum')) { this.recordNumber = recordData['_recnum']; }
         for (const field in recordData) {
             if (field !== '_recnum' && this.getFieldProperties(field)) {
-                if (this.getFieldProperties(field).type === 'json') {
-                    this[field] = JSON.parse(recordData[field]);
-                } else {
-                    this[field] = recordData[field];
+                switch (this.getFieldProperties(field).type ) {
+                    case 'json':
+                        this[field] = JSON.parse(recordData[field]); 
+                        break;
+                
+                    default:
+                        this[field] = recordData[field];
+                        break;
                 }
             }
         }

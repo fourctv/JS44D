@@ -36,6 +36,20 @@ export class RecordList implements AfterContentInit {
     @ContentChild(DataGrid) theGrid: DataGrid;
 
     /**
+     * return the currently selected records from the grid
+     */
+    public get selectedRecords():Array<any> {
+        const gridRows = this.theGrid.getDataProvider().models;
+        const selectedRows = this.theGrid.selectedRows();
+        let selection = [];
+        for (let index = 0; index < selectedRows.length; index++) {
+            const rowIndex: any = selectedRows[index];
+            selection.push(gridRows[rowIndex]);
+        };  
+        
+        return selection;
+    }
+    /**
      * Save Edit Window Configuration
      */
     private _editWindowConfig: ModalConfig;

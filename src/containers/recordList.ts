@@ -138,7 +138,7 @@ export class RecordList implements AfterContentInit {
     /**
      * Show record edit window, to either edit or add a new record
      */
-    private showEditWindow(mode: string) {
+    public showEditWindow(mode: string) {
         // if editing a record, and we do have a record selected and an edit dialog does exist
         if (this.theGrid && this.editWindow && mode === 'edit' && this.theGrid.currentRecord) {
             if (this.theGrid.optimizeGridLoading) { // if we are optimizing the grid, then we need to refresh selected record
@@ -166,7 +166,7 @@ export class RecordList implements AfterContentInit {
     /** 
      * Delete Selected Record(s)
      */
-    private deleteRecord() {
+    public deleteRecord() {
         if (this.theGrid && this.theGrid.currentRecord) {
             if (confirm((this.queryBand.cascadeDeleteRecord) ? 'Really delete selected record and all its associated data records?' : 'Really delete selected record?')) {
                 this.theGrid.currentRecord.deleteRecord(this.queryBand.cascadeDeleteRecord)

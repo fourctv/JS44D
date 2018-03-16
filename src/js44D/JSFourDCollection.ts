@@ -141,6 +141,7 @@ export class FourDCollection {
                         recList.forEach(record => {
                             newModel = <any>(new modelDef());
                             newModel.populateModelData(record);
+                            newModel.clearRecordDirtyFlag();
                             this.models.push(newModel);
                         });
                     }

@@ -233,13 +233,17 @@ export class FourDModel {
                     switch (field.type) {
                         case 'Date':
                         case 'date':
-                            const dateValue: Date = this[fieldName];
-                            value = dateValue.getFullYear().toString();
-                            if (dateValue.getMonth() < 9) { value += '0'; }
-                            value += (dateValue.getMonth() + 1).toString();
-                            if (dateValue.getDate() < 10) { value += '0'; }
-                            value += dateValue.getDate().toString();
-                            recordData['fields'][field.longname] = value;
+                            if (typeof(this[fieldName]) === 'string') {
+                                recordData['fields'][field.longname] = this[fieldName]; 
+                            } else {
+                                const dateValue: Date = this[fieldName];
+                                value = dateValue.getFullYear().toString();
+                                if (dateValue.getMonth() < 9) { value += '0'; }
+                                value += (dateValue.getMonth() + 1).toString();
+                                if (dateValue.getDate() < 10) { value += '0'; }
+                                value += dateValue.getDate().toString();
+                                recordData['fields'][field.longname] = value;
+                            }
                             break;
 
                         case 'time':

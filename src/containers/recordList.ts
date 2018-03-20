@@ -39,13 +39,15 @@ export class RecordList implements AfterContentInit {
      * return the currently selected records from the grid
      */
     public get selectedRecords():Array<any> {
-        const gridRows = this.theGrid.getDataProvider().models;
-        const selectedRows = this.theGrid.selectedRows();
         let selection = [];
-        for (let index = 0; index < selectedRows.length; index++) {
-            const rowIndex: any = selectedRows[index];
-            selection.push(gridRows[rowIndex]);
-        };  
+        if (this.theGrid && this.theGrid.getDataProvider()) {
+            const gridRows = this.theGrid.getDataProvider().models;
+            const selectedRows = this.theGrid.selectedRows();
+            for (let index = 0; index < selectedRows.length; index++) {
+                const rowIndex: any = selectedRows[index];
+                selection.push(gridRows[rowIndex]);
+            };  
+        }
         
         return selection;
     }

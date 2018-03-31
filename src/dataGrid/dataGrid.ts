@@ -143,7 +143,7 @@ export class DataGrid implements AfterViewInit {
 
                 const start = (options.data.pageSize && options.data.pageSize > 0 && this.useLazyLoading) ? options.data.skip : 0;
                 const numrecs = (options.data.pageSize && options.data.pageSize > 0 && this.useLazyLoading) ? options.data.pageSize : -1;
-                // now build filter if set
+                // now build filter if anything set on the grid
                 const filter = [];
                 if (options.data.filter) {
 
@@ -179,11 +179,13 @@ export class DataGrid implements AfterViewInit {
                     });
                 }
 
-                let orderby = '';
+                let gridOrderBy = this.dataProvider.orderBy; // defaults to the Collection Order By
+                // if any sorting set on the grid, rebuild Order By using grid options
                 if (options.data.sort && options.data.sort.length > 0) {
+                    gridOrderBy = '';
                     options.data.sort.forEach((item: kendo.data.DataSourceSortItem) => {
-                        orderby += (item.dir === 'asc') ? '>' : '<';
-                        orderby += newModel.getLongname(item.field) + '%';
+                        gridOrderBy += (item.dir === 'asc') ? '>' : '<';
+                        gridOrderBy += newModel.getLongname(item.field) + '%';
                     });
                 }
 
@@ -197,7 +199,7 @@ export class DataGrid implements AfterViewInit {
                     }
                 }
                 // let me = this;
-                this.dataProvider.getRecords(query, (this.optimizeGridLoading) ? this.columns : null, start, numrecs, this.dataProvider.filterOptions, orderby)
+                this.dataProvider.getRecords(query, (this.optimizeGridLoading) ? this.columns : null, start, numrecs, this.dataProvider.filterOptions, gridOrderBy)
                     .then((reclist) => {
                         let data = [];
                         reclist.forEach(element => {

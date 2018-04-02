@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-
 import { FourDModule } from './fourD.module';
 import { FourDInterface } from './js44D/JSFourDInterface';
 
@@ -26,7 +24,7 @@ import { FourDDateToString } from './pipes/FourDDateToString.pipe';
 
 
 @NgModule({
-      imports: [FormsModule, CommonModule, HttpClientModule, BsDropdownModule, FourDModule],
+      imports: [FormsModule, CommonModule, HttpClientModule, FourDModule],
       declarations: [ 
             QueryBand, CustomButtonBarDirective, QueryBandDirective, AdvancedQueryComponent,
             RecordEditWindow, RecordList, Tabs, Tab, WebAppContainer,

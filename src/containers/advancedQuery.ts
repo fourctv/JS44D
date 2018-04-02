@@ -1,4 +1,4 @@
-import { Component, ContentChild, ElementRef, ViewContainerRef, AfterViewInit, Input } from '@angular/core';
+import { Component, ElementRef, ViewContainerRef, AfterViewInit, Input } from '@angular/core';
 
 import { ModalDialogInstance } from '../angular2-modal/models/ModalDialogInstance';
 import { ICustomModal } from '../angular2-modal/models/ICustomModal';

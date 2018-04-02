@@ -19,12 +19,12 @@ export class CustomButtonBarDirective { }
 @Component({
     selector: 'query-band',
     template: `
-    <div dropdown class="btn-group btn-group-md query-band">
+    <div class="btn-group btn-group-md query-band">
         <a role="button" class="btn" (click)="switchState()"><span class="glyphicon" [ngClass]="openStateIcon"></span></a>
         <a role="button" class="btn" [ngClass]="enableButton('QBE')" (click)="doQBE()"><span class="quickFinder-icon quickFinder-query-icon" title="advanced query"></span></a>
         <a role="button" class="btn" [ngClass]="enableButton('QFF')" (click)="doQFF()"><span class="quickFinder-icon quickFinder-qff-icon" title="query using a text file"></span></a>
-        <a role="button" class="btn" [ngClass]="enableButton('Sets')" (click)="false" dropdownToggle><span class="quickFinder-icon quickFinder-manageSets-icon" title="search sets management"></span></a>
-            <ul *dropdownMenu class="dropdown-menu">
+        <a role="button" class="btn" [ngClass]="enableButton('Sets')" (click)="toggleDropDown()"><span class="quickFinder-icon quickFinder-manageSets-icon" title="search sets management"></span></a>
+            <ul #dropDownMenu class="dropdown-menu" [ngStyle]="{'display': dropDownIsOpen}">
                 <li role="menuitem"><a class="dropdown-item" (click)="doManageSets('selectHighlited')">Select Highlighted</a></li>
                 <li class="divider dropdown-divider"></li>
                 <li role="menuitem"><a class="dropdown-item" (click)="doManageSets('reuseSearch')">Reuse a Saved Search</a></li>
@@ -171,6 +171,8 @@ export class QueryBand {
 
     public queryBandIsOpen = false;
 
+    public dropDownIsOpen = 'none';
+
     /**
      * Get access to the embedded custom query band
      */
@@ -223,7 +225,12 @@ export class QueryBand {
         this.queryFromFile.emit(null);
     }
 
+    public toggleDropDown() {
+        this.dropDownIsOpen = (this.dropDownIsOpen === 'none')?'block':'none';
+    }
+
     public doManageSets(action) {
+        this.dropDownIsOpen = 'none';
         this.queryManageSets.emit(action);
     }
 

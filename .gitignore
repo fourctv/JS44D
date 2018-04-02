@@ -4,6 +4,7 @@
 /dist
 /.tmp
 /out-tsc
+/.ng_pkg_build
 
 # dependencies
 /node_modules
@@ -42,6 +43,7 @@ package-lock.json
 !symlink.js
 !nativescript/gulpfile.js
 !nativescript/webpack.config.js
+dist.tgz
 
 # e2e
 /e2e/*.js

@@ -243,8 +243,13 @@ export class QueryBand {
     }
 
     public doClear() {
-        const theForm: any = $(this.elementRef.nativeElement.getElementsByTagName('form'));
-        if (theForm && theForm.length > 0) { theForm[0].reset(); }
+        if (this.theQueryBand.theCustomQuery.clearQueryForm) { // if a clearForm method exists in the custome query band
+            this.theQueryBand.theCustomQuery.clearQueryForm(); // call it to clear the query form
+        } else {
+            // if no clear form method exists, use DOM reset form function
+            const theForm: any = this.elementRef.nativeElement.getElementsByTagName('form');
+            if (theForm && theForm.length > 0) { theForm[0].reset(); }
+        }
     }
 
     public doExportGrid() {

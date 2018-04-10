@@ -1,4 +1,4 @@
-import { Component, ContentChild, ElementRef, ViewContainerRef, AfterContentInit, Input } from '@angular/core';
+import { Component, ContentChild, ElementRef, ViewContainerRef, AfterContentInit, Input, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { FourDInterface } from '../js44D/JSFourDInterface';
@@ -128,6 +128,12 @@ export class RecordList implements AfterContentInit {
         this._previousQuery = query; // save last queryDeleteRecord
     }
 
+    /**
+     * Handle browser window resize and resize grid
+     */
+    @HostListener('window:resize') onResize() {
+        this.windowResized(null);
+    }
 
     /**
      * Intercept Dialog Window resize event and resize the Grid to fit the entire window

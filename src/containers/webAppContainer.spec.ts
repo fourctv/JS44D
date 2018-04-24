@@ -36,7 +36,12 @@ describe('WebAppContainer (inline template)', () => {
     });
 
     it('WebAppComponent -> should show Login dialog', () => {
-        expect(component.modal.theDialog.title()).toBe('Login');
+        fixture.detectChanges();
+
+        fixture.whenStable().then(() => { // wait for async get 4D Version
+            fixture.detectChanges();        // update view with 4D version
+            expect(component.modal.theDialog.title()).toBe('Login');
+        });
     });
 
 });

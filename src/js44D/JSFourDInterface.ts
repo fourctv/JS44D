@@ -360,6 +360,26 @@ export class FourDInterface {
         return new Date(dateValue);
     }
 
+    		 
+		 /**
+		  * assemble an URL request string with session & hash tokens 
+		  * @param req the URL request root
+		  * @param args query parameters as a URLVariables object
+		  * @return the assembled URL string
+		  * 
+		  */
+		 public assembleURLWithHash(req:string, args:any):string {
+			args.Sessionkey=escape(FourDInterface.sessionKey);
+			
+	    	var str:String = "";
+	    	for (const item in args) {
+	    		str += ((str == '')?'?':'&')+item+"="+escape(args[item]); 		
+	    	}
+	    	
+            return req + str + "&hash="+calculateHash(args);
+            
+		 }
+	    
 }
 
 

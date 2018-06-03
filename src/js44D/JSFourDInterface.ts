@@ -1,4 +1,4 @@
-import { Injectable, Inject, EventEmitter, ReflectiveInjector } from '@angular/core';
+import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Base64 } from './base64';

@@ -1,4 +1,4 @@
-import { Injectable, ReflectiveInjector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Base64 } from './base64';
 import { Utf8 } from './utf8';
 
@@ -86,8 +86,6 @@ export class FourDModel {
     */
     constructor() {
         // inject FourDInterface
-        //const injector = ReflectiveInjector.resolveAndCreate([FourDInterface]);
-        //this.fourD = injector.get(FourDInterface);
         this.fourD = FourDInterface.interfaceInstance;
     }
 

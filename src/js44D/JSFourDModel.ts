@@ -314,7 +314,20 @@ export class FourDModel {
      *
      */
     public getRecord(recordNumber: number = null, recordID: string = null, query: FourDQuery = null): Promise<FourDModel> {
-        if (recordNumber || this.recordNumber >= 0) {
+        if (query) {
+            // if we have a query, use it...
+        } else if (recordID) { // get record using its record ID
+            // build query for record
+            if (!this.primaryKey_) {
+                // uh-oh no primary key field for this record, duh!
+                alert('No Primary Key specified for ' + this.tableName);
+            } else {
+                // getting a record based on its primary key
+                query = { query: [this.tableName + '.' + this.primaryKey_ + ';=;' + recordID] }; // build query on record id
+            }
+
+        } else if (recordNumber || this.recordNumber >= 0) {
+            // if we ahve a record number, use it directly then
             if (recordNumber) { this.recordNumber = recordNumber; }
 
             // build request body with record number to retrieve
@@ -338,16 +351,7 @@ export class FourDModel {
                         });
             });
 
-        } else if (recordID) { // get record using its record ID
-            if (!this.primaryKey_) {
-                // uh-oh no primary key field for this record, duh!
-                alert('No Primary Key specified for ' + this.tableName);
-            } else {
-                // getting a record based on its primary key
-                query = { query: [this.tableName + '.' + this.primaryKey_ + ';=;' + recordID] }; // build query on record id
-            }
-
-        } else if (!query) { // get record based on a query string
+        } else { 
             return new Promise((resolve, reject) => {
                 reject('No current record number set, and no query specified!');
             });

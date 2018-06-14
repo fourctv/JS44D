@@ -299,6 +299,14 @@ export class DataGrid implements AfterViewInit {
         }
     }
 
+    setModel(newModel:FourDModel) {
+        this.model = newModel;
+        if (!this.dataProvider) {
+            this.dataProvider = new FourDCollection(); // this is the data model used to bring in records
+            this.dataProvider.model = this._model;
+        }
+    }
+
     setDataSource(data: Array<any>) {
         this.gridObject.dataSource.data(data);
     }

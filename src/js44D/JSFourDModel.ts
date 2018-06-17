@@ -316,7 +316,7 @@ export class FourDModel {
     public getRecord(recordNumber: number = null, recordID: string = null, query: FourDQuery = null): Promise<FourDModel> {
         if (query) {
             // if we have a query, use it...
-        } else if (recordID) { // get record using its record ID
+        } else if (recordID && FourDInterface.fourdAPIVersion < '1.18.06.17a') { // get record using its record ID
             // build query for record
             if (!this.primaryKey_) {
                 // uh-oh no primary key field for this record, duh!
@@ -326,14 +326,18 @@ export class FourDModel {
                 query = { query: [this.tableName + '.' + this.primaryKey_ + ';=;' + recordID] }; // build query on record id
             }
 
-        } else if (recordNumber || this.recordNumber >= 0) {
-            // if we ahve a record number, use it directly then
-            if (recordNumber) { this.recordNumber = recordNumber; }
+        } else if (recordNumber >= 0 || this.recordNumber >= 0 || (recordID && FourDInterface.fourdAPIVersion >= '1.18.06.17a' && this.primaryKey_)) {
+            // if we have a record number, use it directly then
+            if (recordNumber >= 0) { this.recordNumber = recordNumber; }
 
             // build request body with record number to retrieve
             const body: any = { Username: FourDInterface.currentUser };
             body.TableName = this.tableName;
-            body.RecordNum = this.recordNumber;
+            if (recordID) {
+                body.RecordID = recordID; // if querying record using record ID...             
+            } else {
+                body.RecordNum = this.recordNumber;
+            }
             body.VariablesList = Base64.encode(Utf8.utf8encode(this.getColumnListJSON()));
 
             return new Promise((resolve, reject) => {

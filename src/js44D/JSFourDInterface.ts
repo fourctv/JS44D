@@ -72,7 +72,20 @@ export class FourDInterface {
     /**
       * 4D Web Server URL
       */
-    public static fourDUrl = 'http://localhost:8080'; // defaults to the initiator URL, can be modified by the main app during development
+    private static _fourDUrl = 'http://localhost:8080'; // defaults to the initiator URL, can be modified by the main app during development
+    public static get fourDUrl():string {return FourDInterface._fourDUrl}
+    public static set fourDUrl (url) {
+        FourDInterface._fourDUrl = url;
+        if (FourDInterface.interfaceInstance) {
+            FourDInterface.interfaceInstance.call4DRESTMethod('REST_GetAPIVersion',{}, {responseType:'text'})
+            .subscribe((v) => {FourDInterface.fourdAPIVersion = v;});
+        }
+    }
+
+    /**
+     * current FourDREST API version
+     */
+    public static fourdAPIVersion = '';
 
     /**
      * current session key used in all http requests

@@ -126,6 +126,13 @@ export class FourDInterface {
      * @returns returns an Observable for the database operation; caller can subscribe to it and act upon the request completion
      */
     public call4DRESTMethod(fourdMethod: string, body: any, options?: any): Observable<any> {
+        const contentHeaders = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+        contentHeaders.append('Accept', 'text/json;text/html,application/xhtml+xml,application/xml,application/json;q=0.9,image/webp,*/*;q=0.8'); // need all this crap for 4D V15!!
+
+        if (options) {
+            options.headers = contentHeaders;
+        } else options = { headers: contentHeaders };
+
         body.Sessionkey = FourDInterface.sessionKey;
         body.hash = calculateHash(body);
 

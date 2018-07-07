@@ -82,7 +82,9 @@ export class ModalDialogInstance {
     dismiss() {
         if (this.contentRef.instance.beforeDismiss &&
             this.contentRef.instance.beforeDismiss() === true) { return; }
-        this.dispose();
+//        this.dispose();
+        const dialog = $(this.contentRef.location.nativeElement).data('kendoWindow');
+        dialog.close();
         this._resultDefered.reject();
     }
 

@@ -33,9 +33,13 @@ export class OKOnlyModal implements ICustomModalComponent {
     dialog: ModalDialogInstance;
     context: OKOnlyContent;
 
-    constructor(dialog: ModalDialogInstance, modelContentData: ICustomModal) {
+    public set modelContentData(parms: ICustomModal) {
+        if (parms) {
+            this.context = <OKOnlyContent>parms;
+        }
+    }
+    constructor(dialog: ModalDialogInstance) {
         this.dialog = dialog;
-        this.context = <OKOnlyContent>modelContentData;
     }
 
     ok() {

@@ -37,9 +37,14 @@ export class YesNoModal implements ICustomModalComponent {
     dialog: ModalDialogInstance;
     context: YesNoModalContent;
 
-    constructor(dialog: ModalDialogInstance, modelContentData: ICustomModal) {
+    public set modelContentData(parms: ICustomModal) {
+        if (parms) {
+            this.context = <YesNoModalContent>parms;
+        }
+    }
+
+    constructor(dialog: ModalDialogInstance, ) {
         this.dialog = dialog;
-        this.context = <YesNoModalContent>modelContentData;
     }
 
     ok($event) {
@@ -48,6 +53,6 @@ export class YesNoModal implements ICustomModalComponent {
     }
 
     cancel() {
-        this.dialog.dismiss();
+        this.dialog.close(false);
     }
 }

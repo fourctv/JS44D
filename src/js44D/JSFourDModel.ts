@@ -528,7 +528,7 @@ export class FourDModel {
             if (field !== '_recnum' && this.getFieldProperties(field)) {
                 switch (this.getFieldProperties(field).type ) {
                     case 'json':
-                        this[field] = JSON.parse(recordData[field]); 
+                        this[field] = (recordData[field] && recordData[field] != '')?JSON.parse(recordData[field]):{}; 
                         break;
                 
                     default:

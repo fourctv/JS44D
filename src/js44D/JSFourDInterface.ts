@@ -380,6 +380,34 @@ export class FourDInterface {
         return new Date(dateValue);
     }
 
+    /**
+     * Converts a DOM Time to 4D format (hh:mm:ss).
+     *  
+     * @param theDate a DOM date-time value
+     * @returns a 4D formatted date string (hh:mm:ss)
+     * 
+     */
+    public timeTo4DFormat(theDate: Date): string {
+        let theTime:string = (theDate.getHours() < 10)?'0'+theDate.getHours():theDate.getHours().toString();
+        theTime += (theDate.getMinutes() < 10)?':0'+theDate.getMinutes():':'+theDate.getMinutes();
+        theTime += (theDate.getSeconds() < 10)?':0'+theDate.getSeconds():':'+theDate.getSeconds();
+        return theTime;
+    }
+
+    /**
+     * Converts a 4D HH:MM:SS time to DOM format .
+     *  
+     * @param theTime a 4D time value, formatted as string (HH:MM:SS)
+     * @returns a DOM date 
+     * 
+     */
+    public timeToDOMFormat(theTime: string): Date {
+        const hh = +theTime.substr(0,2);
+        const mm = +theTime.substr(3,2);
+        const ss = +theTime.substr(6,2);
+        return new Date(0,0,0,hh,mm,ss);
+    }
+
     		 
 		 /**
 		  * assemble an URL request string with session & hash tokens 

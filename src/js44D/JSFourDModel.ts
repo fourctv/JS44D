@@ -247,7 +247,7 @@ export class FourDModel {
                         case 'time':
                         case 'Time':
                             const timeValue:Date = this[fieldName];
-                            value = timeValue.toTimeString();
+                            value = this.fourD.timeTo4DFormat(timeValue);
                             recordData['fields'][field.longname] = value;
                             break;
 

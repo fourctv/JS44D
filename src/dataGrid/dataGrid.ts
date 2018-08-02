@@ -3,13 +3,14 @@
 //    based on kendoui-grid: http://demos.telerik.com/kendo-ui/grid/index
 // ****************************
 
-import { Component, EventEmitter, ViewChild, AfterViewInit, Input, Inject } from '@angular/core';
+import { Component, EventEmitter, ViewChild, AfterViewInit, Input, Output, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 
 import { FourDModel } from '../js44D/JSFourDModel';
 import { FourDCollection } from '../js44D/JSFourDCollection';
 import { FourDInterface, FourDQuery } from '../js44D/JSFourDInterface';
+import { LOCATION_INITIALIZED } from '../../node_modules/@angular/common';
 
 @Component({
     selector: 'datagrid',
@@ -85,6 +86,7 @@ export class DataGrid implements AfterViewInit {
      * defines message pattern to display on the paging toolbar
      */
     @Input() public pageableMessage = '{0} - {1} of {2} items';
+    @Input() public pageableMessageCustom = {display: this.pageableMessage};
 
     /**    
     * the associated data model for the records to be retrieved
@@ -113,8 +115,9 @@ export class DataGrid implements AfterViewInit {
     //
     // events emitted by the DataGrid
     //
-    recordSelected: EventEmitter<any> = new EventEmitter();
-    loadDataComplete: EventEmitter<any> = new EventEmitter();
+    @Output() initialized: EventEmitter<any> = new EventEmitter();
+    @Output() recordSelected: EventEmitter<any> = new EventEmitter();
+    @Output() loadDataComplete: EventEmitter<any> = new EventEmitter();
 
     //
     // private stuff
@@ -278,6 +281,8 @@ export class DataGrid implements AfterViewInit {
         this.initializeGrid();
 
         $(this.theGrid.nativeElement).on('dblclick', 'tr.k-state-selected', ($event) => { this.dblClickRow($event); });
+
+        this.initialized.emit();
     }
 
     /**
@@ -470,7 +475,7 @@ export class DataGrid implements AfterViewInit {
                 pageSize: this.pageSize,
                 pageSizes: this.pageableSizes,
                 buttonCount: this.pageableButtonCount,
-                messages: { display: this.pageableMessage }
+                messages: this.pageableMessageCustom
             },
             // scrollable: { virtual: this.useLazyLoading },
             resizable: true,

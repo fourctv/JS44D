@@ -1,5 +1,5 @@
 import { Injectable, Inject, EventEmitter } from '@angular/core';
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Base64 } from './base64';
 import { Utf8 } from './utf8';
@@ -125,13 +125,17 @@ export class FourDInterface {
      * 
      * @returns returns an Observable for the database operation; caller can subscribe to it and act upon the request completion
      */
-    public call4DRESTMethod(fourdMethod: string, body: any, options?: any): Observable<any> {
-        const contentHeaders = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-        contentHeaders.append('Accept', 'text/json;text/html,application/xhtml+xml,application/xml,application/json;q=0.9,image/webp,*/*;q=0.8'); // need all this crap for 4D V15!!
+    public call4DRESTMethod(fourdMethod: string, body: any, options?: any, acceptHeader:string = null): Observable<any> {
+        let contentHeaders = { 'Content-Type': 'application/x-www-form-urlencoded' };
+        if (acceptHeader) {
+            contentHeaders['Accept'] = acceptHeader;
+        } else {
+            contentHeaders['Accept'] = 'text/json;text/html,application/xhtml+xml,application/xml,application/json;q=0.9,image/webp,*/*;q=0.8'; // need all this crap for 4D V15!!
+        }
 
         if (options) {
-            options.headers = contentHeaders;
-        } else options = { headers: contentHeaders };
+            options.headers = new HttpHeaders(contentHeaders);
+        } else options = { headers: new HttpHeaders(contentHeaders) };
 
         body.Sessionkey = FourDInterface.sessionKey;
         body.hash = calculateHash(body);

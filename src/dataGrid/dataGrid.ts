@@ -116,6 +116,7 @@ export class DataGrid implements AfterViewInit {
     // events emitted by the DataGrid
     //
     @Output() initialized: EventEmitter<any> = new EventEmitter();
+    @Output() rowSelected: EventEmitter<any> = new EventEmitter();
     @Output() recordSelected: EventEmitter<any> = new EventEmitter();
     @Output() loadDataComplete: EventEmitter<any> = new EventEmitter();
 
@@ -325,6 +326,7 @@ export class DataGrid implements AfterViewInit {
         if (this.dataProvider) {
             const item = this.gridObject.dataItem(this.gridObject.select());
             this.dataProvider.currentRecord = this.findRecordForThisItem(item);
+            this.rowSelected.emit(this.dataProvider.currentRecord);
         }
     }
 
@@ -383,12 +385,28 @@ export class DataGrid implements AfterViewInit {
      */
     selectedRows(): Array<number> {
         const rows = this.gridObject.select();
-        const selectedRecords = [];
+        let selectedRecords = [];
         for (let index = 0; index < rows.length; index++) {
             selectedRecords.push(rows[index]['rowIndex']);
         };
 
         return selectedRecords;
+    }
+
+    /**
+     * return currently selected records, if multiple selection allowed
+     */
+    selectedRecords(): Array<FourDModel> {
+        const rows = this.gridObject.select();
+        let selectedRecs = [];
+        if (this.dataProvider) {
+            for (let index = 0; index < rows.length; index++) {
+                let rowIndex = rows[index]['rowIndex'];
+                selectedRecs.push(this.dataProvider.models[rowIndex]);
+                };
+        }
+
+        return selectedRecs;
     }
 
     /**

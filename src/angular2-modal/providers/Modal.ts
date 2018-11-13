@@ -118,7 +118,7 @@ export class Modal {
 
     }
 
-    public closeDialog(event, theDialogInstance) {
+    public closeDialog(event, theDialogInstance:ModalDialogInstance) {
         // console.log(event, theDialog);
         for (let index = 0; index < Modal.openDialogList.length; index++) {
             const item = Modal.openDialogList[index];
@@ -127,6 +127,7 @@ export class Modal {
             }
         }
 
+        if (theDialogInstance.contentRef.instance.beforeDismiss) theDialogInstance.contentRef.instance.beforeDismiss();
         theDialogInstance.kendoDialog.destroy();
     }
 

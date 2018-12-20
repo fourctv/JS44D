@@ -21,6 +21,7 @@ import { ListSelectorDialog } from './dialogs/listSelectorDialog';
 
 import { Base64ImageRef } from './pipes/Base64ImageRef.pipe';
 import { FourDDateToString } from './pipes/FourDDateToString.pipe';
+import { FourDRegistryInput } from './controls/fourDRegistryInput';
 
 
 @NgModule({
@@ -28,7 +29,7 @@ import { FourDDateToString } from './pipes/FourDDateToString.pipe';
       declarations: [ 
             QueryBand, CustomButtonBarDirective, QueryBandDirective, AdvancedQueryComponent,
             RecordEditWindow, RecordList, Tabs, Tab, WebAppContainer,
-            FourDDropDown, QuickFindInput,
+            FourDDropDown, QuickFindInput, FourDRegistryInput,
             DataGrid,
             ListSelectorDialog,
             Base64ImageRef,
@@ -39,7 +40,7 @@ import { FourDDateToString } from './pipes/FourDDateToString.pipe';
       exports: [
             QueryBand, CustomButtonBarDirective, QueryBandDirective, AdvancedQueryComponent,
             RecordEditWindow, RecordList, Tabs, Tab, WebAppContainer,
-            FourDDropDown, QuickFindInput,
+            FourDDropDown, QuickFindInput, FourDRegistryInput,
             DataGrid,
             ListSelectorDialog,
             Base64ImageRef,

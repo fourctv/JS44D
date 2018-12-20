@@ -14,6 +14,7 @@ export { RecordEditWindow } from './src/containers/recordEditWindow';
 export { Tabs, Tab } from './src/containers/tabs';
 export { WebAppContainer } from './src/containers/webAppContainer';
 export { FourDDropDown } from './src/controls/fourDDropDown';
+export { FourDRegistryInput } from './src/controls/fourDRegistryInput';
 export { QuickFindInput } from './src/controls/quickFindInput';
 export { DataGrid } from './src/dataGrid/dataGrid';
 export { LoginCmp } from './src/login/login';

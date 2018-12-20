@@ -346,7 +346,7 @@ export class FourDInterface {
         const body: any = { class: theClass, parameter: theParameter, value: theValue, selector: theSelector };
 
         return new Promise((resolve, reject) => {
-            this.call4DRESTMethod('REST_SetRegistryValue', body)
+            this.call4DRESTMethod('REST_SetRegistryValue', body, { responseType: 'text' })
                 .subscribe(
                 response => {
                     resolve();

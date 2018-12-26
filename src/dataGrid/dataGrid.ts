@@ -339,7 +339,7 @@ export class DataGrid implements AfterViewInit {
 
 
     refresh() {
-        this.gridObject.refresh();
+        this.loadData();
     }
 
     resize() {

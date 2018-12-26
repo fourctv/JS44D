@@ -178,7 +178,7 @@ export class RecordList implements AfterContentInit {
         if (this.theGrid && this.theGrid.currentRecord) {
             if (confirm((this.queryBand.cascadeDeleteRecord) ? 'Really delete selected record and all its associated data records?' : 'Really delete selected record?')) {
                 this.theGrid.currentRecord.deleteRecord(this.queryBand.cascadeDeleteRecord)
-                    .then((message) => { alert('Record Deleted'); this.queryBand.doRefresh(); })
+                    .then((message) => { alert('Record Deleted'); this.theGrid.refresh(); })
                     .catch((reason) => { alert(reason); });
             }
         }
@@ -188,7 +188,7 @@ export class RecordList implements AfterContentInit {
      * private method to deal with edit window close
      */
     private editWindowHandler(result: string) {
-        if (result === 'recordSaved') { this.refreshGrid(); }
+        if (result === 'recordSaved') { this.theGrid.refresh(); }
     }
 
     /**

@@ -1,8 +1,10 @@
+
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import { Component, EventEmitter, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
+
+
 
 @Component({
     selector: 'quickfind-input',
@@ -16,7 +18,7 @@ export class QuickFindInput {
     public runQuickFinder: EventEmitter<any> = new EventEmitter();
 
     constructor() {
-        this.quickFind.valueChanges.distinctUntilChanged().debounceTime(1500).subscribe(query => {
+        this.quickFind.valueChanges.pipe(distinctUntilChanged(),debounceTime(1500),).subscribe(query => {
             this.runQuickFinder.emit(query);
         });
     }

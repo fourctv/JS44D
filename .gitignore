@@ -34,7 +34,6 @@ npm-debug.log
 testem.log
 /typings
 yarn.lock
-package-lock.json
 *.js
 !/ui/index.js
 !gulpfile.js

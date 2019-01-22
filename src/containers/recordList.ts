@@ -167,7 +167,9 @@ export class RecordList implements AfterContentInit {
             // if we are adding a new record
             const modelDef = <any>(this.theGrid.model);
             const newModel = <any>(new modelDef());
-            this.modal.openInside(<any>this.editWindow, this.viewRef, newModel, this._editWindowConfig, true); // open edit dialog
+            // show edit dialog to insert new record
+            this.modal.openInside(<any>this.editWindow, this.viewRef, newModel, this._editWindowConfig, true)
+                .then(result => { this.editWindowHandler(result); }); // open edit dialog
         }
     }
 

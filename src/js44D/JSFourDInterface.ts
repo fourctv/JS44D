@@ -349,6 +349,7 @@ export class FourDInterface {
             this.call4DRESTMethod('REST_SetRegistryValue', body, { responseType: 'text' })
                 .subscribe(
                 response => {
+                    FourDInterface._registryCache = []; // need to reset cache when user changes any registry entry
                     resolve();
                 },
                 error => {
@@ -369,7 +370,7 @@ export class FourDInterface {
      */
     public dateTo4DFormat(theDate: Date): string {
 
-        return theDate.toJSON().substr(0, 10).replace(/-/g, '');
+        return (theDate && !isNaN(<any>theDate))?theDate.toJSON().substr(0, 10).replace(/-/g, ''):'00000000';
     }
 
     /**
@@ -380,8 +381,12 @@ export class FourDInterface {
      * 
      */
     public dateToDOMFormat(theDate: string): Date {
-        const dateValue = theDate.substr(0,4)+'/'+theDate.substr(4,2)+'/'+theDate.substr(6,2);
-        return new Date(dateValue);
+        if (theDate && theDate != '') {
+            const dateValue = theDate.substr(0,4)+'/'+theDate.substr(4,2)+'/'+theDate.substr(6,2);
+            return new Date(dateValue);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -392,10 +397,14 @@ export class FourDInterface {
      * 
      */
     public timeTo4DFormat(theDate: Date): string {
-        let theTime:string = (theDate.getHours() < 10)?'0'+theDate.getHours():theDate.getHours().toString();
-        theTime += (theDate.getMinutes() < 10)?':0'+theDate.getMinutes():':'+theDate.getMinutes();
-        theTime += (theDate.getSeconds() < 10)?':0'+theDate.getSeconds():':'+theDate.getSeconds();
-        return theTime;
+        if (theDate && !isNaN(<any>theDate)) {
+            let theTime:string = (theDate.getHours() < 10)?'0'+theDate.getHours():theDate.getHours().toString();
+            theTime += (theDate.getMinutes() < 10)?':0'+theDate.getMinutes():':'+theDate.getMinutes();
+            theTime += (theDate.getSeconds() < 10)?':0'+theDate.getSeconds():':'+theDate.getSeconds();
+            return theTime;
+        } else {
+            return '00:00:00';
+        }
     }
 
     /**
@@ -406,31 +415,35 @@ export class FourDInterface {
      * 
      */
     public timeToDOMFormat(theTime: string): Date {
-        const hh = +theTime.substr(0,2);
-        const mm = +theTime.substr(3,2);
-        const ss = +theTime.substr(6,2);
-        return new Date(0,0,0,hh,mm,ss);
+        if (theTime && theTime != '') {
+            const hh = +theTime.substr(0,2);
+            const mm = +theTime.substr(3,2);
+            const ss = +theTime.substr(6,2);
+            return new Date(0,0,0,hh,mm,ss);
+        } else {
+            return null;
+        }
     }
 
-    		 
-		 /**
-		  * assemble an URL request string with session & hash tokens 
-		  * @param req the URL request root
-		  * @param args query parameters as a URLVariables object
-		  * @return the assembled URL string
-		  * 
-		  */
-		 public assembleURLWithHash(req:string, args:any):string {
-			args.Sessionkey=escape(FourDInterface.sessionKey);
-			
-	    	var str:String = "";
-	    	for (const item in args) {
-	    		str += ((str == '')?'?':'&')+item+"="+escape(args[item]); 		
-	    	}
-	    	
-            return req + str + "&hash="+calculateHash(args);
-            
-		 }
+        
+    /**
+     * assemble an URL request string with session & hash tokens 
+     * @param req the URL request root
+     * @param args query parameters as a URLVariables object
+     * @return the assembled URL string
+     * 
+     */
+    public assembleURLWithHash(req:string, args:any):string {
+    args.Sessionkey=escape(FourDInterface.sessionKey);
+    
+    var str:String = "";
+    for (const item in args) {
+        str += ((str == '')?'?':'&')+item+"="+escape(args[item]); 		
+    }
+    
+    return req + str + "&hash="+calculateHash(args);
+    
+    }
 	    
 }
 

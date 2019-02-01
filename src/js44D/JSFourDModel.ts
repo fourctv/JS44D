@@ -666,7 +666,11 @@ export class FourDModel {
             } else if (col.subTable) {
                 const subFields: Array<Object> = [];
                 for (const sub of col.subTable.fields) {
-                    subFields.push({ name: sub.name, field: sub.longname });
+                    if (sub.formula) { // add support for formulas in subfields
+                        subFields.push({ name: sub.name, formula: sub.formula });
+                    } else {
+                        subFields.push({ name: sub.name, field: sub.longname });
+                    }
                 };
                 colList.push({
                     name: col.name,

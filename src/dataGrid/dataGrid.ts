@@ -323,7 +323,7 @@ export class DataGrid implements AfterViewInit {
 
     rowClicked(event) {
         // console.log('click',event);
-        if (this.dataProvider) {
+        if (this.dataProvider && this.gridObject) {
             const item = this.gridObject.dataItem(this.gridObject.select());
             this.dataProvider.currentRecord = this.findRecordForThisItem(item);
             this.rowSelected.emit(this.dataProvider.currentRecord);
@@ -343,14 +343,14 @@ export class DataGrid implements AfterViewInit {
     }
 
     resize() {
-        this.gridObject.resize();
+        if (this.gridObject) this.gridObject.resize();
     }
 
     /**
      * return currently selected grid row
      */
     selectedRow(): Object {
-        if (this.gridObject.table) {
+        if (this.gridObject && this.gridObject.table) {
             if (this.gridObject.select()) {
                 return this.gridObject.dataItem(this.gridObject.select());
             } else { return null; }
@@ -361,7 +361,7 @@ export class DataGrid implements AfterViewInit {
      * return currently selected grid row index
      */
     selectedRowIndex(): number {
-        if (this.gridObject.table) {
+        if (this.gridObject && this.gridObject.table) {
             if (this.gridObject.select()) {
                 let ret = -1;
                 const item = this.gridObject.dataItem(this.gridObject.select());
@@ -384,29 +384,38 @@ export class DataGrid implements AfterViewInit {
      * return currently selected rows indices, if multiple selection allowed
      */
     selectedRows(): Array<number> {
-        const rows = this.gridObject.select();
-        let selectedRecords = [];
-        for (let index = 0; index < rows.length; index++) {
-            selectedRecords.push(rows[index]['rowIndex']);
-        };
-
-        return selectedRecords;
+        if (this.gridObject) {
+            const rows = this.gridObject.select();
+            let selectedRecords = [];
+            for (let index = 0; index < rows.length; index++) {
+                selectedRecords.push(rows[index]['rowIndex']);
+            };
+    
+            return selectedRecords;
+           
+        } else {
+            return [];            
+        }
     }
 
     /**
      * return currently selected records, if multiple selection allowed
      */
     selectedRecords(): Array<FourDModel> {
-        const rows = this.gridObject.select();
-        let selectedRecs = [];
-        if (this.dataProvider) {
-            for (let index = 0; index < rows.length; index++) {
-                let rowIndex = rows[index]['rowIndex'];
-                selectedRecs.push(this.dataProvider.models[rowIndex]);
-                };
+        if (this.gridObject) {
+            const rows = this.gridObject.select();
+            let selectedRecs = [];
+            if (this.dataProvider) {
+                for (let index = 0; index < rows.length; index++) {
+                    let rowIndex = rows[index]['rowIndex'];
+                    selectedRecs.push(this.dataProvider.models[rowIndex]);
+                    };
+            }
+    
+            return selectedRecs;
+        } else {
+            return [];
         }
-
-        return selectedRecs;
     }
 
     /**
@@ -453,7 +462,7 @@ export class DataGrid implements AfterViewInit {
     }
 
     setColumnConfig(columns) {
-        this.gridObject.destroy();
+        if (this.gridObject) this.gridObject.destroy();
         $(this.theGrid.nativeElement).empty();
         // $(this.theGrid.nativeElement).remove();
 
@@ -463,7 +472,7 @@ export class DataGrid implements AfterViewInit {
     }
 
     setExternalDataSource(dataSource, columns) {
-        if (this.theGrid) {
+        if (this.theGrid && this.gridObject) {
             this.gridObject.destroy();
             $(this.theGrid.nativeElement).empty();
 

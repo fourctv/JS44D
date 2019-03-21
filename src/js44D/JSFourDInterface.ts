@@ -434,7 +434,7 @@ export class FourDInterface {
      * 
      */
     public assembleURLWithHash(req:string, args:any):string {
-    args.Sessionkey=escape(FourDInterface.sessionKey);
+    args.Sessionkey=FourDInterface.sessionKey;
     
     var str:String = "";
     for (const item in args) {

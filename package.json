@@ -12,8 +12,8 @@
     "url": "https://github.com/fourctv/JS44D/issues"
   },
   "scripts": {
-    "docs": "compodoc -p tsconfig.json -d /Users/jcarneiro/Documents/fourctv.github.io/js44D",
-    "docserve": "compodoc -p tsconfig.json -d /Users/jcarneiro/Documents/fourctv.github.io/js44D -s -w",
+    "docs": "compodoc -p tsconfig.json -d ~/Documents/fourctv.github.io/js44D",
+    "docserve": "compodoc -p tsconfig.json -d ~/Documents/fourctv.github.io/js44D -s -w",
     "build": "ng-packagr -p ng-package.json",
     "lint": "tslint -p tslint.json",
     "trigger": "gulp trigger",

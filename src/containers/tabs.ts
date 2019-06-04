@@ -49,7 +49,7 @@ export class Tabs {
 @Injectable()
 export class Tab {
   @Input() title: string;
-  @Input() active: Boolean = this.active || false;
+  @Input() active: Boolean = false;
 
   constructor(tabs: Tabs) {
 

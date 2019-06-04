@@ -245,7 +245,7 @@ export class DataGrid implements AfterViewInit {
 
     constructor(@Inject(HttpClient) private http: HttpClient, @Inject(FourDInterface) private fourD: FourDInterface) { }
 
-    @ViewChild('theGrid') public theGrid: any;
+    @ViewChild('theGrid', {static: false}) public theGrid: any;
 
     //
     // Declare data provider properties

@@ -40,7 +40,7 @@ describe('WebAppContainer (inline template)', () => {
 
         fixture.whenStable().then(() => { // wait for async get 4D Version
             fixture.detectChanges();        // update view with 4D version
-            expect(component.modal.theDialog.title()).toBe('Login');
+            if (component.modal && component.modal.theDialog) expect(component.modal.theDialog.title()).toBe('Login');
         });
     });
 

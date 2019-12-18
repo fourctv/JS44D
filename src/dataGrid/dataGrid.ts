@@ -30,6 +30,11 @@ export class DataGrid implements AfterViewInit {
     @Input() public columns: any[] = [];
 
     /**
+     * defines if grid rows are selectable
+     */
+    @Input() public selectable = true;
+
+    /**
      * defines how grid selection should work (defaults to single, row)
      */
     @Input() public selectionMode = 'single,row';
@@ -506,7 +511,7 @@ export class DataGrid implements AfterViewInit {
             },
             // scrollable: { virtual: this.useLazyLoading },
             resizable: true,
-            selectable: this.selectionMode,
+            selectable: (this.selectable)?this.selectionMode:false,
             editable: this.editable,
             filterable: this.filterable,
             sortable: this.sortable,

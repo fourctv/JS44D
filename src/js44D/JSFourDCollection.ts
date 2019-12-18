@@ -80,7 +80,7 @@ export class FourDCollection {
             } else {
                 if (col.formula) {
                     colList.push({ name: col.name, formula: col.formula });
-                } else if (fld.longname) { colList.push({ name: col.name, field: col.longname }); }
+                } else if (col.name && col.longname) { colList.push({ name: col.name, field: col.longname }); }
             }
         }
 

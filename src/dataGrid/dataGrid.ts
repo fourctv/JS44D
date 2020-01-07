@@ -363,6 +363,16 @@ export class DataGrid implements AfterViewInit {
     }
 
     /**
+     * select a specific row on the grid
+     * @param index row index to select
+     */
+    selectThisRow(index) {
+        if (index <= this.recordCount) {
+            this.gridObject.select('tr:eq('+(index-1)+')');
+        }
+    }
+
+    /**
      * return currently selected grid row index
      */
     selectedRowIndex(): number {

@@ -134,7 +134,7 @@ export class FourDCollection {
                     this.totalRecordCount = 0;
                     this.models = [];
                     if (resultJSON && resultJSON['selected'] && resultJSON['records']) {
-                        this.totalRecordCount = resultJSON['selected'];
+                        this.totalRecordCount = parseInt(resultJSON['selected']);
                         const recList: Array<any> = resultJSON['records'];
                         recList.forEach(record => {
                             newModel = <any>(new modelDef());

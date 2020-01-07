@@ -1,9 +1,11 @@
 language: node_js
-node_js: "8"
+node_js: "10"
 
 sudo: required
 
- 
+services:
+  - xvfb
+
 install: true  # yarn bug
 
 addons:
@@ -27,7 +29,6 @@ before_script:
   - npm i @angular/common@6  @angular/compiler@6 @angular/core@6 @angular/forms@6 @angular/platform-browser@6 @angular/platform-browser-dynamic@6 rxjs rxjs-compat zone.js
   - npm i jquery ngx-bootstrap
   - npm install
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then nohup bash -c "webdriver-manager start 2>&1 &"; fi  # Protractor CI
 
 after_failure:

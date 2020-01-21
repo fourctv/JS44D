@@ -210,7 +210,7 @@ export class FourDModel {
             recordData['saveCallback'] = this.fourdSaveCallbackMethod_; // set save callback method if set
         }
 
-        if (noAudit) { recordData['noAudit'] = true; }    // disable audit log for this record
+        recordData['noAudit'] = noAudit;    // disable audit log for this record
 
         if ((mode === 'update') && this.hasOwnProperty('TimeStamp')) {
             recordData['timeStamp'] = this['TimeStamp'];

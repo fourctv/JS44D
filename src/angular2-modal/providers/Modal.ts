@@ -129,6 +129,7 @@ export class Modal {
 
         if (theDialogInstance.contentRef.instance.beforeDismiss) theDialogInstance.contentRef.instance.beforeDismiss();
         theDialogInstance.kendoDialog.destroy();
+        theDialogInstance.contentRef.destroy();
     }
 
     /**

@@ -332,6 +332,10 @@ export class DataGrid implements AfterViewInit {
             const item = this.gridObject.dataItem(this.gridObject.select());
             this.dataProvider.currentRecord = this.findRecordForThisItem(item);
             this.rowSelected.emit(this.dataProvider.currentRecord);
+        } else {
+            if (this.gridObject.select()) {
+                this.rowSelected.emit(this.gridObject.dataItem(this.gridObject.select()));
+            }
         }
     }
 
@@ -339,6 +343,10 @@ export class DataGrid implements AfterViewInit {
         // console.log('dblclick', event);
         if (this.dataProvider && this.dataProvider.currentRecord) {
             this.recordSelected.emit(this.dataProvider.currentRecord);
+        } else {
+            if (this.gridObject.select()) {
+                this.recordSelected.emit(this.gridObject.dataItem(this.gridObject.select()));
+            }
         }
     }
 
@@ -388,6 +396,11 @@ export class DataGrid implements AfterViewInit {
                     (<any>this.gridObject).dataItems().forEach((element, index) => {
                         if (element[this._model.primaryKey_] === item[this._model.primaryKey_]) { ret = index; }
                     });
+                } else { 
+                    const rows = this.gridObject.select();
+                    if (rows.length > 0) {
+                        ret = rows[0]['rowIndex'];
+                    }
                 }
 
                 return ret;
@@ -424,6 +437,10 @@ export class DataGrid implements AfterViewInit {
                 for (let index = 0; index < rows.length; index++) {
                     let rowIndex = rows[index]['rowIndex'];
                     selectedRecs.push(this.dataProvider.models[rowIndex]);
+                    };
+            } else {
+                for (let index = 0; index < rows.length; index++) {
+                    selectedRecs.push(this.gridObject.dataItem(rows[index]));
                     };
             }
     

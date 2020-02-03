@@ -73,6 +73,11 @@ export class DataGrid implements AfterViewInit {
      * Various pageable options
      */
     /**
+     * enable the paging bar (default true)
+     */
+    @Input() public pageable = true;
+    
+    /**
      * enable refresh button on the paging bar (default true)
      */
     @Input() public pageableRefresh = true;
@@ -373,10 +378,17 @@ export class DataGrid implements AfterViewInit {
     /**
      * select a specific row on the grid
      * @param index row index to select
+     * @param scrollTo flag to indicate if the grid should auto scroll to the selected row
      */
-    selectThisRow(index) {
+    selectThisRow(index, scrollTo = true) {
         if (index <= this.recordCount) {
             this.gridObject.select('tr:eq('+(index-1)+')');
+            if (scrollTo) {
+                const scrollContentOffset = this.gridObject.element.find("tbody").offset().top;
+                const selectContentOffset = this.gridObject.select().offset().top;
+                const distance = selectContentOffset - scrollContentOffset;
+                this.gridObject.element.find(".k-grid-content").animate({ scrollTop: distance }, 0);
+            }
         }
     }
 
@@ -529,13 +541,13 @@ export class DataGrid implements AfterViewInit {
             excel: { allPages: true, filterable: true },
             change: ($event) => { this.rowClicked($event); },
             autoBind: false,
-            pageable: {
+            pageable: (this.pageable)?{
                 refresh: this.pageableRefresh,
                 pageSize: this.pageSize,
                 pageSizes: this.pageableSizes,
                 buttonCount: this.pageableButtonCount,
                 messages: this.pageableMessageCustom
-            },
+            }:false,
             // scrollable: { virtual: this.useLazyLoading },
             resizable: true,
             selectable: (this.selectable)?this.selectionMode:false,

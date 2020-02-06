@@ -382,6 +382,15 @@ export class DataGrid implements AfterViewInit {
      */
     selectThisRow(index, scrollTo = true) {
         if (index <= this.recordCount) {
+            if (this.selectionMode.includes('single') ) { // if selection mode is single row, then clear currently selected row
+                const cur = this.gridObject.select();
+                if (cur.length > 0) {
+                    let row = $(cur[0]);
+                    if (row.hasClass("k-state-selected")) {
+                        row.removeClass("k-state-selected"); // this is a trick to unselect a row!! weird!!
+                    }
+                }
+            }
             this.gridObject.select('tr:eq('+(index-1)+')');
             if (scrollTo) {
                 const scrollContentOffset = this.gridObject.element.find("tbody").offset().top;

@@ -217,7 +217,8 @@ export class AdvancedQueryComponent implements ICustomModalComponent, AfterViewI
             if (element.field.name !== '' && element.comparator !== '') {
                 const theField: any = element.field;
                 if (element.comparator === '!=') { element.comparator = '#'; }
-                queryItems.push(theField.longname + ';' + element.comparator + ';' + element.value + ';' + element.connector);
+                const theValue = (theField.type === 'Date')?element.value.replace(/-/g,''):element.value;
+                queryItems.push(theField.longname + ';' + element.comparator + ';' + theValue + ';' + element.connector);
             }
         });
         this.dialog.close({ query: queryItems, queryFields: this.queryFieldList });

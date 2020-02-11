@@ -311,6 +311,7 @@ export class DataGrid implements AfterViewInit {
             this.dataSource.fetch()
                 .then(() => {
                     this.loadDataComplete.emit(this.dataProvider.models.length);
+                    this.resize(); // force grid refresh
                 });
         }
     }

@@ -282,7 +282,7 @@ export class DataGrid implements AfterViewInit {
     /**
      * record count on the current selection
      */
-    get recordCount(): number { return (this.dataProvider) ? this.dataProvider.totalRecordCount : 0; }
+    get recordCount(): number { return (this.dataProvider) ? this.dataProvider.totalRecordCount :( (this.gridObject.dataSource)?this.gridObject.dataSource.data().length:0); }
 
 
     /**
@@ -326,6 +326,7 @@ export class DataGrid implements AfterViewInit {
 
     setDataSource(data: Array<any>) {
         this.gridObject.dataSource.data(data);
+        this.resize(); // force grid refresh
     }
 
     setOptions(options: kendo.ui.GridOptions) {

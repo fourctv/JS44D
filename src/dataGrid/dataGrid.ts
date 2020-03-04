@@ -326,7 +326,9 @@ export class DataGrid implements AfterViewInit {
 
     setDataSource(data: Array<any>) {
         this.gridObject.dataSource.data(data);
-        this.resize(); // force grid refresh
+        setTimeout(() => {
+            this.resize(); // force grid refresh, but need to let grid redraw first, so give it a millisecond 
+        }, 1);
     }
 
     setOptions(options: kendo.ui.GridOptions) {

@@ -23,15 +23,15 @@ describe('LoginCmp (inline template)', () => {
             providers: [HttpClient, FourDInterface, ModalDialogInstance]
         }).compileComponents();
         
-        FourDInterface.fourDUrl = 'http://www.vakeano.com';
+        FourDInterface.fourDUrl = 'http://bestclinic.selfip.com:8080';
     }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(LoginCmp);
         component = fixture.componentInstance;
 
-        component.username = 'test';
-        component.password = 'test';
+        component.username = 'best';
+        component.password = 'best123';
 
 
         fixture.detectChanges();
@@ -54,6 +54,7 @@ describe('LoginCmp (inline template)', () => {
     });
 
     it('Login -> should get 4D version', async(() => {
+        expect(true).toBeTruthy();
         fixture.detectChanges();
 
         fixture.whenStable().then(() => { // wait for async get 4D Version
@@ -63,6 +64,7 @@ describe('LoginCmp (inline template)', () => {
     }));
 
     it('Login -> should fail invalid log into 4D', async(() => {
+        expect(true).toBeTruthy();
         component.username = 'foo';
         component.login();
 
@@ -75,6 +77,7 @@ describe('LoginCmp (inline template)', () => {
     }));
 
     it('Login -> should log into 4D', async(() => {
+        expect(true).toBeTruthy();        
         component.login();
         
         fixture.detectChanges();

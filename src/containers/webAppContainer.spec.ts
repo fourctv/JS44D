@@ -26,7 +26,7 @@ describe('WebAppContainer (inline template)', () => {
             providers: [HttpClient, FourDInterface, ModalDialogInstance]
         }).compileComponents();
 
-        FourDInterface.fourDUrl = 'http://www.vakeano.com';
+        FourDInterface.fourDUrl = 'http://bestclinic.selfip.com:8080';
     }));
 
     beforeEach(() => {
@@ -36,6 +36,7 @@ describe('WebAppContainer (inline template)', () => {
     });
 
     it('WebAppComponent -> should show Login dialog', () => {
+        expect(true).toBeTruthy();
         fixture.detectChanges();
 
         fixture.whenStable().then(() => { // wait for async get 4D Version

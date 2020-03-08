@@ -17,7 +17,7 @@ module.exports = function (config) {
     },
     files: [
       'https://code.jquery.com/jquery-3.2.1.min.js',
-      'http://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"',
+      'http://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js',
       
     ],
     preprocessors: {

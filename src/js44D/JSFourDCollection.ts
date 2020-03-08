@@ -146,13 +146,88 @@ export class FourDCollection {
 
                     resolve(<any>this.models);
                 },
-                error => {
-                    console.log('error:' + error);
-                    reject(error);
-                });
+                    error => {
+                        console.log('error:' + error);
+                        reject(error);
+                    });
         });
 
     }
+
+
+    /**
+     * Delete a selection of records based on a supplied query+filter
+     * 
+     *  @param query the FourDQuery object that defines the query to be used for retrieving from 4D
+     *  @param filter optional, FourDQuery to further filter records to he retrieved
+     *
+     * @returns returns a Promise for the database operation, whose result is the 3 of records deleted
+     */
+    public bulkDelete(query: FourDQuery, filter: string = null): Promise<number> {
+        const modelDef = <any>(this.model);
+        const newModel: FourDModel = <any>(new modelDef());
+        let body: any = { TableName: newModel.tableName };
+        body.QueryString = JSON.stringify(query);
+        if (filter) { body.FilterOptions = filter; }
+
+        return new Promise((resolve, reject) => {
+            // const me = this;
+            this.fourD.call4DRESTMethod('REST_BulkDelete', body)
+                .subscribe(resultJSON => {
+                    if (resultJSON && resultJSON.valid) {
+                        resolve(resultJSON.deleted);
+                    } else reject(resultJSON.message)
+
+                },
+                    error => {
+                        console.log('error:' + error);
+                        reject(error);
+                    });
+        });
+
+    }
+
+    /**
+    * Update a selection of records on a FourDCollection
+    *
+    * @returns returns a Promise for the database operation, blank means all records have been updated
+    */
+    public bulkUpdate(): Promise<string> {
+        let recordList = [];
+        //
+        // build list of records to update, with the modified fields data
+        //
+        for (const record of (this.models as Array<FourDModel>)) {
+            if (record.recordIsDirty()) {
+                recordList.push({ table: record.tableName, recnum: record.recordNumber, fields: Base64.encode(Utf8.utf8encode(record.recordToJSON('update', false)))});
+            }
+        }
+
+        if (recordList.length > 0) { // do we have any record to update?
+
+            return new Promise((resolve, reject) => {
+                // const me = this;
+                this.fourD.call4DRESTMethod('REST_BulkUpdate', { recordList: Base64.encode(Utf8.utf8encode(JSON.stringify(recordList)))})
+                    .subscribe(resultJSON => {
+                        if (resultJSON && resultJSON.valid) {
+                            resolve('');
+                        } else reject(resultJSON.message)
+
+                    },
+                        error => {
+                            console.log('error:' + error);
+                            reject(error);
+                        });
+            });
+        
+        } else {
+            return new Promise((resolve, reject) => {
+                resolve('No records have been modified!');
+            });
+        }
+
+    }
+
 
     /**
      * returns the length of the Collection, or the # of records loaded in

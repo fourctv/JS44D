@@ -80,7 +80,7 @@ export class LoginCmp implements ICustomModalComponent {
         this.fourD.signIn(this.username, md5pwd.toUpperCase())
             .then((authentication) => {
                 if (FourDInterface.authentication) {
-                    // console.log('authenticated');
+                    //  console.log('authenticated');
 
                     this.showError = false;
                     if (this.dialog) { this.dialog.close('loggedin'); }
@@ -90,7 +90,7 @@ export class LoginCmp implements ICustomModalComponent {
                 }
             })
             .catch((e) => {
-                console.log(e);
+                //console.log(e);
                 this.showError = true;
             });
     }

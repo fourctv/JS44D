@@ -1,6 +1,6 @@
 // angular
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
@@ -25,7 +25,7 @@ import { FourDRegistryInput } from './controls/fourDRegistryInput';
 
 
 @NgModule({
-      imports: [FormsModule, CommonModule, HttpClientModule, FourDModule],
+      imports: [FormsModule, ReactiveFormsModule, CommonModule, HttpClientModule, FourDModule],
       declarations: [ 
             QueryBand, CustomButtonBarDirective, QueryBandDirective, AdvancedQueryComponent,
             RecordEditWindow, RecordList, Tabs, Tab, WebAppContainer,

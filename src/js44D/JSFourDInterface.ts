@@ -209,6 +209,37 @@ export class FourDInterface {
         });
     }
 
+
+    /**
+     * Get Record count based on a supplied query+filter
+     * 
+     *  @param tableName the table to get the resulting record count
+     *  @param query the FourDQuery object that defines the query to be used for determining
+     *  @param filter optional, FourDQuery to further filter records
+     *
+     * @returns returns a Promise for the database operation, whose result is the # of records selected
+     */
+    public getRecordCount(tableName:string, query: FourDQuery, filter: string = null): Promise<number> {
+        let body: any = { TableName: tableName, QueryString: JSON.stringify(query)};
+        if (filter) { body.FilterOptions = filter; }
+
+        return new Promise((resolve, reject) => {
+            // const me = this;
+            this.call4DRESTMethod('REST_CountRecords', body)
+                .subscribe(resultJSON => {
+                    if (resultJSON && resultJSON.valid) {
+                        resolve(resultJSON.seleted);
+                    } else reject(resultJSON.message)
+
+                },
+                    error => {
+                        console.log('error:' + error);
+                        reject(error);
+                    });
+        });
+
+    }
+
     /**
      * Gets the values of a 4D Choice List. <p><i>4D lists entries are cached to optimize traffic to/from 4D</i></p>
      * 

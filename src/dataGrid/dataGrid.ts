@@ -395,12 +395,14 @@ export class DataGrid implements AfterViewInit {
                     }
                 }
             }
-            this.gridObject.select('tr:eq('+(index-1)+')');
-            if (scrollTo) {
-                const scrollContentOffset = this.gridObject.element.find("tbody").offset().top;
-                const selectContentOffset = this.gridObject.select().offset().top;
-                const distance = selectContentOffset - scrollContentOffset;
-                this.gridObject.element.find(".k-grid-content").animate({ scrollTop: distance }, 0);
+            if (index > 0) {
+                this.gridObject.select('tr:eq('+(index-1)+')');
+                if (scrollTo) {
+                    const scrollContentOffset = this.gridObject.element.find("tbody").offset().top;
+                    const selectContentOffset = this.gridObject.select().offset().top;
+                    const distance = selectContentOffset - scrollContentOffset;
+                    this.gridObject.element.find(".k-grid-content").animate({ scrollTop: distance }, 0);
+                }
             }
         }
     }

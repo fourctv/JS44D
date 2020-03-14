@@ -161,7 +161,7 @@ export class FourDCollection {
      *  @param query the FourDQuery object that defines the query to be used for retrieving from 4D
      *  @param filter optional, FourDQuery to further filter records to he retrieved
      *
-     * @returns returns a Promise for the database operation, whose result is the 3 of records deleted
+     * @returns returns a Promise for the database operation, whose result is the # of records deleted
      */
     public bulkDelete(query: FourDQuery, filter: string = null): Promise<number> {
         const modelDef = <any>(this.model);

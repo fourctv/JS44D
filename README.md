@@ -84,6 +84,7 @@ This is the base service class that implements most of the calls to **4D RESTApi
 The two key functions made available by this class are:
 - **call4DRESTMethod**: a wrapper function to enable calling any **4D RESTApi** entry point; it automatically adds a *Session Key* and a *hash* tokens to each HTTP POST request sent to 4D, which are required by the **4D RESTApi** Component; this function is used by all other services and components to send requests to 4D.
 - **signin**: a function that will send a **REST_Authenticate** sign in request to 4D and process 4D's response.
+- **getRecordCount**: a function that will send a **REST_CountRecords** request to 4D to obtain the count of records that match a given query.
 
 This class also provides some static variables:
 - **currentUser**: the name of the currectly signed in user
@@ -111,6 +112,8 @@ A service class that represents a collection of 4D records. It is basically an A
 
 This class provides a function to retrieve a set of records from a 4D Database:
 - **getRecords**: will take a [Query String](https://github.com/fourctv/FourDRESTApi/wiki/The-JS44D-Query-String) and send a **[REST_GetRecords](https://github.com/fourctv/FourDRESTApi/wiki/REST_GetRecords)** request to 4D to retrieve a collection of 4D records. Record data comes as an Array of Data Model (*FourDModel*) instances.
+- **bulkDelete**: a function that will send a **REST_BulkDelete** request to 4D to delete a set of records that match a given query.
+- **bulkUpdate**: a function that will send a **REST_BulkUpdate** request to 4D to update any record in the collection that has been updated.
 
 ## UI Widgets
 The following UI widgets and components, which also interact with a 4D backend, are available for use in Angular apps. Detailed documentation for each widget is found on the [wiki pages](https://github.com/fourctv/JS44D/wiki).

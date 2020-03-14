@@ -25,9 +25,6 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
 
 before_script:
-  - npm uninstall @angular/tsc-wrapped
-  - npm i @angular/common@8  @angular/compiler@8 @angular/core@8 @angular/forms@8 @angular/platform-browser@68 @angular/platform-browser-dynamic@8 rxjs rxjs-compat zone.js
-  - npm i jquery ngx-bootstrap
   - npm install
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then nohup bash -c "webdriver-manager start 2>&1 &"; fi  # Protractor CI
 

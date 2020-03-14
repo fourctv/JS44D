@@ -18,7 +18,7 @@ export class WebAppContainer implements AfterContentInit {
 
     @Output() public userHasLoggedIn: EventEmitter<any> = new EventEmitter();
 
-    private urlSearchParms: Object = {};
+    private urlSearchParms: any = {};
 
     constructor(public modal: Modal, private elementRef: ViewContainerRef, private fourD: FourDInterface/*, private win:WindowService*/) {
         const win = window;

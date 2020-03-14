@@ -53,7 +53,7 @@ export class FourDCollection {
      */
     public getColumnListJSON(columns: Array<any>): string {
         if (!columns) { columns = this.columns; }
-        const colList: Array<Object> = [];
+        const colList: Array<any> = [];
         const modelDef = <any>(this.model);
         let theModel: FourDModel = <any>(new modelDef());
         let fld: any;

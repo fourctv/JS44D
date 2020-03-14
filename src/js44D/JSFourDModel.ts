@@ -76,9 +76,9 @@ export class FourDModel {
     // current record number
     private _recnum = -3;
     // keeps all attributes for the current model
-    private _attributes: Object = {};
+    private _attributes: any = {};
     // keep a list of modified fields, to optimize Updates, only modified data is set to 4D
-    private _modified: Object = {};
+    private _modified: any = {};
 
 
     /** 
@@ -204,7 +204,7 @@ export class FourDModel {
      *
      */
     recordToJSON(mode: string, noAudit: boolean): string {
-        const recordData: Object = { table: this.tableName, recnum: this.recordNumber };
+        const recordData: any = { table: this.tableName, recnum: this.recordNumber };
         // set callback methods
         if (this.fourdSaveCallbackMethod_) {
             recordData['saveCallback'] = this.fourdSaveCallbackMethod_; // set save callback method if set
@@ -522,7 +522,7 @@ export class FourDModel {
      *
      *  @param recordData json object whose properties will be used to populate the Data Model
      */
-    public populateModelData(recordData: Object) {
+    public populateModelData(recordData: any) {
         if (recordData.hasOwnProperty('_recnum')) { this.recordNumber = recordData['_recnum']; }
         for (const field in recordData) {
             if (field !== '_recnum' && this.getFieldProperties(field)) {
@@ -540,7 +540,7 @@ export class FourDModel {
 
     }
 
-    public extractModelData(): Object {
+    public extractModelData(): any {
         let data = { _recnum: this._recnum };
         for (const field of this.fields) {
             data[field.name] = this[field.name];
@@ -658,13 +658,13 @@ export class FourDModel {
      * @returns JSON string representing all fields in the Data Model
      */
     public getColumnListJSON(): string {
-        const colList: Array<Object> = [];
+        const colList: Array<any> = [];
         const fields: Array<IFieldDescription> = this.fields;
         for (const col of fields) {
             if (col.formula) {
                 colList.push({ name: col.name, formula: col.formula });
             } else if (col.subTable) {
-                const subFields: Array<Object> = [];
+                const subFields: Array<any> = [];
                 for (const sub of col.subTable.fields) {
                     if (sub.formula) { // add support for formulas in subfields
                         subFields.push({ name: sub.name, formula: sub.formula });

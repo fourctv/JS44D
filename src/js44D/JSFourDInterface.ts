@@ -26,7 +26,7 @@ export let convertObjectToURL = function (obj: any) {
 /**
  * Calculates hash code from URL string or POST form data
  */
-export let calculateHash = function (formData: Object) {
+export let calculateHash = function (formData: any) {
     let value = '';
     for (const key in formData) {
         if (formData.hasOwnProperty(key)) {

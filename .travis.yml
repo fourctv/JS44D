@@ -35,7 +35,7 @@ after_failure:
   - ng -v
 
 branches:
-  only: master
+  only: [master]
 
 notifications:
   email: true
@@ -45,7 +45,7 @@ notifications:
     on_start: never     # options: [always|never|change] default: always
 
 cache:
-  directories: node_modules
+  directories: [node_modules]
 
 script:
   - npm test

@@ -26,7 +26,7 @@ before_install:
 
 before_script:
   - npm uninstall @angular/tsc-wrapped
-  - npm i @angular/common@6  @angular/compiler@6 @angular/core@6 @angular/forms@6 @angular/platform-browser@6 @angular/platform-browser-dynamic@6 rxjs rxjs-compat zone.js
+  - npm i @angular/common@8  @angular/compiler@8 @angular/core@8 @angular/forms@8 @angular/platform-browser@68 @angular/platform-browser-dynamic@8 rxjs rxjs-compat zone.js
   - npm i jquery ngx-bootstrap
   - npm install
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then nohup bash -c "webdriver-manager start 2>&1 &"; fi  # Protractor CI

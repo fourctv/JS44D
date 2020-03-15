@@ -17,7 +17,8 @@
     "build": "ng-packagr -p ng-package.json",
     "lint": "tslint -p tslint.json",
     "trigger": "gulp trigger",
-    "test": "ng test"
+    "test": "ng test",
+    "testCI": "karma start --single-run --browsers PhantomJS"
   },
   "main": "lib/index.js",
   "module": "lib/index.js",

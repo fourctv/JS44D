@@ -136,7 +136,6 @@ export class Modal {
      * Opens a modal window blocking the whole screen.
      * @param componentType The angular Component to render as modal.
      * @param parameters parameters to be passed to the dialog instance.
-    * @param config A Modal Configuration object.
      * @param allowMultiple indicates if multiple version of the same dialog are allowed.
      * @param dialogID a dialog identification token to control multiple occurrences.
      * @returns Promise<ModalDialogInstance>

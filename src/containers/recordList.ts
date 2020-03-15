@@ -222,6 +222,8 @@ export class RecordList implements AfterContentInit {
         let savedSearches: Array<any>;
         let savedSets: Array<any>;
         let selectedRecords = [];
+        let setList = [];
+        let searchList = [];
 
         switch (action) {
             case 'selectHighlited':
@@ -272,7 +274,7 @@ export class RecordList implements AfterContentInit {
 
             case 'reuseSearch':
                 savedSearches = JSON.parse(localStorage.getItem(tableName + '_savedSearches')) || [];
-                let searchList = [];
+                searchList = [];
                 savedSearches.forEach(element => {
                     searchList.push(element.name);
                 });
@@ -288,7 +290,7 @@ export class RecordList implements AfterContentInit {
 
             case 'restoreSet':
                 savedSets = JSON.parse(localStorage.getItem(tableName + '_savedSets')) || [];
-                let setList = [];
+                setList = [];
                 savedSets.forEach(element => {
                     setList.push(element.name);
                 });

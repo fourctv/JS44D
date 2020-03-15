@@ -37,9 +37,9 @@ export class ListSelectorDialog implements ICustomModalComponent {
     @Input() public buttonText = 'Select';
     @Input() public message = '';
 
-    public set height(v) { this.config.height = v };
-    public set width(v) { this.config.width = v };
-    public set title(v) { this.config.title = v };
+    public set height(v) { ListSelectorDialog.dialogConfig.height = v };
+    public set width(v) { ListSelectorDialog.dialogConfig.width = v };
+    public set title(v) { ListSelectorDialog.dialogConfig.title = v };
 
 
     public set modelContentData(v) {
@@ -49,13 +49,12 @@ export class ListSelectorDialog implements ICustomModalComponent {
         if (v.message) { this.message = v.message; }
     }
 
-    private config: ModalConfig;
 
     private selectedIndex = -1;
 
 
-    constructor(public dialog: ModalDialogInstance, private modal: Modal) {
-        this.config = ListSelectorDialog.dialogConfig;
+    constructor(public dialog: ModalDialogInstance, private modal: Modal, private viewRef:ViewContainerRef) {
+  
     }
 
     /**
@@ -64,7 +63,7 @@ export class ListSelectorDialog implements ICustomModalComponent {
     public show(list: string[], tips?: string[], message?: string, buttonLabel?: string): Promise<number> {
         if (!tips) { tips = list; }
 
-        return <any>this.modal.open(ListSelectorDialog, { list: list, tips: tips, message: message, buttonLabel: buttonLabel }, this.config);
+        return <any>this.modal.openInside(ListSelectorDialog, this.viewRef, { list: list, tips: tips, message: message, buttonLabel: buttonLabel }, ListSelectorDialog.dialogConfig);
     }
 
     changeSelection(ev) {

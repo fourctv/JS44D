@@ -45,7 +45,7 @@ cache:
   directories: [node_modules]
 
 script:
-  - npm run testCI
+  - npm run build
 #  - npm run trigger
   
   

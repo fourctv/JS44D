@@ -525,7 +525,7 @@ export class DataGrid implements AfterViewInit {
         $(this.theGrid.nativeElement).empty();
         // $(this.theGrid.nativeElement).remove();
 
-        this.dataProvider.columns = this.columns;
+        if (this.dataProvider) this.dataProvider.columns = this.columns;
         this.columns = columns;
         this.initializeGrid();
     }

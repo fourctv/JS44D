@@ -76,7 +76,7 @@ export class DataGrid implements AfterViewInit {
      * enable the paging bar (default true)
      */
     @Input() public pageable = true;
-    
+
     /**
      * enable refresh button on the paging bar (default true)
      */
@@ -96,7 +96,7 @@ export class DataGrid implements AfterViewInit {
      * defines message pattern to display on the paging toolbar
      */
     @Input() public pageableMessage = '{0} - {1} of {2} items';
-    @Input() public pageableMessageCustom = {display: this.pageableMessage};
+    @Input() public pageableMessageCustom = { display: this.pageableMessage };
 
     /**    
     * the associated data model for the records to be retrieved
@@ -121,6 +121,17 @@ export class DataGrid implements AfterViewInit {
      * if using lazyloading, define the max # of records to retrieve from 4D
      */
     @Input() public pageSize = 50;
+
+    /**
+     * Callback function to determine the css class to aply to a row
+     * this functions gets called for each row data, after datagrid row data is set
+     * it must return a string that represents a css class
+     * the function must take 2 arguments:
+     * @rowData: is the row data toc test and validate
+     * @element: is the HTML element, which can be use to set/change attributes
+     * 
+     */
+    @Input() public setRowClass: (rowData: any, element:any) => string;
 
     //
     // events emitted by the DataGrid
@@ -255,7 +266,7 @@ export class DataGrid implements AfterViewInit {
 
     constructor(@Inject(HttpClient) private http: HttpClient, @Inject(FourDInterface) private fourD: FourDInterface) { }
 
-    @ViewChild('theGrid', {static: false}) public theGrid: any;
+    @ViewChild('theGrid', { static: false }) public theGrid: any;
 
     //
     // Declare data provider properties
@@ -282,7 +293,7 @@ export class DataGrid implements AfterViewInit {
     /**
      * record count on the current selection
      */
-    get recordCount(): number { return (this.dataProvider) ? this.dataProvider.totalRecordCount :( (this.gridObject.dataSource)?this.gridObject.dataSource.data().length:0); }
+    get recordCount(): number { return (this.dataProvider) ? this.dataProvider.totalRecordCount : ((this.gridObject.dataSource) ? this.gridObject.dataSource.data().length : 0); }
 
 
     /**
@@ -316,7 +327,7 @@ export class DataGrid implements AfterViewInit {
         }
     }
 
-    setModel(newModel:FourDModel) {
+    setModel(newModel: FourDModel) {
         this.model = newModel;
         if (!this.dataProvider) {
             this.dataProvider = new FourDCollection(); // this is the data model used to bring in records
@@ -366,6 +377,22 @@ export class DataGrid implements AfterViewInit {
 
     resize() {
         if (this.gridObject) this.gridObject.resize();
+        //
+        // if a row class callback function is set, call it for each row
+        //
+        if (this.setRowClass) {
+            setTimeout(() => {
+                this.gridObject.dataSource.data().forEach(row => {
+                    const element = $('tr[data-uid="' + row['uid'] + '"] ');
+                    if (element) {
+                        const newClass = this.setRowClass(row, element);
+                        if (newClass && newClass != '') { // do we have a css class to assign?
+                            element.addClass(newClass);
+                        }
+                    }
+                });
+            }, 1);
+        }
     }
 
     /**
@@ -386,7 +413,7 @@ export class DataGrid implements AfterViewInit {
      */
     selectThisRow(index, scrollTo = true) {
         if (index <= this.recordCount) {
-            if (this.selectionMode.includes('single') ) { // if selection mode is single row, then clear currently selected row
+            if (this.selectionMode.includes('single')) { // if selection mode is single row, then clear currently selected row
                 const cur = this.gridObject.select();
                 if (cur.length > 0) {
                     let row = $(cur[0]);
@@ -396,7 +423,7 @@ export class DataGrid implements AfterViewInit {
                 }
             }
             if (index > 0) {
-                this.gridObject.select('tr:eq('+(index-1)+')');
+                this.gridObject.select('tr:eq(' + (index - 1) + ')');
                 if (scrollTo) {
                     const scrollContentOffset = this.gridObject.element.find("tbody").offset().top;
                     const selectContentOffset = this.gridObject.select().offset().top;
@@ -423,7 +450,7 @@ export class DataGrid implements AfterViewInit {
                     (<any>this.gridObject).dataItems().forEach((element, index) => {
                         if (element[this._model.primaryKey_] === item[this._model.primaryKey_]) { ret = index; }
                     });
-                } else { 
+                } else {
                     const rows = this.gridObject.select();
                     if (rows.length > 0) {
                         ret = rows[0]['rowIndex'];
@@ -445,11 +472,11 @@ export class DataGrid implements AfterViewInit {
             for (let index = 0; index < rows.length; index++) {
                 selectedRecords.push(rows[index]['rowIndex']);
             };
-    
+
             return selectedRecords;
-           
+
         } else {
-            return [];            
+            return [];
         }
     }
 
@@ -464,13 +491,13 @@ export class DataGrid implements AfterViewInit {
                 for (let index = 0; index < rows.length; index++) {
                     let rowIndex = rows[index]['rowIndex'];
                     selectedRecs.push(this.dataProvider.models[rowIndex]);
-                    };
+                };
             } else {
                 for (let index = 0; index < rows.length; index++) {
                     selectedRecs.push(this.gridObject.dataItem(rows[index]));
-                    };
+                };
             }
-    
+
             return selectedRecs;
         } else {
             return [];
@@ -556,16 +583,16 @@ export class DataGrid implements AfterViewInit {
             excel: { allPages: true, filterable: true },
             change: ($event) => { this.rowClicked($event); },
             autoBind: false,
-            pageable: (this.pageable)?{
+            pageable: (this.pageable) ? {
                 refresh: this.pageableRefresh,
                 pageSize: this.pageSize,
                 pageSizes: this.pageableSizes,
                 buttonCount: this.pageableButtonCount,
                 messages: this.pageableMessageCustom
-            }:false,
+            } : false,
             // scrollable: { virtual: this.useLazyLoading },
             resizable: true,
-            selectable: (this.selectable)?this.selectionMode:false,
+            selectable: (this.selectable) ? this.selectionMode : false,
             editable: this.editable,
             filterable: this.filterable,
             sortable: this.sortable,

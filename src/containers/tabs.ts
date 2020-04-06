@@ -1,4 +1,4 @@
-import { Component, Injectable, Input } from '@angular/core';
+import { Component, Injectable, Input, Output, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -15,26 +15,38 @@ import { Component, Injectable, Input } from '@angular/core';
 @Injectable()
 export class Tabs {
 
+  @Output() public change: EventEmitter<any> = new EventEmitter();
+
   tabs: Tab[] = [];
 
-  selectTab(event, tab) {
+  public selectTab(event, tab) {
     event.preventDefault();
 
     this.selectThisTab(tab);
 
   }
 
-  selectThisTab(tab) {
+  public selectThisTab(tab) {
     this.tabs.forEach((tabItem) => tabItem.active = false);
     tab.active = true;
+
+    this.change.emit();
   }
 
 
-  addTab(tab: Tab) {
+  public addTab(tab: Tab) {
     if (this.tabs.length === 0) {
       tab.active = true;
     }
     this.tabs.push(tab);
+  }
+
+  public get selectedIndex():number {
+    let selected = -1;
+    for (let index = 0; index < this.tabs.length; index++) {
+      if (this.tabs[index].active) selected = index;
+    }
+    return selected;
   }
 }
 

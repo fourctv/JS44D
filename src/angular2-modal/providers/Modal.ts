@@ -80,7 +80,7 @@ export class Modal {
         config = (config) ? ModalConfig.makeValid(config, _config) : _config;
 
         const dialogComponentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
-        const dialogComponentRef = viewRef.createComponent(dialogComponentFactory, 0);
+        const dialogComponentRef = viewRef.createComponent(dialogComponentFactory);
         const dialogInstance = dialogComponentRef.instance.dialog = new ModalDialogInstance();
         dialogComponentRef.instance.modelContentData = parameters;
 

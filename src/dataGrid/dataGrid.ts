@@ -578,6 +578,8 @@ export class DataGrid implements AfterViewInit {
             this.dataProvider.columns = this.columns;
         }
 
+        if (this.pageable) this.useLazyLoading = false; // need to do this to avoid confusion and cause awkward grid behaviour
+
         $(this.theGrid.nativeElement).kendoGrid(<any>{
             dataSource: (this.dataProvider) ? this.dataSource : null,
             excel: { allPages: true, filterable: true },
@@ -590,7 +592,7 @@ export class DataGrid implements AfterViewInit {
                 buttonCount: this.pageableButtonCount,
                 messages: this.pageableMessageCustom
             } : false,
-            // scrollable: { virtual: this.useLazyLoading },
+            scrollable: { virtual: this.useLazyLoading },
             resizable: true,
             selectable: (this.selectable) ? this.selectionMode : false,
             editable: this.editable,

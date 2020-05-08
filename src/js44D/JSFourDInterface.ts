@@ -228,7 +228,7 @@ export class FourDInterface {
             this.call4DRESTMethod('REST_CountRecords', body)
                 .subscribe(resultJSON => {
                     if (resultJSON && resultJSON.valid) {
-                        resolve(resultJSON.seleted);
+                        resolve(resultJSON.selected);
                     } else reject(resultJSON.message)
 
                 },

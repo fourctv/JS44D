@@ -166,8 +166,8 @@ export class DataGrid implements AfterViewInit {
                 const modelDef = <any>(this.model);
                 const newModel: FourDModel = <any>(new modelDef());
 
-                const start = (options.data.pageSize && options.data.pageSize > 0 && this.useLazyLoading) ? options.data.skip : 0;
-                const numrecs = (options.data.pageSize && options.data.pageSize > 0 && this.useLazyLoading) ? options.data.pageSize : -1;
+                const start = (options.data.pageSize && options.data.pageSize > 0 && (this.useLazyLoading || this.pageable)) ? options.data.skip : 0;
+                const numrecs = (options.data.pageSize && options.data.pageSize > 0 && (this.useLazyLoading || this.pageable)) ? options.data.pageSize : -1;
                 // now build filter if anything set on the grid
                 const filter = [];
                 if (options.data.filter) {

@@ -421,7 +421,7 @@ export class FourDModel {
                 .subscribe(resultJSON => {
                     if (resultJSON.returnCode === 'OK') {
                         // insert record went OK, retrieve calculated return code & record ID
-                        me.recordNumber = resultJSON['_recnum'];
+                        me.recordNumber = resultJSON['recordNum'];
                         if (me.primaryKey_ && me.primaryKey_ !== '') { me[me.primaryKey_] = resultJSON['recordID']; }
                         me.clearRecordDirtyFlag(); // clean up modified fields
                         resolve(<any>me);

@@ -236,6 +236,15 @@ export class FourDCollection {
         return this.models.length;
     }
 
-
+    /**
+     * Convert Collection Data Models into a 'simple' array
+     */
+    public toArray(): Array<any> {
+        let ret = [];
+        this.models.forEach((element:FourDModel) => {
+            ret.push(element.extractModelData());
+        });
+        return ret;
+    }
 }
 

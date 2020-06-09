@@ -398,7 +398,7 @@ export class DataGrid implements AfterViewInit {
     /**
      * return currently selected grid row
      */
-    selectedRow(): Object {
+    selectedRow(): any {
         if (this.gridObject && this.gridObject.table) {
             if (this.gridObject.select()) {
                 return this.gridObject.dataItem(this.gridObject.select());
@@ -430,8 +430,26 @@ export class DataGrid implements AfterViewInit {
                     const distance = selectContentOffset - scrollContentOffset;
                     this.gridObject.element.find(".k-grid-content").animate({ scrollTop: distance }, 0);
                 }
+                if (this.dataProvider) {
+                    const item = this.gridObject.dataItem(this.gridObject.select());
+                    this.dataProvider.currentRecord = this.findRecordForThisItem(item);
+                }
             }
         }
+    }
+
+    /**
+     * clear current grid selection
+     */
+    clearCurrentSelection():void {
+        const cur = this.gridObject.select();
+        if (cur.length > 0) {
+            let row = $(cur[0]);
+            if (row.hasClass("k-state-selected")) {
+                row.removeClass("k-state-selected"); // this is a trick to unselect a row!! weird!!
+            }
+        }
+        this.currentRecord = null;
     }
 
     /**

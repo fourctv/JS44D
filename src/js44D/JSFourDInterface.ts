@@ -484,7 +484,7 @@ export class FourDInterface {
  */
 export class MD5 {
 
-    static hex_chr = '0123456789abcdef'.split('');
+    static hex_chr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];// '0123456789abcdef'.split('');
 
     static md5cycle(x, k) {
         let a = x[0], b = x[1], c = x[2], d = x[3];

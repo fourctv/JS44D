@@ -4,39 +4,17 @@
   "newProjectRoot": "projects",
   "projects": {
     "js44d": {
-      "root": "",
-      "sourceRoot": "src",
-      "projectType": "application",
+      "root": "./",
+      "sourceRoot": "./src",
+      "projectType": "library",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "outputPath": "lib",
-            "index": "src/index.html",
-            "main": "src/index.ts",
-            "tsConfig": "src/tsconfig.app.json",
-            "polyfills": "src/polyfills.ts",
-            "assets": [
-              "src/assets",
-              "src/favicon.ico"
-            ],
-            "styles": [],
-            "scripts": []
+            "tsConfig": "./tsconfig.json",
+            "project": "./ng-package.json"
           },
           "configurations": {}
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "js44d:build"
-          },
-          "configurations": {}
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "js44d:build"
-          }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",

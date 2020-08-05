@@ -123,6 +123,13 @@ export class DataGrid implements AfterViewInit {
     @Input() public pageSize = 50;
 
     /**
+     * controls if header tooltip is enabled for all column headers
+     * if a column definition includes a 'headerTemplate' or a 'headerAttributes' attribute, then generic header tooltip is disabled
+     * that is to avoid conflict between this generic header tooltip and a possible user defined tooltip
+     */
+    @Input() public enableHeaderTooltip = true;
+
+    /**
      * Callback function to determine the css class to aply to a row
      * this functions gets called for each row data, after datagrid row data is set
      * it must return a string that represents a css class
@@ -597,6 +604,22 @@ export class DataGrid implements AfterViewInit {
         }
 
         if (this.pageable) this.useLazyLoading = false; // need to do this to avoid confusion and cause awkward grid behaviour
+
+        if (this.enableHeaderTooltip) { 
+            // if we are enabling header tooltip generically, we need to include specific headerAttributes, in case there are none
+            for (const col of this.columns) {
+                if (!col.hasOwnProperty('headerTemplate') && col.hasOwnProperty('title') && !col.hidden) {
+                    // ignore columns with their own headerTemplate
+                    if (col.hasOwnProperty('headerAttributes')) {
+                        if (!col.headerAttributes.hasOwnProperty('title')) {
+                            col.headerAttributes.title = col.title;
+                        }
+                    } else {
+                        col.headerAttributes = {title: col.title}
+                    }
+                }
+            }
+        }
 
         $(this.theGrid.nativeElement).kendoGrid(<any>{
             dataSource: (this.dataProvider) ? this.dataSource : null,

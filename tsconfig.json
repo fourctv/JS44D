@@ -1,34 +1,17 @@
+/*
+  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
+  It is not intended to be used to perform a compilation.
+
+  To learn more about this file see: https://angular.io/config/solution-tsconfig.
+*/
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "baseUrl": ".",
-        "outDir": "./lib",
-        "target": "es2015",
-        "module": "esnext",
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "sourceMap": true,
-        "inlineSources": true,
-        "noEmitHelpers": false,
-        "noImplicitAny": false,
-        "declaration": true,
-        "skipLibCheck": false,
-        "stripInternal": true,
-        "allowSyntheticDefaultImports": true,
-        "noUnusedLocals": false,
-        "noUnusedParameters": false,
-        "lib": ["dom", "es6"],
-        "types": [ "jquery", "kendo-ui",
-          "jasmine"
-        ]
+  "files": [],
+  "references": [
+    {
+      "path": "././tsconfig.json"
     },
-    "include": [
-        "**/*"
-    ],
-    "exclude": [
-        "node_modules",
-        "dist",
-        "**/*.spec.ts"
-    ]
+    {
+      "path": "./src/tsconfig.spec.json"
+    }
+  ]
 }

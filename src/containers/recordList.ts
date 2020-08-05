@@ -32,8 +32,8 @@ export class RecordList implements AfterContentInit {
     /**
      * get the associated Query band and Datagrid object instances
      */
-    @ContentChild(QueryBand, {static: false}) queryBand: QueryBand;
-    @ContentChild(DataGrid, {static: false}) theGrid: DataGrid;
+    @ContentChild(QueryBand) queryBand: QueryBand;
+    @ContentChild(DataGrid) theGrid: DataGrid;
 
     /**
      * return the currently selected records from the grid

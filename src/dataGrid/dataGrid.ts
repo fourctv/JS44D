@@ -55,6 +55,11 @@ export class DataGrid implements AfterViewInit {
     @Input() public sortable = { mode: 'multiple', allowUnsort: true, showIndexes: true };
 
     /**
+     * flag to indicate if the column reordering is enabled (defaults to true)
+     */
+    @Input() public reorderable = true;
+
+    /**
      * flag to indicate if the column menu should be active for all columns on the grid (defaults to true)
      */
     @Input() public columnMenu = true;
@@ -640,6 +645,7 @@ export class DataGrid implements AfterViewInit {
             filterable: this.filterable,
             sortable: this.sortable,
             height: this.height,
+            reorderable: this.reorderable,
             columnMenu: this.columnMenu,
             columns: this.columns
         });

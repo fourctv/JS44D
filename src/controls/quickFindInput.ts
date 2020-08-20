@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'quickfind-input',
-    template: `<input type="text" name="quickFind" [formControl]="quickFind"/>`
+    template: `<input type="search" name="quickFind" [formControl]="quickFind"/>`
 })
 
 export class QuickFindInput {

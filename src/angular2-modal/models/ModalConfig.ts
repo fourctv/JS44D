@@ -38,10 +38,10 @@ export class ModalConfig {
      */
     keyboard: Array<number> | number;
 
-    width: number = null;
+    width: any = null;
     minWidth = 50;
 
-    height: number = null;
+    height: any = null;
     minHeight = 50;
 
     position = { top: 100, left: 100 };

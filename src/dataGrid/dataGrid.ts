@@ -145,6 +145,11 @@ export class DataGrid implements AfterViewInit {
      */
     @Input() public setRowClass: (rowData: any, element:any) => string;
 
+    /**
+     * indicate that the grid should be resized when the browser window resizes (default is true)
+     */
+    @Input() public autoResize = true;
+
     //
     // events emitted by the DataGrid
     //
@@ -652,5 +657,8 @@ export class DataGrid implements AfterViewInit {
 
         this.gridObject = $(this.theGrid.nativeElement).data('kendoGrid');
 
+        if (this.autoResize) {
+            window.onresize = () => {this.resize();}
+        }
     }
 }

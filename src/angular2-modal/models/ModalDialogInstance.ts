@@ -59,6 +59,18 @@ export class ModalDialogInstance {
     }
 
     /**
+     * before dismiss function, which is called when user closes the dialog
+     * 
+     * @returns true, to proceed wih the dialog close, or 
+     */
+    public set beforeDismiss(v:Function) {
+        this.contentRef.instance.beforeDismiss = v;
+    }
+    public get beforeDismiss():Function {
+        return this.contentRef.instance.beforeDismiss;
+    }
+    
+    /**
      *  Close the modal with a return value, i.e: result.
      */
     close(result: any = null) {

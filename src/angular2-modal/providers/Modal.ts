@@ -66,18 +66,18 @@ export class Modal {
         allowMultiple: boolean = false,
         dialogID: string = ''): Promise<string> {
 
+        config = (config) ? ModalConfig.makeValid(config, _config) : _config;
+
         if (!allowMultiple) {
             for (let index = 0; index < Modal.openDialogList.length; index++) {
                 const item = Modal.openDialogList[index];
-                const id = (dialogID && dialogID !== '') ? dialogID : componentType['name'];
+                const id = (dialogID && dialogID !== '') ? dialogID : config.title;
                 if (item.component === id) {
                     item.dialog.kendoDialog.toFront(); // bring dialog to front
                     return item.dialog.result;
                 }
             }
         }
-
-        config = (config) ? ModalConfig.makeValid(config, _config) : _config;
 
         const dialogComponentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
         const dialogComponentRef = viewRef.createComponent(dialogComponentFactory);

@@ -16,9 +16,7 @@
     "docserve": "compodoc -p tsconfig.json -d ~/Documents/fourctv.github.io/js44D -s -w",
     "build": "ng-packagr -p ng-package.json",
     "lint": "tslint -p tslint.json",
-    "trigger": "gulp trigger",
-    "test": "ng test",
-    "testCI": "karma start --single-run --browsers PhantomJS"
+    "test": "ng test"
   },
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -46,8 +44,6 @@
     "@types/kendo-ui": "^2020.2.0",
     "@types/node": "^14.0.27",
     "codelyzer": "^6.0.0",
-    "del": "^5.1.0",
-    "gulp": "^4.0.2",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.2",
     "jquery": "^3.5.1",

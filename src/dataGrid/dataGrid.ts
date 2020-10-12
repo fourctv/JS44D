@@ -476,19 +476,19 @@ export class DataGrid implements AfterViewInit {
         if (this.gridObject && this.gridObject.table) {
             if (this.gridObject.select()) {
                 let ret = -1;
-                const item = this.gridObject.dataItem(this.gridObject.select());
-                if (this.dataProvider) {
-                    this.dataProvider.models.forEach((element, index) => {
-                        if (element['_recnum'] === item['_recnum']) { ret = index; }
-                    });
-                } else if ((<any>this.gridObject).dataItems().length > 0 && this._model && this._model.primaryKey_ && this._model.primaryKey_ !== '') {
-                    (<any>this.gridObject).dataItems().forEach((element, index) => {
-                        if (element[this._model.primaryKey_] === item[this._model.primaryKey_]) { ret = index; }
-                    });
+                const rows = this.gridObject.select();
+                if (rows.length > 0) {
+                    ret = rows[0]['rowIndex'];
                 } else {
-                    const rows = this.gridObject.select();
-                    if (rows.length > 0) {
-                        ret = rows[0]['rowIndex'];
+                    const item = this.gridObject.dataItem(this.gridObject.select());
+                    if (this.dataProvider) {
+                        this.dataProvider.models.forEach((element, index) => {
+                            if (element['_recnum'] === item['_recnum']) { ret = index; }
+                        });
+                    } else if ((<any>this.gridObject).dataItems().length > 0 && this._model && this._model.primaryKey_ && this._model.primaryKey_ !== '') {
+                        (<any>this.gridObject).dataItems().forEach((element, index) => {
+                            if (element[this._model.primaryKey_] === item[this._model.primaryKey_]) { ret = index; }
+                        });
                     }
                 }
 
@@ -643,7 +643,7 @@ export class DataGrid implements AfterViewInit {
                 buttonCount: this.pageableButtonCount,
                 messages: this.pageableMessageCustom
             } : false,
-            scrollable: { virtual: this.useLazyLoading },
+            scrollable: (this.useLazyLoading)?{ virtual: this.useLazyLoading }:true,
             resizable: true,
             selectable: (this.selectable) ? this.selectionMode : false,
             editable: this.editable,

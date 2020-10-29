@@ -424,6 +424,24 @@ export class DataGrid implements AfterViewInit {
     }
 
     /**
+     * Update currently selected row with data from a 
+     * @param newData updated data record to be used to update current selected row
+     */
+    updateSelectedRowData(newData?:FourDModel) {
+        if (!newData) newData = this.currentRecord;
+        let row:any = this.selectedRow();
+        if (row && newData) {
+            this.columns.forEach(col => {
+                if (col.field) {
+                    row[col.field] = newData[col.field]
+                }
+            });
+            this.gridObject.refresh();
+        }
+    }
+
+
+    /**
      * select a specific row on the grid
      * @param index row index to select
      * @param scrollTo flag to indicate if the grid should auto scroll to the selected row

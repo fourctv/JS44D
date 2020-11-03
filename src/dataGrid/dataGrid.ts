@@ -248,6 +248,7 @@ export class DataGrid implements AfterViewInit {
                             data.push(element.extractModelData())
                         });
                         options.success(data);
+                        this.loadDataComplete.emit(data.length);
                     });
 
             },
@@ -274,10 +275,10 @@ export class DataGrid implements AfterViewInit {
                 return this.dataProvider.totalRecordCount;
             }
         },
-        serverPaging: this.useLazyLoading,
-        serverSorting: this.useLazyLoading,
-        serverFiltering: this.useLazyLoading,
-        serverGrouping: this.useLazyLoading,
+        serverPaging: this.pageable,
+        serverSorting: this.pageable,
+        serverFiltering: this.pageable,
+        serverGrouping: this.pageable,
         pageSize: this.pageSize
     });
 
@@ -338,7 +339,6 @@ export class DataGrid implements AfterViewInit {
 
             this.dataSource.fetch()
                 .then(() => {
-                    this.loadDataComplete.emit(this.dataProvider.models.length);
                     this.resize(); // force grid refresh
                 });
         }
@@ -647,6 +647,53 @@ export class DataGrid implements AfterViewInit {
                     }
                 }
             }
+        }
+
+        if (this.filterable && this.dataProvider && this.dataSource && this._model) {
+            let schemaModel:any = {fields :{}};
+            const modelDef = <any>(this._model);
+            const recModel: FourDModel = <any>(new modelDef());
+            this.columns.forEach(element => {
+                if (element.field) {
+                    const field = recModel.getFieldProperties(element.field);
+                    if (field) {
+                        switch (field.type) {
+                            case 'date':
+                            case 'Date':
+                                schemaModel.fields[element.field] = {type:'date'};
+                                break;
+                        
+                            case 'boolean':
+                                schemaModel.fields[element.field] = {type:'boolean'};
+                                break;
+                        
+                            case 'number':
+                                schemaModel.fields[element.field] = {type:'number'};
+                                break;
+                        
+                            default:
+                                break;
+                        }
+                    }
+                }
+            });
+
+            let newDS = new kendo.data.DataSource({
+                transport: this.dataSource.options.transport,
+                schema: {
+                    model: schemaModel,
+                    total: (response) => {
+                        // console.log('total');
+                        return this.dataProvider.totalRecordCount;
+                    }
+                },
+                serverPaging: this.pageable,
+                serverSorting: this.pageable,
+                serverFiltering: this.pageable,
+                serverGrouping: this.pageable,
+                pageSize: this.pageSize
+            });
+            this.dataSource = newDS;
         }
 
         $(this.theGrid.nativeElement).kendoGrid(<any>{

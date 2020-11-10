@@ -176,98 +176,119 @@ export class DataGrid implements AfterViewInit {
     //
     // define the dataSource used to populate/handle the grid's interface to 4D
     //
-    private dataSource = new kendo.data.DataSource({
-        transport: {
-            read: (options: kendo.data.DataSourceTransportOptions) => {
-                // console.log(options);
-                const modelDef = <any>(this.model);
-                const newModel: FourDModel = <any>(new modelDef());
-
-                const start = (options.data.pageSize && options.data.pageSize > 0 && (this.useLazyLoading || this.pageable)) ? options.data.skip : 0;
-                const numrecs = (options.data.pageSize && options.data.pageSize > 0 && (this.useLazyLoading || this.pageable)) ? options.data.pageSize : -1;
-                // now build filter if anything set on the grid
-                const filter = [];
-                if (options.data.filter) {
-
-                    options.data.filter.filters.forEach((item: kendo.data.DataSourceFilterItem) => {
-                        let comparator = '=';
-                        switch (item.operator) {
-                            case 'eq':
-                                comparator = '=';
-                                break;
-                            case 'neq':
-                                comparator = '#';
-                                break;
-                            case 'startswith':
-                                comparator = 'begins with';
-                                break;
-                            case 'endswith':
-                                comparator = 'ends with';
-                                break;
-                            case 'isempty':
-                                comparator = '=';
-                                item.value = '';
-                                break;
-                            case 'isnotempty':
-                                comparator = '#';
-                                item.value = '';
-                                break;
-
-                            default:
-                                comparator = <any>item.operator;
-                                break;
-                        }
-                        filter.push(newModel.getLongname(item.field) + ';' + comparator + ';' + item.value + ';' + options.data.filter.logic);
-                    });
-                }
-
-                let gridOrderBy = this.dataProvider.orderBy; // defaults to the Collection Order By
-                // if any sorting set on the grid, rebuild Order By using grid options
-                if (options.data.sort && options.data.sort.length > 0) {
-                    gridOrderBy = '';
-                    options.data.sort.forEach((item: kendo.data.DataSourceSortItem) => {
-                        gridOrderBy += (item.dir === 'asc') ? '>' : '<';
-                        gridOrderBy += newModel.getLongname(item.field) + '%';
-                    });
-                }
-
-                let query: FourDQuery = this.dataProvider.queryString;
-
-                if (filter.length > 0) {
-                    if (this.dataProvider.queryString) {
-                        query = { intersection: [query, { query: filter }] };
-                    } else {
-                        query = { query: filter };
+    private fourDTransport = {
+        read: (options: kendo.data.DataSourceTransportOptions) => {
+            // console.log(options);
+            const modelDef = <any>(this.model);
+            const newModel: FourDModel = <any>(new modelDef());
+    
+            const start = (options.data.pageSize && options.data.pageSize > 0 && (this.useLazyLoading || this.pageable)) ? options.data.skip : 0;
+            const numrecs = (options.data.pageSize && options.data.pageSize > 0 && (this.useLazyLoading || this.pageable)) ? options.data.pageSize : -1;
+            // now build filter if anything set on the grid
+            const filter = [];
+            if (options.data.filter) {
+    
+                options.data.filter.filters.forEach((item: kendo.data.DataSourceFilterItem) => {
+                    let comparator = '=';
+                    switch (item.operator) {
+                        case 'eq':
+                            comparator = '=';
+                            break;
+                        case 'neq':
+                            comparator = '#';
+                            break;
+                        case 'gte':
+                            comparator = '>=';
+                            break;
+                        case 'gt':
+                            comparator = '>';
+                            break;
+                        case 'lte':
+                            comparator = '<=';
+                            break;
+                        case 'lt':
+                            comparator = '<';
+                            break;
+                        case 'startswith':
+                            comparator = 'begins with';
+                            break;
+                        case 'endswith':
+                            comparator = 'ends with';
+                            break;
+                        case 'isempty':
+                        case 'isnull':
+                            comparator = '=';
+                            item.value = '';
+                            break;
+                        case 'isnotnull':
+                        case 'isnotempty':
+                            comparator = '#';
+                            item.value = '';
+                            break;
+    
+                        default:
+                            comparator = <any>item.operator;
+                            break;
                     }
-                }
-                // let me = this;
-                this.dataProvider.getRecords(query, (this.optimizeGridLoading) ? this.columns : null, start, numrecs, this.dataProvider.filterOptions, gridOrderBy)
-                    .then((reclist) => {
-                        let data = [];
-                        reclist.forEach(element => {
-                            data.push(element.extractModelData())
-                        });
-                        options.success(data);
-                        this.loadDataComplete.emit(data.length);
-                    });
-
-            },
-            destroy: (options) => {
-                console.log('delete', options);
-            },
-            update: (options) => {
-                console.log('update', options);
-            },
-            create: (options) => {
-                console.log('create', options);
-            },
-            parameterMap: (options, operation) => {
-                console.log('map', options);
-                if (operation !== 'read' && options.models) {
-                    return { models: kendo.stringify(options.models) };
-                } else { return options; }
+                    if (item.value instanceof Date) {
+                        filter.push(newModel.getLongname(item.field) + ';' + comparator + ';' + this.fourD.dateTo4DFormat(item.value) + ';' + options.data.filter.logic);
+                    } else {
+                        filter.push(newModel.getLongname(item.field) + ';' + comparator + ';' + item.value + ';' + options.data.filter.logic);
+                    }
+                });
             }
+    
+            let gridOrderBy = this.dataProvider.orderBy; // defaults to the Collection Order By
+            // if any sorting set on the grid, rebuild Order By using grid options
+            if (options.data.sort && options.data.sort.length > 0) {
+                gridOrderBy = '';
+                options.data.sort.forEach((item: kendo.data.DataSourceSortItem) => {
+                    gridOrderBy += (item.dir === 'asc') ? '>' : '<';
+                    gridOrderBy += newModel.getLongname(item.field) + '%';
+                });
+            }
+    
+            let query: FourDQuery = this.dataProvider.queryString;
+    
+            if (filter.length > 0) {
+                if (this.dataProvider.queryString) {
+                    query = { intersection: [query, { query: filter }] };
+                } else {
+                    query = { query: filter };
+                }
+            }
+            // let me = this;
+            this.dataProvider.getRecords(query, (this.optimizeGridLoading) ? this.columns : null, start, numrecs, this.dataProvider.filterOptions, gridOrderBy)
+                .then((reclist) => {
+                    let data = [];
+                    reclist.forEach(element => {
+                        data.push(element.extractModelData())
+                    });
+                    options.success(data);
+                    this.loadDataComplete.emit(data.length);
+                });
+    
         },
+        destroy: (options) => {
+            console.log('delete', options);
+        },
+        update: (options) => {
+            console.log('update', options);
+        },
+        create: (options) => {
+            console.log('create', options);
+        },
+        parameterMap: (options, operation) => {
+            console.log('map', options);
+            if (operation !== 'read' && options.models) {
+                return { models: kendo.stringify(options.models) };
+            } else { return options; }
+        }
+
+    }
+
+    private dataSource = new kendo.data.DataSource({
+        transport: this.fourDTransport,
         schema: {
 
             total: (response) => {
@@ -275,10 +296,10 @@ export class DataGrid implements AfterViewInit {
                 return this.dataProvider.totalRecordCount;
             }
         },
-        serverPaging: this.pageable,
-        serverSorting: this.pageable,
-        serverFiltering: this.pageable,
-        serverGrouping: this.pageable,
+        serverPaging: true,
+        serverSorting: this.pageable || this.useLazyLoading,
+        serverFiltering: this.pageable || this.useLazyLoading,
+        serverGrouping: this.pageable || this.useLazyLoading,
         pageSize: this.pageSize
     });
 
@@ -679,7 +700,7 @@ export class DataGrid implements AfterViewInit {
             });
 
             let newDS = new kendo.data.DataSource({
-                transport: this.dataSource.options.transport,
+                transport: this.fourDTransport,
                 schema: {
                     model: schemaModel,
                     total: (response) => {
@@ -687,10 +708,10 @@ export class DataGrid implements AfterViewInit {
                         return this.dataProvider.totalRecordCount;
                     }
                 },
-                serverPaging: this.pageable,
-                serverSorting: this.pageable,
-                serverFiltering: this.pageable,
-                serverGrouping: this.pageable,
+                serverPaging: true,
+                serverSorting: this.pageable || this.useLazyLoading,
+                serverFiltering: this.pageable || this.useLazyLoading,
+                serverGrouping: this.pageable || this.useLazyLoading,
                 pageSize: this.pageSize
             });
             this.dataSource = newDS;

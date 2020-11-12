@@ -15,7 +15,7 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
                 }
             `],
     template: `
-        <select  #selector class='fourDDropdown' (change)='selectedValue = $event.target.value' [(value)]='selectedValue'>
+        <select  #selector class='fourDDropdown' (change)='selectedValue = $event.target.value' [(value)]='selectedValue' [disabled]="disabled">
             <option *ngFor='let item of listOptions' value='{{item}}' [selected]='isItemSelected(item)'>{{item}}</option>
         </select>
        `
@@ -25,6 +25,7 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
 export class FourDDropDown implements AfterViewInit {
     @Input() public listName: string;
     @Input() public selectedValue: string;
+    @Input() public disabled: boolean = false;
     @Input() public listOptions: Array<string> = [];
 
     constructor(private fourD: FourDInterface) { }

@@ -185,57 +185,9 @@ export class DataGrid implements AfterViewInit {
             const start = (options.data.pageSize && options.data.pageSize > 0 && (this.useLazyLoading || this.pageable)) ? options.data.skip : 0;
             const numrecs = (options.data.pageSize && options.data.pageSize > 0 && (this.useLazyLoading || this.pageable)) ? options.data.pageSize : -1;
             // now build filter if anything set on the grid
-            const filter = [];
+            let filter = null;
             if (options.data.filter) {
-    
-                options.data.filter.filters.forEach((item: kendo.data.DataSourceFilterItem) => {
-                    let comparator = '=';
-                    switch (item.operator) {
-                        case 'eq':
-                            comparator = '=';
-                            break;
-                        case 'neq':
-                            comparator = '#';
-                            break;
-                        case 'gte':
-                            comparator = '>=';
-                            break;
-                        case 'gt':
-                            comparator = '>';
-                            break;
-                        case 'lte':
-                            comparator = '<=';
-                            break;
-                        case 'lt':
-                            comparator = '<';
-                            break;
-                        case 'startswith':
-                            comparator = 'begins with';
-                            break;
-                        case 'endswith':
-                            comparator = 'ends with';
-                            break;
-                        case 'isempty':
-                        case 'isnull':
-                            comparator = '=';
-                            item.value = '';
-                            break;
-                        case 'isnotnull':
-                        case 'isnotempty':
-                            comparator = '#';
-                            item.value = '';
-                            break;
-    
-                        default:
-                            comparator = <any>item.operator;
-                            break;
-                    }
-                    if (item.value instanceof Date) {
-                        filter.push(newModel.getLongname(item.field) + ';' + comparator + ';' + this.fourD.dateTo4DFormat(item.value) + ';' + options.data.filter.logic);
-                    } else {
-                        filter.push(newModel.getLongname(item.field) + ';' + comparator + ';' + item.value + ';' + options.data.filter.logic);
-                    }
-                });
+                filter = this.parseKendoFilters(options.data.filter); // update code to properly deal with multiple column filters
             }
     
             let gridOrderBy = this.dataProvider.orderBy; // defaults to the Collection Order By
@@ -250,11 +202,11 @@ export class DataGrid implements AfterViewInit {
     
             let query: FourDQuery = this.dataProvider.queryString;
     
-            if (filter.length > 0) {
+            if (filter) {
                 if (this.dataProvider.queryString) {
-                    query = { intersection: [query, { query: filter }] };
+                    query = { intersection: [query, filter] };
                 } else {
-                    query = { query: filter };
+                    query = filter;
                 }
             }
             // let me = this;
@@ -286,6 +238,82 @@ export class DataGrid implements AfterViewInit {
         }
 
     }
+
+    //
+    // parse Kendo Grid filter and generate corresponding 4D Query
+    //
+    private parseKendoFilters(filter:kendo.data.DataSourceFilters):any {
+        const modelDef = <any>(this.model);
+        const newModel: FourDModel = <any>(new modelDef());
+
+        let query:any = null;
+        if (filter.filters && filter.filters.length > 0) { // make sure we do have filters
+            switch (filter.logic) {
+                case 'or':
+                    query = {query:[]}
+                    filter.filters.forEach((item:kendo.data.DataSourceFilterItem) => {
+                        let comparator = '=';
+                        switch (item.operator) {
+                            case 'eq':
+                                comparator = '=';
+                                break;
+                            case 'neq':
+                                comparator = '#';
+                                break;
+                            case 'gte':
+                                comparator = '>=';
+                                break;
+                            case 'gt':
+                                comparator = '>';
+                                break;
+                            case 'lte':
+                                comparator = '<=';
+                                break;
+                            case 'lt':
+                                comparator = '<';
+                                break;
+                            case 'startswith':
+                                comparator = 'begins with';
+                                break;
+                            case 'endswith':
+                                comparator = 'ends with';
+                                break;
+                            case 'isempty':
+                            case 'isnull':
+                                comparator = '=';
+                                item.value = '';
+                                break;
+                            case 'isnotnull':
+                            case 'isnotempty':
+                                comparator = '#';
+                                item.value = '';
+                                break;
+
+                            default:
+                                comparator = <any>item.operator;
+                                break;
+                        }
+                        if (item.value instanceof Date) {
+                            query.query.push(newModel.getLongname(item.field) + ';' + comparator + ';' + this.fourD.dateTo4DFormat(item.value) + ';OR');
+                        } else {
+                            query.query.push(newModel.getLongname(item.field) + ';' + comparator + ';' + item.value + ';OR');
+                        }
+                      });
+                    break;
+            
+                case 'and':
+                    query = {intersection:[]};
+                    filter.filters.forEach(item => {
+                        query.intersection.push(this.parseKendoFilters(item));
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+        return query;
+    }
+
 
     private dataSource = new kendo.data.DataSource({
         transport: this.fourDTransport,

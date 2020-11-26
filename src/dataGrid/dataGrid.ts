@@ -302,12 +302,26 @@ export class DataGrid implements AfterViewInit {
                     break;
             
                 case 'and':
-                    query = {intersection:[]};
-                    filter.filters.forEach(item => {
-                        query.intersection.push(this.parseKendoFilters(item));
-                    });
+                    if (filter.filters.length === 1) { // do we have a single filter?
+                        if ((filter.filters[0])['filters']) {
+                            query = this.parseKendoFilters(<any>filter.filters); // if filter is of an 'or' type
+                        } else {
+                            query = this.parseKendoFilters({logic: 'or', filters:<any>filter.filters}); // this is a single filter option
+                        }
+                    } else {
+                        query = {intersection:[]};
+                        filter.filters.forEach((item:any) => {
+                            if (item.filters) {
+                                query.intersection.push(this.parseKendoFilters(item)); // if filter is of an 'or' type
+                            } else {
+                                query.intersection.push(this.parseKendoFilters({ logic: 'or', filters: [item] })); // this is a single filter option
+                            }
+                        });
+                    }
                     break;
-                default:
+                        
+                    default:
+                        query = this.parseKendoFilters({ logic: 'or', filters: <any>filter.filters }); // this is a single filter option
                     break;
             }
         }

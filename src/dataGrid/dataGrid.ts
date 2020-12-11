@@ -345,6 +345,12 @@ export class DataGrid implements AfterViewInit {
         pageSize: this.pageSize
     });
 
+    /**
+     * if using an external datasource, this field will hold it and be not null
+     */
+    private externalDataSource: kendo.data.DataSource = null;
+
+
     constructor(@Inject(HttpClient) private http: HttpClient, @Inject(FourDInterface) private fourD: FourDInterface) { }
 
     @ViewChild('theGrid') public theGrid: any;
@@ -678,7 +684,7 @@ export class DataGrid implements AfterViewInit {
             this.gridObject.destroy();
             $(this.theGrid.nativeElement).empty();
 
-            this.dataSource = dataSource;
+            this.externalDataSource = dataSource;
             this.columns = columns;
             this.initializeGrid();
         }
@@ -756,6 +762,11 @@ export class DataGrid implements AfterViewInit {
                 serverGrouping: this.pageable || this.useLazyLoading,
                 pageSize: this.pageSize
             });
+
+            if (this.externalDataSource) {
+                // if an external datasource is set, use its transport
+                newDS['transport'] = this.externalDataSource['transport'];
+            }
             this.dataSource = newDS;
         }
 

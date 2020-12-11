@@ -238,14 +238,16 @@ export class FourDModel {
                 (!this.isReadOnly(field) || (mode === 'insert')) &&			// May/15/09 send all non-read only fields, empty or not
                 (this.isModifiedField(fieldName) || (mode === 'insert'))) { 	// Nov 18/09 send ONLY fields that have indeed been modified
                 let value = '';
-                if (((this[fieldName] !== null) && (this[fieldName] !== undefined)) || (field.type === 'boolean')) {
+                if (((this[fieldName] !== null) && (this[fieldName] !== undefined)) || (field.type === 'boolean') || (mode === 'update')) {
                     // send back only fields that do have some value and that belong to the table
                     // ignore calculated or related fields
                     switch (field.type) {
                         case 'Date':
                         case 'date':
-                            if (typeof(this[fieldName]) === 'string') {
-                                recordData['fields'][field.longname] = this[fieldName]; 
+                            if ((this[fieldName] === null) || (this[fieldName] === undefined)) {
+                                recordData['fields'][field.longname] = '';
+                            } else if (typeof (this[fieldName]) === 'string') {
+                                recordData['fields'][field.longname] = this[fieldName];
                             } else {
                                 const dateValue: Date = this[fieldName];
                                 value = dateValue.getFullYear().toString();
@@ -259,14 +261,20 @@ export class FourDModel {
 
                         case 'time':
                         case 'Time':
-                            const timeValue:Date = this[fieldName];
-                            value = this.fourD.timeTo4DFormat(timeValue);
-                            recordData['fields'][field.longname] = value;
+                            if ((this[fieldName] === null) || (this[fieldName] === undefined)) {
+                                recordData['fields'][field.longname] = '';
+                            } else {
+                                const timeValue: Date = this[fieldName];
+                                value = this.fourD.timeTo4DFormat(timeValue);
+                                recordData['fields'][field.longname] = value;
+                            }
                             break;
 
                         case 'number':
                         case 'Number':
-                            recordData['fields'][field.longname] = +this[fieldName];
+                            if ((this[fieldName] === null) || (this[fieldName] === undefined)) {
+                                recordData['fields'][field.longname] = '';
+                            } else recordData['fields'][field.longname] = +this[fieldName];
                             break;
 
                         case 'boolean':
@@ -275,7 +283,9 @@ export class FourDModel {
 
                         case 'string':
                         case 'text':
-                            if (typeof (this[fieldName]) === 'string') {
+                            if ((this[fieldName] === null) || (this[fieldName] === undefined)) {
+                                recordData['fields'][field.longname] = '';
+                            } else if (typeof (this[fieldName]) === 'string') {
                                 // if text, trim extra whitespace
                                 recordData['fields'][field.longname] = this[fieldName].trim();
                             } else {
@@ -300,7 +310,9 @@ export class FourDModel {
                             break;
 
                         default:
-                            recordData['fields'][field.longname] = this[fieldName];
+                            if ((this[fieldName] === null) || (this[fieldName] === undefined)) {
+                                recordData['fields'][field.longname] = '';
+                            } else recordData['fields'][field.longname] = this[fieldName];
                             break;
                     }
                 }

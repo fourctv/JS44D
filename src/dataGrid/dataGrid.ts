@@ -217,6 +217,7 @@ export class DataGrid implements AfterViewInit {
                         data.push(element.extractModelData())
                     });
                     options.success(data);
+                    this.resize();
                     this.loadDataComplete.emit(data.length);
                 });
     

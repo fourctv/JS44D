@@ -283,7 +283,7 @@ export class FourDInterface {
         return new Promise((resolve, reject) => {
             this.call4DRESTMethod('REST_Update4DList', body, { responseType: 'text' })
                 .subscribe(
-                response => { resolve(); },
+                response => { resolve(null); },
                 error => {
                     console.log('error:' + JSON.stringify(error));
                     reject(error);
@@ -381,7 +381,7 @@ export class FourDInterface {
                 .subscribe(
                 response => {
                     FourDInterface._registryCache = []; // need to reset cache when user changes any registry entry
-                    resolve();
+                    resolve(null);
                 },
                 error => {
                     console.log('error:' + JSON.stringify(error));

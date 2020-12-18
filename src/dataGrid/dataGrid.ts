@@ -463,7 +463,7 @@ export class DataGrid implements AfterViewInit {
     }
 
     resize() {
-        if (this.gridObject) this.gridObject.resize();
+        if (this.gridObject && this.gridObject.element) this.gridObject.resize();  // make sure grid is active
         //
         // if a row class callback function is set, call it for each row
         //

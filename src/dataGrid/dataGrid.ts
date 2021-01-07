@@ -634,6 +634,11 @@ export class DataGrid implements AfterViewInit {
         if (this.excelFilename) {
             this.gridObject.setOptions({ excel: { fileName: this.excelFilename } });
         }
+        if (this.externalDataSource) {
+            // if an external datasource is set, use its transport
+            this.gridObject.setDataSource(this.externalDataSource);
+        }
+
         this.gridObject.saveAsExcel();
     }
 

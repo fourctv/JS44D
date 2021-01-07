@@ -56,7 +56,7 @@ export class RecordList implements AfterContentInit {
      */
     private _editWindowConfig: ModalConfig;
 
-    private _previousQuery: Object;
+    public _previousQuery: Object;
     private _previousAdvancedQuery: any;
 
     //
@@ -218,7 +218,7 @@ export class RecordList implements AfterContentInit {
         const newModel = <any>(new modelDef());
         const tableName = (newModel.tableName !== '') ? newModel.tableName : (<any>this.theGrid.model).prototype.tableName;
         const pk = (newModel.tableName !== '') ? newModel.primaryKey_ : (<any>this.theGrid.model).prototype.primaryKey_;
-        let gridRows = this.theGrid.getDataProvider().models;
+        let gridRows:any[] = <any>this.theGrid.gridObject.dataSource.data();
         let savedSearches: Array<any>;
         let savedSets: Array<any>;
         let selectedRecords = [];
@@ -257,7 +257,7 @@ export class RecordList implements AfterContentInit {
                         if (setName !== '') {
                             savedSets = JSON.parse(localStorage.getItem(tableName + '_savedSets')) || [];
 
-                            gridRows = this.theGrid.getDataProvider().models;
+                            gridRows = <any>this.theGrid.gridObject.dataSource.data();
                             selectedRecords = [];
                             for (let row = 0; row < gridRows.length; row++) {
                                 selectedRecords.push(gridRows[row][pk]);

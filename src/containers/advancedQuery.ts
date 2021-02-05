@@ -23,13 +23,13 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
             </nav>
         </div>
         <div style="margin-left: -25px; align-self: center;">
-            <select  class='fourDDropdown' (change)='selectField($event,queryField)' [(value)]='queryField.field.name' style="width:250px;height:20px;">
+            <select  class='fourDDropdown' name="queryfieldselect" (change)='selectField($event,queryField)' [(value)]="queryField.field" style="width:250px;height:20px;">
                 <option value=''></option>
-                <option *ngFor='let field of queryField.listOfFields' value='{{field.name}}' [selected]='isItemSelected(field,queryField)'>{{field.longname}}</option>
+                <option *ngFor='let field of queryField.listOfFields' [value]='field.name'>{{field.longname}}</option>
             </select>       
         </div>
         <div style="margin-left: 5px; align-self: center;">
-            <select   (change)='queryField.comparator = $event.target.value' [(value)]='queryField.comparator' style="height:20px;">
+            <select name="querycomparator"  (change)='queryField.comparator = $event.target.value' [(ngModel)]='queryField.comparator' style="height:20px;">
                 <option *ngFor='let item of comparatorList' value='{{item}}' >{{item}}</option>
             </select>       
         </div>

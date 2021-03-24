@@ -407,6 +407,12 @@ export class DataGrid implements AfterViewInit {
             if (filter) { this.filterQuery = filter; }
             if (orderby) { this.orderBy = orderby; }
 
+            // if paging is enabled, make sure we go back to page 1, after reloading grid data
+            if (this.pageable) {
+                if (this.gridObject.pager.page() != 1) {
+                    this.gridObject.pager.page(1);
+                }
+            }
             this.dataSource.fetch()
                 .then(() => {
                     this.resize(); // force grid refresh

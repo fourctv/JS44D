@@ -410,13 +410,19 @@ export class DataGrid implements AfterViewInit {
             // if paging is enabled, make sure we go back to page 1, after reloading grid data
             if (this.pageable) {
                 if (this.gridObject.pager.page() != 1) {
-                    this.gridObject.pager.page(1);
+                    this.gridObject.pager.page(1); // this function reloads page 1, so no need to do a fetch!
+                } else {
+                    this.dataSource.fetch()
+                        .then(() => {
+                            this.resize(); // force grid refresh
+                        });
                 }
+            } else {
+                this.dataSource.fetch()
+                    .then(() => {
+                        this.resize(); // force grid refresh
+                    });
             }
-            this.dataSource.fetch()
-                .then(() => {
-                    this.resize(); // force grid refresh
-                });
         }
     }
 

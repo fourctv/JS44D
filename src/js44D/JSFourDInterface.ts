@@ -715,7 +715,7 @@ export class FourDQuery {
     /** Value is a string that corresponds to a 4D method name. Method is called to perform the query. Other properties in the FourDQuery instance are sent to the method to determine the query to perform */
     custom?: string;
     /** Sets a join between a related tabled; query terms are applied to the join table and <b>joinPK</b> and <b>joinFK</b> establishes the links between the two tables */
-    join?: Array<any>;
+    join?: string;
     /** A join query property. This is the join table, a table name */
     joinTable?: string;
     /** A join query property. The join table primary key used to establish the join */

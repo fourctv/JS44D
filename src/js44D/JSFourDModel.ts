@@ -94,6 +94,9 @@ export class FourDModel {
      * Get a field value
      */
     get(field: string): any {
+        if (this._attributes[field] === null && this._attributes[field] === undefined) {
+            return null;
+        }
         if (this.getFieldProperties(field)) {
             if (this.getFieldDescription(field).type === 'Date') {
                 if (typeof (this._attributes[field]) === 'string' || this._attributes[field] === '') {

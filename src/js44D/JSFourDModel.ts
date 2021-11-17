@@ -472,28 +472,35 @@ export class FourDModel {
      */
     public updateRecord(): Promise<string> {
         if (this.recordNumber >= 0) {
-            const body: any = { Username: FourDInterface.currentUser };
-            body.TableName = this.tableName;
-            body.RecordNum = this.recordNumber;
-            if (this.fourdSaveCallbackMethod_) { body.CallBackMethod = this.fourdSaveCallbackMethod_; }
-            body.Action = 'update';
-            body.RecordData = Base64.encode(Utf8.utf8encode(this.recordToJSON('update', false)));
-
-            return new Promise((resolve, reject) => {
-                const me = this;
-                this.fourD.call4DRESTMethod('REST_PostData', body)
-                    .subscribe(resultJSON => {
-                        if (resultJSON.returnCode === 'OK') {
-                            // update record went OK
-                            me.clearRecordDirtyFlag(); // clean up modified fields
-                            resolve(<any>me);
-                        } else { reject(resultJSON.returnCode); }
-                    },
-                        error => {
-                            console.log('error:' + JSON.stringify(error));
-                            reject(error);
-                        });
-            });
+            if (this.recordIsDirty()) { // make sure we do have dirty fields to update
+                const body: any = { Username: FourDInterface.currentUser };
+                body.TableName = this.tableName;
+                body.RecordNum = this.recordNumber;
+                if (this.fourdSaveCallbackMethod_) { body.CallBackMethod = this.fourdSaveCallbackMethod_; }
+                body.Action = 'update';
+                body.RecordData = Base64.encode(Utf8.utf8encode(this.recordToJSON('update', false)));
+    
+                return new Promise((resolve, reject) => {
+                    const me = this;
+                    this.fourD.call4DRESTMethod('REST_PostData', body)
+                        .subscribe(resultJSON => {
+                            if (resultJSON.returnCode === 'OK') {
+                                // update record went OK
+                                me.clearRecordDirtyFlag(); // clean up modified fields
+                                resolve(<any>me);
+                            } else { reject(resultJSON.returnCode); }
+                        },
+                            error => {
+                                console.log('error:' + JSON.stringify(error));
+                                reject(error);
+                            });
+                });
+                
+            } else {
+                return new Promise((resolve, reject) => {
+                    resolve(<any>this);;
+                });
+            }
 
 
         } else {
@@ -557,6 +564,31 @@ export class FourDModel {
                 switch (this.getFieldProperties(field).type ) {
                     case 'json':
                         this[field] = (recordData[field] && recordData[field] != '')?JSON.parse(recordData[field]):{}; 
+                        break;
+                    
+                    case 'string':
+                    case 'text':
+                        if (recordData[field]) {
+                            this[field] = recordData[field];
+                        } else {
+                            this[field] = ''; // if we get a null value for a text field, set it as blank!
+                        }
+                        break;
+                                
+                    case 'number':
+                        if (recordData[field]) {
+                            this[field] = recordData[field];
+                        } else {
+                            this[field] = 0; // if we get a null value for a number field, set it as zero!
+                        }
+                        break;
+                                
+                    case 'boolean':
+                        if (recordData[field]) {
+                            this[field] = recordData[field];
+                        } else {
+                            this[field] = false; // if we get a null value for a boolean field, set it as false!
+                        }
                         break;
                 
                     default:

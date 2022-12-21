@@ -8,13 +8,12 @@ import { YesNoModal } from './angular2-modal/commonModals/yesNoModal';
 import { ICustomModal } from './angular2-modal/models/ICustomModal';
 
 @NgModule({
-      declarations: [
-            OKOnlyModal, YesNoModal
-      ],
-      exports: [
-            OKOnlyModal, YesNoModal
-      ],
-      entryComponents: [OKOnlyModal, YesNoModal],
-      providers: [Modal, ModalDialogInstance, ICustomModal]
+    declarations: [
+        OKOnlyModal, YesNoModal
+    ],
+    exports: [
+        OKOnlyModal, YesNoModal
+    ],
+    providers: [Modal, ModalDialogInstance, ICustomModal]
 })
 export class ModalModule { }

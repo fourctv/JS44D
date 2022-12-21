@@ -25,28 +25,27 @@ import { FourDRegistryInput } from './controls/fourDRegistryInput';
 
 
 @NgModule({
-      imports: [FormsModule, ReactiveFormsModule, CommonModule, HttpClientModule, FourDModule],
-      declarations: [ 
-            QueryBand, CustomButtonBarDirective, QueryBandDirective, AdvancedQueryComponent,
-            RecordEditWindow, RecordList, Tabs, Tab, WebAppContainer,
-            FourDDropDown, QuickFindInput, FourDRegistryInput,
-            DataGrid,
-            ListSelectorDialog,
-            Base64ImageRef,
-            FourDDateToString,
-            LoginCmp
-      ],
-      providers: [HttpClient, FourDInterface],
-      exports: [
-            QueryBand, CustomButtonBarDirective, QueryBandDirective, AdvancedQueryComponent,
-            RecordEditWindow, RecordList, Tabs, Tab, WebAppContainer,
-            FourDDropDown, QuickFindInput, FourDRegistryInput,
-            DataGrid,
-            ListSelectorDialog,
-            Base64ImageRef,
-            FourDDateToString,
-            LoginCmp
-      ],
-      entryComponents: [LoginCmp, AdvancedQueryComponent, ListSelectorDialog]
+    imports: [FormsModule, ReactiveFormsModule, CommonModule, HttpClientModule, FourDModule],
+    declarations: [
+        QueryBand, CustomButtonBarDirective, QueryBandDirective, AdvancedQueryComponent,
+        RecordEditWindow, RecordList, Tabs, Tab, WebAppContainer,
+        FourDDropDown, QuickFindInput, FourDRegistryInput,
+        DataGrid,
+        ListSelectorDialog,
+        Base64ImageRef,
+        FourDDateToString,
+        LoginCmp
+    ],
+    providers: [HttpClient, FourDInterface],
+    exports: [
+        QueryBand, CustomButtonBarDirective, QueryBandDirective, AdvancedQueryComponent,
+        RecordEditWindow, RecordList, Tabs, Tab, WebAppContainer,
+        FourDDropDown, QuickFindInput, FourDRegistryInput,
+        DataGrid,
+        ListSelectorDialog,
+        Base64ImageRef,
+        FourDDateToString,
+        LoginCmp
+    ]
 })
 export class JS44DModule { }

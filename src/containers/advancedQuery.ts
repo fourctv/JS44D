@@ -8,64 +8,7 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
 
 @Component({
     selector: 'advanced-query',
-    template: `
-    <form>
-    <div *ngFor='let queryField of queryFieldList' style="display: inline-flex; margin: 5px; height: 30px;">
-        <div style="align-self: center;">
-            <nav id="nav">
-                <ul id="navigation">
-                    <li style="margin-left: -40px;"><h4 href="#" [hidden]="relatedOneTables.length < 2">&raquo;</h4>
-                        <ul>
-                            <li *ngFor='let relatedTable of relatedOneTables' (click)="showRelatedTable($event,queryField)"><h5>{{relatedTable}}</h5></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        <div style="margin-left: -25px; align-self: center;">
-            <select  class='fourDDropdown' name="queryfieldselect" (change)='selectField($event,queryField)' [(value)]="queryField.field" style="width:250px;height:20px;">
-                <option value=''></option>
-                <option *ngFor='let field of queryField.listOfFields' [value]='field.name'>{{field.longname}}</option>
-            </select>       
-        </div>
-        <div style="margin-left: 5px; align-self: center;">
-            <select name="querycomparator"  (change)='queryField.comparator = $event.target.value' [(ngModel)]='queryField.comparator' style="height:20px;">
-                <option *ngFor='let item of comparatorList' value='{{item}}' >{{item}}</option>
-            </select>       
-        </div>
-        <div [ngSwitch]="queryField.field.type" style="margin-left: 5px; align-self: center;">
-            <input *ngSwitchCase="'string'"  [name]="queryField.id" type="text" class="fieldEntry"  style="width:180px;height:20px;" [(ngModel)]="queryField.value"/>
-            <input *ngSwitchCase="'Date'"  [name]="queryField.id" type="date" class="fieldEntry"  style="width:125px;height:20px;" [(ngModel)]="queryField.value"/>
-            <input *ngSwitchCase="'time'"  [name]="queryField.id" type="time" class="fieldEntry"  style="width:100px;height:20px;" [(ngModel)]="queryField.value"/>
-            <input *ngSwitchCase="'Time'"  [name]="queryField.id" type="time" class="fieldEntry"  style="width:100px;height:20px;" [(ngModel)]="queryField.value"/>
-            <input *ngSwitchCase="'number'"  [name]="queryField.id" type="number" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
-            <input *ngSwitchCase="'Number'"  [name]="queryField.id" type="number" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
-            <input *ngSwitchCase="'float'"  [name]="queryField.id" type="number" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
-            <input *ngSwitchCase="'boolean'"  [name]="queryField.id" type="checkbox" class="fieldEntry"  style="width:80px;height:20px;" [(ngModel)]="queryField.value"/>
-            <label *ngSwitchCase="'any'" class="fieldEntry" >Can't query on Object fields</label>
-            <label *ngSwitchCase="'json'" class="fieldEntry" >Can't query on Object fields</label>
-            <label *ngSwitchCase="'blob'" class="fieldEntry" >Can't query on Blob fields</label>
-            <label *ngSwitchCase="'Blob'" class="fieldEntry" >Can't query on Blob fields</label>
-            <label *ngSwitchCase="'picture'" class="fieldEntry" >Can't query on Picture fields</label>
-            </div>
-        <div style="margin-left: 5px; align-self: center;" [hidden]="queryFieldList.length < 2 || queryField.id === 'query0'">
-            <select   (change)='queryField.connector = $event.target.value' [(value)]='queryField.connector' style="height:20px;">
-                <option value='And' >And</option>
-                <option value='Or' >Or</option>
-            </select>       
-        </div>
-     </div>
-
-    <div style="margin: 10px; width:550px; display: inline-flex;">
-        <div style="flex-grow: 1;">
-            <button class="regularButton mat-raised-button mat-primary" style="width:100px;" (click)="moreLines()">More...</button>
-            <button class="regularButton mat-raised-button mat-primary" style="width:100px;" (click)="lessLines()" [hidden]="queryFieldList.length < 2">Less...</button>
-        </div>
-        <button class="regularButton mat-raised-button mat-primary" style="width:100px;" (click)="doQuery()">Query</button>
-    </div>
-
-</form>
-    `,
+    templateUrl: 'advancedQuery.html',
     styles: [`
     /* Main Navigation */
     

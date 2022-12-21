@@ -15,7 +15,7 @@ import { FourDInterface } from '../js44D/JSFourDInterface';
                 }
             `],
     template: `
-        <select  #selector class='fourDDropdown' (change)='selectedValue = $event.target.value' [(value)]='selectedValue' [disabled]="disabled">
+        <select  #selector class='fourDDropdown' (change)="selectedValue = $event.target['value']" [value]='selectedValue' [disabled]="disabled">
             <option *ngFor='let item of listOptions' value='{{item}}' [selected]='isItemSelected(item)'>{{item}}</option>
         </select>
        `

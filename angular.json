@@ -52,7 +52,6 @@
       }
     }
   },
-  "defaultProject": "js44d",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "seed",

@@ -1,7 +1,7 @@
 
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 
 
@@ -13,7 +13,7 @@ import { FormControl } from '@angular/forms';
 
 export class QuickFindInput {
 
-    @Input() public quickFind = new FormControl();
+    @Input() public quickFind = new UntypedFormControl();
 
     @Output() public runQuickFinder: EventEmitter<any> = new EventEmitter();
 
